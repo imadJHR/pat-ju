@@ -1,11 +1,12 @@
-"use client"
+"use client";
 
-import { ProductShowcase } from "@/components/product-showcase"
-import { MoroccanDivider } from "@/components/moroccan-divider"
-import { useState } from "react"
+import { ProductShowcase } from "@/components/product-showcase";
+import { MoroccanDivider } from "@/components/moroccan-divider";
+import { useState } from "react";
+import Link from "next/link";
 
 export default function ProductsPageClient() {
-  const [language, setLanguage] = useState("fr")
+  const [language, setLanguage] = useState("fr");
 
   const translations = {
     fr: {
@@ -38,29 +39,41 @@ export default function ProductsPageClient() {
         products: "Products",
       },
     },
-  }
+  };
 
-  const t = translations[language as keyof typeof translations]
+  const t = translations[language as keyof typeof translations];
 
   return (
-    <div className={`min-h-screen bg-gradient-to-b from-almond-50 to-white ${language === "ar" ? "rtl" : "ltr"}`}>
+    <div
+      className={`min-h-screen bg-gradient-to-b from-almond-50 to-white ${
+        language === "ar" ? "rtl" : "ltr"
+      }`}
+    >
       {/* Breadcrumb Navigation */}
       <div className="container mx-auto px-4 pt-24 pb-8">
         <nav className="flex items-center space-x-2 text-sm text-honey-600 mb-8">
-          <a href="/" className="hover:text-saffron-500 transition-colors">
+          <Link href="/" className="hover:text-saffron-500 transition-colors">
             {t.breadcrumb.home}
-          </a>
+          </Link>
           <span>/</span>
-          <span className="text-saffron-600 font-medium">{t.breadcrumb.products}</span>
+          <span className="text-saffron-600 font-medium">
+            {t.breadcrumb.products}
+          </span>
         </nav>
       </div>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center max-w-4xl mx-auto">
-          <h1 className="font-great-vibes text-6xl md:text-7xl text-saffron-600 mb-4">{t.title}</h1>
-          <p className="font-playfair text-2xl md:text-3xl text-honey-700 mb-6">{t.subtitle}</p>
-          <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">{t.description}</p>
+          <h1 className="font-great-vibes text-6xl md:text-7xl text-saffron-600 mb-4">
+            {t.title}
+          </h1>
+          <p className="font-playfair text-2xl md:text-3xl text-honey-700 mb-6">
+            {t.subtitle}
+          </p>
+          <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            {t.description}
+          </p>
         </div>
       </section>
 
@@ -68,7 +81,7 @@ export default function ProductsPageClient() {
 
       {/* Products Showcase */}
       <section className="py-16">
-        <ProductShowcase />
+        <ProductShowcase/>
       </section>
 
       {/* SEO Schema Markup */}
@@ -79,7 +92,8 @@ export default function ProductsPageClient() {
             "@context": "https://schema.org",
             "@type": "Store",
             name: "Pâtisseries Marocaines Authentiques",
-            description: "Boutique en ligne de pâtisseries marocaines traditionnelles",
+            description:
+              "Boutique en ligne de pâtisseries marocaines traditionnelles",
             url: "https://yoursite.com/products",
             address: {
               "@type": "PostalAddress",
@@ -104,5 +118,5 @@ export default function ProductsPageClient() {
         }}
       />
     </div>
-  )
+  );
 }

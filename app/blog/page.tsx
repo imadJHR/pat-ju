@@ -1,5 +1,4 @@
 "use client"
-
 import { useState } from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -13,7 +12,6 @@ export default function BlogPage() {
   const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
-
   const isRTL = language === "ar"
   const blogPosts = getAllBlogPosts()
 
@@ -82,26 +80,11 @@ export default function BlogPage() {
 
   return (
     <div className={`min-h-screen bg-background ${isRTL ? "rtl" : "ltr"}`}>
-      {/* Language Selector */}
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
-        {(["en", "fr", "ar"] as const).map((lang) => (
-          <Button
-            key={lang}
-            variant={language === lang ? "default" : "outline"}
-            size="sm"
-            onClick={() => setLanguage(lang)}
-            className="min-w-[50px]"
-          >
-            {lang.toUpperCase()}
-          </Button>
-        ))}
-      </div>
-
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 py-16">
+      <div className="bg-gradient-to-r from-[#d4b05d]/10 via-accent/10 to-[#d4b05d]/10 py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="font-great-vibes text-5xl md:text-6xl text-primary mb-4">{t.title}</h1>
-          <p className="font-playfair text-xl text-muted-foreground max-w-2xl mx-auto">{t.subtitle}</p>
+          <h1 className="font-great-vibes text-5xl md:text-6xl text-[#d4b05d] mb-4">{t.title}</h1>
+          <p className="font-playfair text-xl text-[#777079] max-w-2xl mx-auto">{t.subtitle}</p>
         </div>
       </div>
 
@@ -121,26 +104,29 @@ export default function BlogPage() {
             </div>
 
             {/* Categories */}
-            <Card>
+            <Card className="bg-[#e6d7c3]">
               <CardHeader>
                 <h3 className="font-playfair text-lg font-semibold">{t.categories}</h3>
               </CardHeader>
-              <CardContent className="space-y-2">
-                {categories.map((category) => (
-                  <Button
-                    key={category.key}
-                    variant={selectedCategory === category.key ? "default" : "ghost"}
-                    className="w-full justify-start"
-                    onClick={() => setSelectedCategory(category.key)}
-                  >
-                    {category.label}
-                  </Button>
-                ))}
-              </CardContent>
+             <CardContent className="space-y-2">
+  {categories.map((category) => (
+    <Button
+      key={category.key}
+      variant={selectedCategory === category.key ? "default" : "ghost"}
+      className={`w-full justify-start ${
+        selectedCategory === category.key ? "bg-[#d4b05d] hover:bg-[#d4b05d]/90 text-white" : ""
+      }`}
+      onClick={() => setSelectedCategory(category.key)}
+    >
+      {category.label}
+    </Button>
+  ))}
+</CardContent>
+
             </Card>
 
             {/* Recent Posts */}
-            <Card>
+            <Card className="bg-[#e6d7c3]">
               <CardHeader>
                 <h3 className="font-playfair text-lg font-semibold">{t.recentPosts}</h3>
               </CardHeader>
@@ -168,14 +154,14 @@ export default function BlogPage() {
           <div className="lg:col-span-3">
             <div className="grid md:grid-cols-2 gap-6">
               {filteredPosts.map((post) => (
-                <Card key={post.id} className="group hover:shadow-lg transition-shadow">
+                <Card key={post.id} className="group hover:shadow-lg transition-shadow hover:bg-[#f9f5f0]">
                   <div className="relative overflow-hidden">
                     <img
                       src={post.image || "/placeholder.svg"}
                       alt={post.title[language]}
                       className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
-                    <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground">
+                    <Badge className="absolute top-3 left-3 bg-[#d4b05d] text-white">
                       {t[post.category as keyof typeof t] || post.category}
                     </Badge>
                   </div>

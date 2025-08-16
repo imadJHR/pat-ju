@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { CheckoutForm } from "@/components/checkout-form"
@@ -78,42 +77,43 @@ export default function CheckoutPage() {
   // Show order confirmation
   if (orderData) {
     return (
-      <div className={`min-h-screen bg-background flex items-center justify-center p-4 ${isRTL ? "rtl" : "ltr"}`}>
-        <Card className="w-full max-w-md">
+      <div className={`min-h-screen bg-[#f9f7f3] flex items-center justify-center p-4 ${isRTL ? "rtl" : "ltr"}`}>
+        <Card className="w-full max-w-md bg-[#e6d7c3] border-none shadow-lg">
           <CardContent className="text-center p-8">
-            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <CheckCircle className="h-8 w-8 text-green-600" />
+            <div className="w-20 h-20 bg-[#d4b05d]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="h-10 w-10 text-[#d4b05d]" />
+            </div>
+            <h1 className="font-great-vibes text-3xl text-[#d4b05d] mb-3">{t.orderConfirmed}</h1>
+            <p className="text-black/70 mb-6">{t.thankYou}</p>
+
+            <div className="bg-white rounded-lg p-6 mb-8 shadow-sm">
+              <p className="text-sm font-medium text-black mb-2">{t.orderNumber}</p>
+              <p className="font-mono text-2xl font-bold text-[#d4b05d]">{orderData.id}</p>
             </div>
 
-            <h1 className="font-great-vibes text-2xl text-primary mb-2">{t.orderConfirmed}</h1>
-            <p className="text-muted-foreground mb-4">{t.thankYou}</p>
-
-            <div className="bg-muted/50 rounded-lg p-4 mb-6">
-              <p className="text-sm font-medium mb-1">{t.orderNumber}</p>
-              <p className="font-mono text-lg font-bold text-primary">{orderData.id}</p>
-            </div>
-
-            <div className="text-left space-y-3 mb-6">
-              <div className="flex items-start gap-2">
-                <Package className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-muted-foreground">{t.orderDetails}</p>
+            <div className="text-left space-y-5 mb-8">
+              <div className="flex items-start gap-3">
+                <Package className="h-5 w-5 text-[#d4b05d] mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-black/70">{t.orderDetails}</p>
               </div>
-              <div className="flex items-start gap-2">
-                <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm text-muted-foreground">{t.deliveryInfo}</p>
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-5 w-5 text-[#d4b05d] mt-0.5 flex-shrink-0" />
+                <p className="text-sm text-black/70">{t.deliveryInfo}</p>
               </div>
-              <div className="flex items-start gap-2">
-                <ArrowLeft className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                <p className="text-sm font-medium text-primary">{t.paymentReminder}</p>
+              <div className="flex items-start gap-3">
+                <ArrowLeft className="h-5 w-5 text-[#d4b05d] mt-0.5 flex-shrink-0" />
+                <p className="text-sm font-medium text-[#d4b05d]">{t.paymentReminder}</p>
               </div>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <Link href="/">
-                <Button className="w-full bg-primary hover:bg-primary/90">{t.backToHome}</Button>
+                <Button className="w-full bg-[#d4b05d] hover:bg-[#b89943] text-white py-6 text-lg font-medium rounded-lg transition-colors">
+                  {t.backToHome}
+                </Button>
               </Link>
               <Link href="/#products">
-                <Button variant="outline" className="w-full bg-transparent">
+                <Button variant="outline" className="w-full bg-transparent border-[#d4b05d] text-[#d4b05d] hover:bg-[#d4b05d]/10 py-6 text-lg font-medium rounded-lg transition-colors">
                   {t.continueShopping}
                 </Button>
               </Link>
@@ -127,14 +127,18 @@ export default function CheckoutPage() {
   // Show empty cart message
   if (getItemCount() === 0) {
     return (
-      <div className={`min-h-screen bg-background flex items-center justify-center p-4 ${isRTL ? "rtl" : "ltr"}`}>
-        <Card className="w-full max-w-md">
+      <div className={`min-h-screen bg-[#f9f7f3] flex items-center justify-center p-4 ${isRTL ? "rtl" : "ltr"}`}>
+        <Card className="w-full max-w-md bg-[#e6d7c3] border-none shadow-lg">
           <CardContent className="text-center p-8">
-            <Package className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
-            <h1 className="font-playfair text-xl font-semibold mb-2">{t.emptyCart}</h1>
-            <p className="text-muted-foreground mb-6">{t.emptyCartDescription}</p>
+            <div className="w-20 h-20 bg-[#d4b05d]/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Package className="h-10 w-10 text-[#d4b05d]" />
+            </div>
+            <h1 className="font-playfair text-2xl font-semibold text-black mb-3">{t.emptyCart}</h1>
+            <p className="text-black/70 mb-8">{t.emptyCartDescription}</p>
             <Link href="/#products">
-              <Button className="bg-primary hover:bg-primary/90">{t.continueShopping}</Button>
+              <Button className="bg-[#d4b05d] hover:bg-[#b89943] text-white py-6 text-lg font-medium rounded-lg transition-colors">
+                {t.continueShopping}
+              </Button>
             </Link>
           </CardContent>
         </Card>
@@ -143,7 +147,7 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#f9f7f3]">
       <CheckoutForm language={language} onOrderComplete={handleOrderComplete} />
     </div>
   )

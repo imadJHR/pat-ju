@@ -3,6 +3,7 @@
 import { MoroccanDivider } from "@/components/moroccan-divider"
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 
 export default function AboutPageClient() {
   const [language, setLanguage] = useState("fr")
@@ -127,9 +128,9 @@ export default function AboutPageClient() {
       {/* Breadcrumb Navigation */}
       <div className="container mx-auto px-4 pt-24 pb-8">
         <nav className="flex items-center space-x-2 text-sm text-honey-600 mb-8">
-          <a href="/" className="hover:text-saffron-500 transition-colors">
+          <Link href="/" className="hover:text-saffron-500 transition-colors">
             {t.breadcrumb.home}
-          </a>
+          </Link>
           <span>/</span>
           <span className="text-saffron-600 font-medium">{t.breadcrumb.about}</span>
         </nav>
@@ -138,8 +139,8 @@ export default function AboutPageClient() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center max-w-4xl mx-auto">
-          <h1 className="font-great-vibes text-6xl md:text-7xl text-saffron-600 mb-4">{t.title}</h1>
-          <p className="font-playfair text-2xl md:text-3xl text-honey-700 mb-6">{t.subtitle}</p>
+          <h1 className="font-great-vibes text-6xl md:text-7xl text-[#d4b05d] mb-4">{t.title}</h1>
+          <p className="font-playfair text-2xl md:text-3xl text-[#d4b05d] mb-6">{t.subtitle}</p>
         </div>
       </section>
 

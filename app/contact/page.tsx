@@ -1,31 +1,29 @@
-"use client"
-
-import type React from "react"
-
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Label } from "@/components/ui/label"
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react"
+"use client";
+import type React from "react";
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
 
 export default function ContactPage() {
-  const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
+  const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     subject: "",
     message: "",
-  })
-
-  const isRTL = language === "ar"
+  });
+  const isRTL = language === "ar";
 
   const translations = {
     en: {
       title: "Contact Us",
-      subtitle: "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
+      subtitle:
+        "We'd love to hear from you. Send us a message and we'll respond as soon as possible.",
       name: "Full Name",
       email: "Email Address",
       phone: "Phone Number",
@@ -40,7 +38,8 @@ export default function ContactPage() {
       closed: "Closed",
       getInTouch: "Get in Touch",
       visitUs: "Visit Our Store",
-      storeDescription: "Visit our beautiful store in the heart of Casablanca to experience our pastries firsthand.",
+      storeDescription:
+        "Visit our beautiful store in the heart of Casablanca to experience our pastries firsthand.",
       namePlaceholder: "Enter your full name",
       emailPlaceholder: "Enter your email address",
       phonePlaceholder: "Enter your phone number",
@@ -90,82 +89,77 @@ export default function ContactPage() {
       closed: "مغلق",
       getInTouch: "تواصل معنا",
       visitUs: "زر متجرنا",
-      storeDescription: "زر متجرنا الجميل في قلب الدار البيضاء لتجربة حلوياتنا بنفسك.",
+      storeDescription:
+        "زر متجرنا الجميل في قلب الدار البيضاء لتجربة حلوياتنا بنفسك.",
       namePlaceholder: "أدخل اسمك الكامل",
       emailPlaceholder: "أدخل عنوان بريدك الإلكتروني",
       phonePlaceholder: "أدخل رقم هاتفك",
       subjectPlaceholder: "ما هو الموضوع؟",
       messagePlaceholder: "أخبرنا كيف يمكننا مساعدتك...",
     },
-  }
+  };
 
-  const t = translations[language]
+  const t = translations[language];
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
-    // Reset form
+    e.preventDefault();
+    console.log("Form submitted:", formData);
     setFormData({
       name: "",
       email: "",
       phone: "",
       subject: "",
       message: "",
-    })
-  }
+    });
+  };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+    setFormData((prev) => ({ ...prev, [field]: value }));
+  };
 
   return (
     <div className={`min-h-screen bg-background ${isRTL ? "rtl" : "ltr"}`}>
-      {/* Language Selector */}
-      <div className="fixed top-4 right-4 z-50 flex gap-2">
-        {(["en", "fr", "ar"] as const).map((lang) => (
-          <Button
-            key={lang}
-            variant={language === lang ? "default" : "outline"}
-            size="sm"
-            onClick={() => setLanguage(lang)}
-            className="min-w-[50px]"
-          >
-            {lang.toUpperCase()}
-          </Button>
-        ))}
-      </div>
-
       {/* Header */}
-      <div className="bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 py-16">
+      <div className="bg-gradient-to-r from-[#d4b05d]/10 via-accent/10 to-[#d4b05d]/10 py-16">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="font-great-vibes text-5xl md:text-6xl text-primary mb-4">{t.title}</h1>
-          <p className="font-playfair text-xl text-muted-foreground max-w-2xl mx-auto">{t.subtitle}</p>
+          <h1 className="font-great-vibes text-5xl md:text-6xl text-[#d4b05d] mb-4">
+            {t.title}
+          </h1>
+          <p className="font-playfair text-xl text-[#777079] max-w-2xl mx-auto">
+            {t.subtitle}
+          </p>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-12">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Contact Form */}
-          <Card>
+          <Card className="bg-[#e6d7c3] border-none">
             <CardHeader>
-              <CardTitle className="font-playfair text-2xl text-primary">{t.getInTouch}</CardTitle>
+              <CardTitle className="font-playfair text-2xl text-black">
+                {t.getInTouch}
+              </CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="name">{t.name}</Label>
+                    <Label htmlFor="name" className="text-black">
+                      {t.name}
+                    </Label>
                     <Input
                       id="name"
                       value={formData.name}
                       onChange={(e) => handleInputChange("name", e.target.value)}
                       placeholder={t.namePlaceholder}
                       required
+                      className="bg-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">{t.email}</Label>
+                    <Label htmlFor="email" className="text-black">
+                      {t.email}
+                    </Label>
                     <Input
                       id="email"
                       type="email"
@@ -173,35 +167,42 @@ export default function ContactPage() {
                       onChange={(e) => handleInputChange("email", e.target.value)}
                       placeholder={t.emailPlaceholder}
                       required
+                      className="bg-white"
                     />
                   </div>
                 </div>
-
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="phone">{t.phone}</Label>
+                    <Label htmlFor="phone" className="text-black">
+                      {t.phone}
+                    </Label>
                     <Input
                       id="phone"
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => handleInputChange("phone", e.target.value)}
                       placeholder={t.phonePlaceholder}
+                      className="bg-white"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="subject">{t.subject}</Label>
+                    <Label htmlFor="subject" className="text-black">
+                      {t.subject}
+                    </Label>
                     <Input
                       id="subject"
                       value={formData.subject}
                       onChange={(e) => handleInputChange("subject", e.target.value)}
                       placeholder={t.subjectPlaceholder}
                       required
+                      className="bg-white"
                     />
                   </div>
                 </div>
-
                 <div className="space-y-2">
-                  <Label htmlFor="message">{t.message}</Label>
+                  <Label htmlFor="message" className="text-black">
+                    {t.message}
+                  </Label>
                   <Textarea
                     id="message"
                     value={formData.message}
@@ -209,10 +210,13 @@ export default function ContactPage() {
                     placeholder={t.messagePlaceholder}
                     rows={6}
                     required
+                    className="bg-white"
                   />
                 </div>
-
-                <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
+                <Button
+                  type="submit"
+                  className="w-full bg-[#d4b05d] hover:bg-[#d4b05d]/90 text-white"
+                >
                   <Send className="h-4 w-4 mr-2" />
                   {t.send}
                 </Button>
@@ -222,18 +226,19 @@ export default function ContactPage() {
 
           {/* Contact Information */}
           <div className="space-y-6">
-            <Card>
+            <Card className="bg-[#e6d7c3] border-none">
               <CardHeader>
-                <CardTitle className="font-playfair text-2xl text-primary">{t.visitUs}</CardTitle>
+                <CardTitle className="font-playfair text-2xl text-black">
+                  {t.visitUs}
+                </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 <p className="text-muted-foreground">{t.storeDescription}</p>
-
                 <div className="space-y-4">
                   <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                    <MapPin className="h-5 w-5 text-[#d4b05d] mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold mb-1">{t.address}</h4>
+                      <h4 className="font-semibold mb-1 text-black">{t.address}</h4>
                       <p className="text-muted-foreground">
                         123 Rue Mohammed V<br />
                         Casablanca 20000
@@ -242,27 +247,26 @@ export default function ContactPage() {
                       </p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                    <Phone className="h-5 w-5 text-[#d4b05d] mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold mb-1">Téléphone</h4>
+                      <h4 className="font-semibold mb-1 text-black">Téléphone</h4>
                       <p className="text-muted-foreground">+212 522 123 456</p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                    <Mail className="h-5 w-5 text-[#d4b05d] mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold mb-1">Email</h4>
-                      <p className="text-muted-foreground">contact@patisseriemarocaine.ma</p>
+                      <h4 className="font-semibold mb-1 text-black">Email</h4>
+                      <p className="text-muted-foreground">
+                        contact@patisseriemarocaine.ma
+                      </p>
                     </div>
                   </div>
-
                   <div className="flex items-start gap-3">
-                    <Clock className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
+                    <Clock className="h-5 w-5 text-[#d4b05d] mt-1 flex-shrink-0" />
                     <div>
-                      <h4 className="font-semibold mb-1">{t.hours}</h4>
+                      <h4 className="font-semibold mb-1 text-black">{t.hours}</h4>
                       <div className="text-muted-foreground space-y-1">
                         <p>{t.mondayFriday}: 8:00 - 20:00</p>
                         <p>{t.saturday}: 9:00 - 21:00</p>
@@ -275,13 +279,13 @@ export default function ContactPage() {
             </Card>
 
             {/* Map Placeholder */}
-            <Card>
+            <Card className="bg-[#e6d7c3] border-none">
               <CardContent className="p-0">
-                <div className="h-64 bg-muted rounded-lg flex items-center justify-center">
+                <div className="h-64 bg-[#d4b05d]/20 rounded-lg flex items-center justify-center">
                   <div className="text-center text-muted-foreground">
-                    <MapPin className="h-12 w-12 mx-auto mb-2" />
-                    <p>Carte Interactive</p>
-                    <p className="text-sm">123 Rue Mohammed V, Casablanca</p>
+                    <MapPin className="h-12 w-12 mx-auto mb-2 text-[#d4b05d]" />
+                    <p className="text-[#d4b05d] font-semibold">Carte Interactive</p>
+                    <p className="text-sm text-[#d4b05d]/80">123 Rue Mohammed V, Casablanca</p>
                   </div>
                 </div>
               </CardContent>
@@ -290,5 +294,5 @@ export default function ContactPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }
