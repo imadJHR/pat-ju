@@ -3,10 +3,10 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { motion, AnimatePresence, Variants } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Menu, X, Sun, Moon, Globe, ChevronDown } from "lucide-react" // Added Globe & ChevronDown
+import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react" // Added Globe & ChevronDown
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
 import { MoroccanDivider } from "@/components/moroccan-divider" // Assuming this exists
@@ -77,7 +77,7 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
   )
 }
 
-// --- ADDED: Sub-components for better organization ---
+
 
 function DesktopNav({ language, pathname }: { language: "en" | "fr" | "ar", pathname: string }) {
     const t = translations[language]

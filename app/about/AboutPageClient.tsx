@@ -250,8 +250,8 @@ export default function AboutPageClient() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
                 <div className="text-center group"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/almonds.jpg" alt="Tafilalet almonds" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Amandes de Tafilalet</h3></div>
-                <div className="text-center group"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/honey.jpg" alt="Atlas mountain honey" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Miel de l'Atlas</h3></div>
-                <div className="text-center group col-span-2 md:col-span-1"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/orange-blossom.jpg" alt="Orange blossom water" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Fleur d'Oranger</h3></div>
+                <div className="text-center group"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/honey.jpg" alt="Atlas mountain honey" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Miel de l&apos;Atlas</h3></div>
+                <div className="text-center group col-span-2 md:col-span-1"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/orange-blossom.jpg" alt="Orange blossom water" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Fleur d&apos;Oranger</h3></div>
             </div>
         </div>
       </section>

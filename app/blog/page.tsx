@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Calendar, User, Search, ArrowRight, X, ChevronLeft, ChevronRight, BookOpen } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { getAllBlogPosts, BlogPost } from "@/data/blog-posts"; // Assuming BlogPost type is exported
+import { getAllBlogPosts } from "@/data/blog-posts"; // Assuming BlogPost type is exported
 
 // Helper component for Skeleton loading state
 const PostCardSkeleton = () => (
