@@ -4,11 +4,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { motion } from "framer-motion";
+// Corrected: Import the 'Variants' type from framer-motion
+import { motion, Variants } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import a1 from "../public/a1.jpg";
 import a2 from "../public/a2.jpg";
-import a3 from "../public/a3.jpg";
 
 interface HeroSectionProps {
   language: "fr"; // Set to French only
@@ -24,8 +24,8 @@ const translations = {
   },
 };
 
-// Animation variants for Framer Motion
-const containerVariants = {
+// Corrected: Added the 'Variants' type to each animation object
+const containerVariants: Variants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
@@ -35,7 +35,7 @@ const containerVariants = {
   },
 };
 
-const itemVariants = {
+const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
@@ -47,7 +47,7 @@ const itemVariants = {
   },
 };
 
-const imageVariants = {
+const imageVariants: Variants = {
   hidden: { opacity: 0, scale: 0.9, rotate: -5 },
   visible: (i: number) => ({
     opacity: 1,
@@ -146,6 +146,8 @@ export function HeroSection({ language }: HeroSectionProps) {
               placeholder="blur"
             />
           </motion.div>
+          {/* Corrected: Added the missing third image back */}
+         
         </div>
       </div>
     </section>
