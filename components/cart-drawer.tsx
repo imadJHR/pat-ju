@@ -1,4 +1,5 @@
 "use client"
+
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -6,11 +7,14 @@ import { Separator } from "@/components/ui/separator"
 import { ShoppingCart, Plus, Minus, Trash2 } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
 import Link from "next/link"
+import Image from "next/image"
 
+// Define the props interface for the component
 interface CartDrawerProps {
   language: "en" | "fr" | "ar"
 }
 
+// Translations for multi-language support
 const translations = {
   en: {
     cart: "Shopping Cart",
@@ -54,11 +58,16 @@ const translations = {
 }
 
 export function CartDrawer({ language }: CartDrawerProps) {
+  // Destructure cart state and actions from the custom hook
   const { items, isOpen, closeCart, removeItem, updateQuantity, getItemCount, getSubtotal } = useCart()
+  
+  // Select the correct translation based on the language prop
   const t = translations[language]
   const isRTL = language === "ar"
+
+  // Calculate costs
   const subtotal = getSubtotal()
-  const shipping = subtotal > 500 ? 0 : 59.9
+  const shipping = subtotal > 500 ? 0 : 59.9 // Free shipping for orders over 500 MAD
   const total = subtotal + shipping
 
   return (
@@ -78,8 +87,9 @@ export function CartDrawer({ language }: CartDrawerProps) {
           </SheetTitle>
         </SheetHeader>
 
-        {/* Empty Cart State */}
+        {/* Conditional Rendering: Show empty state or cart items */}
         {items.length === 0 ? (
+          // Empty Cart State
           <div className="flex-1 flex flex-col items-center justify-center px-6 py-12 text-center">
             <ShoppingCart className="h-20 w-20 text-[#d4b05d]/30 mb-6" />
             <h3 className="font-playfair text-xl font-semibold text-black mb-2">{t.empty}</h3>
@@ -92,6 +102,7 @@ export function CartDrawer({ language }: CartDrawerProps) {
             </Button>
           </div>
         ) : (
+          // Cart with items
           <>
             {/* Cart Items List */}
             <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
@@ -100,10 +111,12 @@ export function CartDrawer({ language }: CartDrawerProps) {
                   key={item.id}
                   className="flex gap-4 p-4 bg-white rounded-lg shadow-sm border border-black/10"
                 >
-                  <img
+                  <Image
                     src={item.image || "/placeholder.svg"}
                     alt={item.name[language]}
-                    className="w-20 h-20 object-cover rounded-md flex-shrink-0"
+                    width={80}
+                    height={80}
+                    className="object-cover rounded-md flex-shrink-0"
                   />
                   <div className="flex-1 min-w-0 space-y-1">
                     <h4 className="font-medium text-lg text-black line-clamp-1">{item.name[language]}</h4>
@@ -132,6 +145,7 @@ export function CartDrawer({ language }: CartDrawerProps) {
                           type="button"
                           className="p-1 text-black/40 hover:text-red-500 transition-colors"
                           onClick={() => removeItem(item.id)}
+                          aria-label={t.remove}
                         >
                           <Trash2 className="h-5 w-5" />
                         </button>
@@ -142,7 +156,7 @@ export function CartDrawer({ language }: CartDrawerProps) {
               ))}
             </div>
 
-            {/* Cart Summary */}
+            {/* Cart Summary & Checkout */}
             <div className="p-6 pt-4 border-t border-black/10 bg-[#e6d7c3]">
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-lg font-medium text-black">

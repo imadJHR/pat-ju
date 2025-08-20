@@ -9,11 +9,11 @@ export default function ProductsPageClient() {
   const [language, setLanguage] = useState("fr");
 
   const translations = {
+    // ... your translations object remains the same
     fr: {
       title: "Nos Pâtisseries",
       subtitle: "Collection Authentique",
-      description:
-        "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
+      description: "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
       breadcrumb: {
         home: "Accueil",
         products: "Produits",
@@ -22,8 +22,7 @@ export default function ProductsPageClient() {
     ar: {
       title: "حلوياتنا",
       subtitle: "مجموعة أصيلة",
-      description:
-        "اكتشف مجموعتنا المختارة من الحلويات المغربية التقليدية، المحضرة بمكونات عالية الجودة ووفقاً لوصفات أجدادنا المتوارثة عبر الأجيال.",
+      description: "اكتشف مجموعتنا المختارة من الحلويات المغربية التقليدية، المحضرة بمكونات عالية الجودة ووفقاً لوصفات أجدادنا المتوارثة عبر الأجيال.",
       breadcrumb: {
         home: "الرئيسية",
         products: "المنتجات",
@@ -32,8 +31,7 @@ export default function ProductsPageClient() {
     en: {
       title: "Our Pastries",
       subtitle: "Authentic Collection",
-      description:
-        "Discover our refined selection of traditional Moroccan pastries, prepared with premium ingredients and according to ancestral recipes passed down through generations.",
+      description: "Discover our refined selection of traditional Moroccan pastries, prepared with premium ingredients and according to ancestral recipes passed down through generations.",
       breadcrumb: {
         home: "Home",
         products: "Products",
@@ -48,9 +46,49 @@ export default function ProductsPageClient() {
       className={`min-h-screen bg-gradient-to-b from-almond-50 to-white ${
         language === "ar" ? "rtl" : "ltr"
       }`}
+      // Add dir attribute for better accessibility and layout handling
+      dir={language === "ar" ? "rtl" : "ltr"}
     >
+      {/* ===== START: LANGUAGE SWITCHER ===== */}
+      <div className="container mx-auto px-4 pt-8 text-right">
+        <div className="inline-flex space-x-2 rounded-md bg-white p-1 shadow-sm">
+          <button
+            onClick={() => setLanguage("en")}
+            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+              language === "en"
+                ? "bg-saffron-500 text-white"
+                : "text-gray-600 hover:bg-almond-100"
+            }`}
+          >
+            EN
+          </button>
+          <button
+            onClick={() => setLanguage("fr")}
+            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+              language === "fr"
+                ? "bg-saffron-500 text-white"
+                : "text-gray-600 hover:bg-almond-100"
+            }`}
+          >
+            FR
+          </button>
+          <button
+            onClick={() => setLanguage("ar")}
+            className={`px-3 py-1 text-sm rounded-md transition-colors ${
+              language === "ar"
+                ? "bg-saffron-500 text-white"
+                : "text-gray-600 hover:bg-almond-100"
+            }`}
+          >
+            AR
+          </button>
+        </div>
+      </div>
+      {/* ===== END: LANGUAGE SWITCHER ===== */}
+
       {/* Breadcrumb Navigation */}
-      <div className="container mx-auto px-4 pt-24 pb-8">
+      <div className="container mx-auto px-4 pt-12 pb-8"> {/* Adjusted pt-24 to pt-12 */}
+        {/* ... rest of your component is the same */}
         <nav className="flex items-center space-x-2 text-sm text-honey-600 mb-8">
           <Link href="/" className="hover:text-saffron-500 transition-colors">
             {t.breadcrumb.home}
@@ -62,6 +100,7 @@ export default function ProductsPageClient() {
         </nav>
       </div>
 
+      {/* ... the rest of your JSX remains unchanged */}
       {/* Hero Section */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center max-w-4xl mx-auto">
@@ -92,8 +131,7 @@ export default function ProductsPageClient() {
             "@context": "https://schema.org",
             "@type": "Store",
             name: "Pâtisseries Marocaines Authentiques",
-            description:
-              "Boutique en ligne de pâtisseries marocaines traditionnelles",
+            description: "Boutique en ligne de pâtisseries marocaines traditionnelles",
             url: "https://yoursite.com/products",
             address: {
               "@type": "PostalAddress",
