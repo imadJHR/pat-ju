@@ -18,6 +18,21 @@ const translations = {
     ar: { home: "الرئيسية", products: "المنتجات", about: "من نحن", contact: "اتصل بنا", blog: "المدونة", cart: "السلة", orderNow: "اطلب الآن", traditional: "تقليدية", celebration: "احتفالات", assortments: "تشكيلات" },
 }
 
+// Define types for navigation items for better type safety
+type TranslationKeys = keyof typeof translations['fr'];
+
+interface SubNavItem {
+  key: TranslationKeys;
+  href: string;
+}
+
+interface NavItem {
+  key: TranslationKeys;
+  href: string;
+  dropdown?: SubNavItem[];
+}
+
+
 // --- REFINED: Main Component Orchestrator ---
 export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -31,10 +46,9 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  useEffect(() => {
-    // Close mobile menu on page change
-    if (isMobileMenuOpen) setIsMobileMenuOpen(false)
-  }, [pathname])
+  // NOTE: The useEffect hook to close the menu on path change was removed.
+  // The onClick handler on the mobile nav links already provides this functionality,
+  // making the hook redundant and fixing the dependency warning.
 
   useEffect(() => {
     // Prevent scrolling when mobile menu is open
@@ -74,7 +88,7 @@ export function Navigation() {
 
 function DesktopNav({ language, pathname }: { language: "fr", pathname: string }) {
     const t = translations[language]
-    const navItems = [
+    const navItems: NavItem[] = [
         { key: "home", href: "/" },
         { key: "products", href: "/products", dropdown: [
             { key: "traditional", href: "/products/traditional" },
@@ -91,7 +105,7 @@ function DesktopNav({ language, pathname }: { language: "fr", pathname: string }
             {navItems.map((item) => (
                 item.dropdown ? <ProductDropdown key={item.key} item={item} t={t} /> : (
                 <Link key={item.key} href={item.href} className={`relative group text-foreground hover:text-amber-500 transition-colors duration-200 font-medium text-sm ${(pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))) ? 'text-amber-500' : ''}`}>
-                    {t[item.key as keyof typeof t]}
+                    {t[item.key]}
                     <span className={`absolute -bottom-1 left-0 h-0.5 bg-amber-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${(pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))) ? 'scale-x-100' : ''}`} />
                 </Link>
             )))}
@@ -99,7 +113,7 @@ function DesktopNav({ language, pathname }: { language: "fr", pathname: string }
     )
 }
 
-function ProductDropdown({ item, t }: { item: any, t: any }) {
+function ProductDropdown({ item, t }: { item: NavItem, t: typeof translations['fr'] }) {
     const [isOpen, setIsOpen] = useState(false)
     return (
         <motion.div onHoverStart={() => setIsOpen(true)} onHoverEnd={() => setIsOpen(false)} className="relative">
@@ -110,7 +124,7 @@ function ProductDropdown({ item, t }: { item: any, t: any }) {
                 {isOpen && (
                     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }} className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
                         <div className="bg-background border rounded-lg shadow-lg w-48 p-2">
-                            {item.dropdown.map((subItem: any) => (
+                            {item.dropdown?.map((subItem: SubNavItem) => (
                                 <Link key={subItem.key} href={subItem.href} className="block px-3 py-2 text-sm rounded-md hover:bg-muted">
                                     {t[subItem.key]}
                                 </Link>
