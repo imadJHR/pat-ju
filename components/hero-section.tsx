@@ -146,7 +146,6 @@ export function HeroSection({ language }: HeroSectionProps) {
               placeholder="blur"
             />
           </motion.div>
-          
         </div>
       </div>
     </section>
