@@ -1,125 +1,152 @@
+// components/hero-section.tsx
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import a1 from "../public/a1.jpg";
+import a2 from "../public/a2.jpg";
+import a3 from "../public/a3.jpg";
 
 interface HeroSectionProps {
-  language: "en" | "fr" | "ar";
+  language: "fr"; // Set to French only
 }
 
 const translations = {
-  en: {
-    headline: "Authentic Moroccan Pastries",
-    tagline:
-      "Crafted with love using traditional recipes passed down through generations",
-    orderNow: "Order Now",
-    discover: "Discover Our Pastries",
-    freshDaily: "Fresh Daily",
-    traditional: "Traditional Recipes",
-    premium: "Premium Ingredients",
-  },
   fr: {
-    headline: "Pâtisseries Marocaines Authentiques",
+    headline: "L'Art de la Pâtisserie Marocaine",
     tagline:
-      "Préparées avec amour selon des recettes traditionnelles transmises de génération en génération",
-    orderNow: "Commander Maintenant",
-    discover: "Découvrir Nos Pâtisseries",
-    freshDaily: "Frais Quotidiennement",
-    traditional: "Recettes Traditionnelles",
-    premium: "Ingrédients Premium",
+      "Découvrez des saveurs authentiques, préparées avec amour selon des recettes traditionnelles transmises de génération en génération.",
+    orderNow: "Découvrir Nos Produits",
+    discover: "Notre Histoire",
   },
-  ar: {
-    headline: "حلويات مغربية أصيلة",
-    tagline: "مصنوعة بحب باستخدام وصفات تقليدية متوارثة عبر الأجيال",
-    orderNow: "اطلب الآن",
-    discover: "اكتشف حلوياتنا",
-    freshDaily: "طازجة يومياً",
-    traditional: "وصفات تقليدية",
-    premium: "مكونات فاخرة",
+};
+
+// Animation variants for Framer Motion
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
   },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+const imageVariants = {
+  hidden: { opacity: 0, scale: 0.9, rotate: -5 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      delay: i * 0.15,
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  }),
 };
 
 export function HeroSection({ language }: HeroSectionProps) {
   const t = translations[language];
-  const isRTL = language === "ar";
 
   return (
-    <section
-      id="home"
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden ${
-        isRTL ? "rtl" : "ltr"
-      }`}
-    >
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/placeholder.svg?height=1080&width=1920"
-          alt="Moroccan Pastries"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
-      </div>
-
-      {/* Moroccan Pattern Overlay */}
-      <div className="absolute inset-0 moroccan-pattern opacity-20 z-10"></div>
-
-      {/* Content */}
-      <div className="relative z-20 container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto">
-          <h1 className="font-great-vibes text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white mb-6 drop-shadow-lg">
+    <section id="home" className="min-h-screen w-full bg-background">
+      <div className="container mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-screen px-4 sm:px-6 lg:px-8 py-20 lg:py-0">
+        {/* Left Side: Content */}
+        <motion.div
+          className="flex flex-col justify-center text-center lg:text-left"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.h1
+            className="font-great-vibes text-5xl sm:text-6xl md:text-7xl text-amber-500 mb-4"
+            variants={itemVariants}
+          >
             {t.headline}
-          </h1>
+          </motion.h1>
 
-          <p className="font-playfair text-lg sm:text-xl md:text-2xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
+          <motion.p
+            className="font-playfair text-lg sm:text-xl text-foreground/80 mb-8 max-w-lg mx-auto lg:mx-0"
+            variants={itemVariants}
+          >
             {t.tagline}
-          </p>
+          </motion.p>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-            <Button
-              size="lg"
-              className=" bg-[#d0a84b] hover:bg-[#d0a84b]/90 text-primary-foreground px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              {t.orderNow}
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-foreground px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 bg-transparent"
-            >
-              {t.discover}
-            </Button>
-          </div>
+          <motion.div
+            className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            variants={itemVariants}
+          >
+            <Link href="/products">
+              <Button
+                size="lg"
+                className="bg-amber-500 hover:bg-amber-500/90 text-primary-foreground px-8 py-3 text-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
+              >
+                {t.orderNow}
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
+            </Link>
+            <Link href="/about">
+              <Button
+                variant="ghost"
+                size="lg"
+                className="text-amber-500 hover:text-amber-500/90 hover:bg-amber-500/10 px-8 py-3 text-lg font-semibold transition-colors duration-300 w-full sm:w-auto"
+              >
+                {t.discover}
+              </Button>
+            </Link>
+          </motion.div>
+        </motion.div>
 
-          {/*  <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm">
-                <span className="text-2xl">🥐</span>
-              </div>
-              <p className="text-white font-medium">{t.freshDaily}</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm">
-                <span className="text-2xl">📜</span>
-              </div>
-              <p className="text-white font-medium">{t.traditional}</p>
-            </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm">
-                <span className="text-2xl">⭐</span>
-              </div>
-              <p className="text-white font-medium">{t.premium}</p>
-            </div>
-          </div> */}
-        </div>
-      </div>
-
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-          <div className="w-1 h-3 bg-white/70 rounded-full mt-2 animate-bounce"></div>
+        {/* Right Side: Image Grid */}
+        <div className="relative h-[300px] sm:h-[450px] lg:h-[600px] w-full">
+          <motion.div
+            custom={1}
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+            className="absolute top-0 left-0 w-2/3 h-2/5 sm:h-1/2 rounded-xl shadow-2xl overflow-hidden transform -rotate-6"
+          >
+            <Image
+              src={a1}
+              alt="Assortment of Moroccan Pastries"
+              fill
+              className="object-cover"
+              priority
+              placeholder="blur"
+            />
+          </motion.div>
+          <motion.div
+            custom={2}
+            variants={imageVariants}
+            initial="hidden"
+            animate="visible"
+            className="absolute bottom-0 left-1/4 w-3/5 h-1/2 sm:h-3/5 rounded-xl shadow-2xl overflow-hidden z-10 transform rotate-3"
+          >
+            <Image
+              src={a2}
+              alt="Close-up of Kaab el Ghazal"
+              fill
+              className="object-cover"
+              placeholder="blur"
+            />
+          </motion.div>
+          
         </div>
       </div>
     </section>
