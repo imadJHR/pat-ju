@@ -15,6 +15,7 @@ import { products } from "@/data/products"
 import { Search, Filter, ChevronDown, X, Star } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import Link from "next/link"
+import React from "react" // Import React for CSSProperties type
 
 export default function ProductsClient() {
   const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
@@ -218,11 +219,6 @@ export default function ProductsClient() {
   const isRTL = language === "ar"
 
   const filteredAndSortedProducts = useMemo(() => {
-    // A NOTE ON CATEGORY FILTERING:
-    // This filtering logic relies on string matching the English category name (e.g., product.category.en.toLowerCase().includes("almond")).
-    // This is functional but can be fragile. A more robust solution would be to add a language-agnostic category key to the product data,
-    // for example: `categoryKey: "almond_pastries"`, and filter against that key directly.
-    // This would make the filter independent of display names and prevent potential mismatches.
     const filtered = products.filter((product) => {
       if (searchQuery) {
         const searchLower = searchQuery.toLowerCase()
@@ -254,7 +250,7 @@ export default function ProductsClient() {
       return true
     })
 
-    const sorted = [...filtered]; // Create a new array to avoid mutating the filtered array directly
+    const sorted = [...filtered]
 
     switch (sortBy) {
       case "priceLowHigh":
@@ -270,11 +266,9 @@ export default function ProductsClient() {
         sorted.sort((a, b) => a.name[language].localeCompare(b.name[language]))
         break
       case "newest":
-        // This sort puts 'new' items first
         sorted.sort((a, b) => Number(b.isNew) - Number(a.isNew))
         break
       default:
-        // No sort applied, or sort by a default criterion if needed
         break
     }
     return sorted
@@ -295,7 +289,6 @@ export default function ProductsClient() {
 
   return (
     <div className={`min-h-screen ${isRTL ? "rtl" : "ltr"}`}>
-      {/* Breadcrumb Navigation */}
       <div className="container mx-auto px-4 pt-24 pb-8">
         <nav className={`flex items-center space-x-2 text-sm text-gray-600 mb-8 ${isRTL ? "space-x-reverse" : ""}`}>
           <Link href="/" className="hover:text-[#d4b05d] transition-colors">
@@ -306,23 +299,19 @@ export default function ProductsClient() {
         </nav>
       </div>
 
-      {/* Hero Section */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center max-w-4xl mx-auto">
-            <h1 className="font-great-vibes text-6xl md:text-7xl" style={{ color: "#d4b05d" }}>{t.title}</h1>
-            <p className="font-playfair text-2xl md:text-3xl" style={{ color: "#d4b05d" }}>{t.subtitle}</p>
-            <MoroccanDivider />
-            <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
+          <h1 className="font-great-vibes text-6xl md:text-7xl" style={{ color: "#d4b05d" }}>{t.title}</h1>
+          <p className="font-playfair text-2xl md:text-3xl" style={{ color: "#d4b05d" }}>{t.subtitle}</p>
+          <MoroccanDivider />
+          <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
         </div>
       </section>
 
-      {/* Filters and Products Section */}
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col lg:flex-row gap-8">
-            {/* Filters Sidebar */}
             <div className="lg:w-1/4">
-              {/* Mobile Filter Toggle */}
               <div className="lg:hidden mb-4">
                 <Button
                   variant="outline"
@@ -336,7 +325,6 @@ export default function ProductsClient() {
                 </Button>
               </div>
 
-              {/* Filters Panel */}
               <div className={`lg:block ${showFilters ? "block" : "hidden"}`}>
                 <Card className="bg-[#f4ead5]">
                   <CardHeader className="pb-4">
@@ -349,7 +337,6 @@ export default function ProductsClient() {
                     </div>
                   </CardHeader>
                   <CardContent className="space-y-6">
-                    {/* Search */}
                     <div>
                       <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.search}</Label>
                       <div className="relative">
@@ -364,7 +351,6 @@ export default function ProductsClient() {
                       </div>
                     </div>
 
-                    {/* Category */}
                     <div>
                       <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.category}</Label>
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
@@ -383,7 +369,6 @@ export default function ProductsClient() {
                       </Select>
                     </div>
 
-                    {/* Price Range */}
                     <div>
                       <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>
                         {t.filters.priceRange}: {priceRange[0]} MAD - {priceRange[1]} MAD
@@ -395,16 +380,18 @@ export default function ProductsClient() {
                         min={0}
                         step={5}
                         className="mt-2"
-                        style={{ "--slider-thumb-color": "#d4b05d", "--slider-track-color": "#d4b05d" }}
+                        // *** FIX: Cast the style object to React.CSSProperties to allow custom properties ***
+                        style={{ 
+                          "--slider-thumb-color": "#d4b05d", 
+                          "--slider-track-color": "#d4b05d" 
+                        } as React.CSSProperties}
                       />
                     </div>
 
-                    {/* Availability */}
                     <div>
                       <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.availability}</Label>
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                          {/* FIX 1: Correctly handle onCheckedChange */}
                           <Checkbox id="inStock" checked={showInStock} onCheckedChange={(checked) => setShowInStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
                           <Label htmlFor="inStock" className="text-sm" style={{ color: "#d4b05d" }}>
                             {t.filters.inStock}
@@ -419,29 +406,26 @@ export default function ProductsClient() {
                       </div>
                     </div>
 
-                    {/* Special Filters */}
                     <div>
-                        <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.special}</Label>
-                        <div className="space-y-2">
-                            <div className="flex items-center space-x-2">
-                                <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                <Label htmlFor="new" className="text-sm" style={{ color: "#d4b05d" }}>
-                                    {t.filters.new}
-                                </Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                <Label htmlFor="bestseller" className="text-sm" style={{ color: "#d4b05d" }}>
-                                    {t.filters.bestseller}
-                                </Label>
-                            </div>
+                      <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.special}</Label>
+                      <div className="space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                          <Label htmlFor="new" className="text-sm" style={{ color: "#d4b05d" }}>
+                            {t.filters.new}
+                          </Label>
                         </div>
+                        <div className="flex items-center space-x-2">
+                          <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                          <Label htmlFor="bestseller" className="text-sm" style={{ color: "#d4b05d" }}>
+                            {t.filters.bestseller}
+                          </Label>
+                        </div>
+                      </div>
                     </div>
 
-                    {/* Rating Filter */}
                     <div>
                       <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>
-                        {/* FIX 2: Use translation for the 'All' ratings text */}
                         {t.filters.rating}: {minRating > 0 ? `${minRating}+` : t.filters.allRatings}
                       </Label>
                       <div className="flex items-center space-x-1">
@@ -464,9 +448,7 @@ export default function ProductsClient() {
               </div>
             </div>
 
-            {/* Products Section */}
             <div className="lg:w-3/4">
-              {/* Sort and Results */}
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                 <Badge variant="secondary" className="text-sm" style={{ backgroundColor: "#d4b05d", color: "white" }}>
                   {t.results.replace("{count}", filteredAndSortedProducts.length.toString())}
@@ -489,7 +471,6 @@ export default function ProductsClient() {
                 </div>
               </div>
 
-              {/* Products Grid */}
               {filteredAndSortedProducts.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
                   {filteredAndSortedProducts.map((product, index) => (
@@ -526,7 +507,6 @@ export default function ProductsClient() {
         />
       )}
 
-      {/* SEO Schema Markup */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -535,7 +515,7 @@ export default function ProductsClient() {
             "@type": "ItemList",
             "name": t.title,
             "description": t.description,
-            "url": "https://yoursite.com/products", // Replace with the actual URL
+            "url": "https://yoursite.com/products",
             "numberOfItems": filteredAndSortedProducts.length,
             "itemListElement": filteredAndSortedProducts.map((product, index) => ({
               "@type": "ListItem",
@@ -548,7 +528,6 @@ export default function ProductsClient() {
                   "@type": "Offer",
                   "price": product.price,
                   "priceCurrency": "MAD",
-                  // FIX 3: Use full Schema.org URLs for availability
                   "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
                 },
               },
