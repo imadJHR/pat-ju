@@ -6,31 +6,24 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react" // Added Globe & ChevronDown
+import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react" // Simplified imports
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
 import { MoroccanDivider } from "@/components/moroccan-divider" // Assuming this exists
 
-// Types and Translations (no changes here, but kept for context)
-interface NavigationProps {
-  language: "en" | "fr" | "ar"
-  onLanguageChange: (lang: "en" | "fr" | "ar") => void
-  isDarkMode: boolean
-  onThemeToggle: () => void
-}
-
+// Translations object (kept for French text)
 const translations = {
-    en: { home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now", language: "Language", traditional: "Traditional", celebration: "Celebration", assortments: "Assortments" },
-    fr: { home: "Accueil", products: "Produits", about: "À Propos", contact: "Contact", blog: "Blog", cart: "Panier", orderNow: "Commander", language: "Langue", traditional: "Traditionnels", celebration: "Célébration", assortments: "Assortiments" },
-    ar: { home: "الرئيسية", products: "المنتجات", about: "من نحن", contact: "اتصل بنا", blog: "المدونة", cart: "السلة", orderNow: "اطلب الآن", language: "اللغة", traditional: "تقليدية", celebration: "احتفالات", assortments: "تشكيلات" },
+    en: { home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now", traditional: "Traditional", celebration: "Celebration", assortments: "Assortments" },
+    fr: { home: "Accueil", products: "Produits", about: "À Propos", contact: "Contact", blog: "Blog", cart: "Panier", orderNow: "Commander", traditional: "Traditionnels", celebration: "Célébration", assortments: "Assortiments" },
+    ar: { home: "الرئيسية", products: "المنتجات", about: "من نحن", contact: "اتصل بنا", blog: "المدونة", cart: "السلة", orderNow: "اطلب الآن", traditional: "تقليدية", celebration: "احتفالات", assortments: "تشكيلات" },
 }
 
 // --- REFINED: Main Component Orchestrator ---
-export function Navigation({ language, onLanguageChange, isDarkMode, onThemeToggle }: NavigationProps) {
+export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-  const isRTL = language === "ar"
+  const language = "fr" as const // Language is hardcoded to French
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10)
@@ -39,17 +32,19 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
   }, [])
 
   useEffect(() => {
+    // Close mobile menu on page change
     if (isMobileMenuOpen) setIsMobileMenuOpen(false)
   }, [pathname])
 
   useEffect(() => {
+    // Prevent scrolling when mobile menu is open
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto'
     return () => { document.body.style.overflow = 'auto' }
   }, [isMobileMenuOpen])
 
   return (
     <>
-      <header className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md border-border" : "bg-background/95 backdrop-blur border-transparent"} ${isRTL ? "rtl" : "ltr"}`}>
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md border-border" : "bg-background/95 backdrop-blur border-transparent"}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
             <Link href="/" className="flex-shrink-0">
@@ -61,9 +56,9 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
             <DesktopNav language={language} pathname={pathname} />
 
             <div className="flex items-center gap-1">
-                <NavActions language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} />
+                <NavActions language={language} />
                 <div className="md:hidden">
-                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)} aria-label="Open menu">
+                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)} aria-label="Ouvrir le menu">
                         <Menu className="h-6 w-6" />
                     </Button>
                 </div>
@@ -71,15 +66,13 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
           </div>
         </div>
       </header>
-      <MobileNav isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} pathname={pathname}/>
+      <MobileNav isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} language={language} pathname={pathname}/>
       <CartDrawer language={language} />
     </>
   )
 }
 
-
-
-function DesktopNav({ language, pathname }: { language: "en" | "fr" | "ar", pathname: string }) {
+function DesktopNav({ language, pathname }: { language: "fr", pathname: string }) {
     const t = translations[language]
     const navItems = [
         { key: "home", href: "/" },
@@ -130,17 +123,14 @@ function ProductDropdown({ item, t }: { item: any, t: any }) {
     )
 }
 
-function NavActions({ language, onLanguageChange, isDarkMode, onThemeToggle }: Omit<NavigationProps, 'isRTL'>) {
+function NavActions({ language }: { language: "fr" }) {
     const { openCart, getItemCount } = useCart()
     const t = translations[language]
 
     return (
         <>
-           
-
-        
             {/* Cart Button */}
-            <Button variant="ghost" size="icon" className="relative" onClick={openCart} aria-label="Open cart">
+            <Button variant="ghost" size="icon" className="relative" onClick={openCart} aria-label="Ouvrir le panier">
                 <ShoppingCart className="h-5 w-5" />
                 <AnimatePresence>
                 {getItemCount() > 0 && (
@@ -161,7 +151,7 @@ function NavActions({ language, onLanguageChange, isDarkMode, onThemeToggle }: O
     )
 }
 
-function MobileNav({ isOpen, setIsOpen, language, onLanguageChange, isDarkMode, onThemeToggle, pathname }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void } & Omit<NavigationProps, 'isRTL'> & { pathname: string }) {
+function MobileNav({ isOpen, setIsOpen, language, pathname }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, language: "fr", pathname: string }) {
     const t = translations[language]
     const navItems = [{ key: "home", href: "/" }, { key: "products", href: "/products" }, { key: "about", href: "/about" }, { key: "blog", href: "/blog" }, { key: "contact", href: "/contact" }]
 
@@ -172,7 +162,7 @@ function MobileNav({ isOpen, setIsOpen, language, onLanguageChange, isDarkMode, 
                     <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: "easeInOut" }} className="absolute inset-y-0 right-0 w-full max-w-sm bg-background shadow-lg flex flex-col" onClick={e => e.stopPropagation()}>
                         <div className="p-4 flex justify-between items-center border-b">
                             <h2 className="font-playfair font-semibold">Menu</h2>
-                            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Close menu"><X className="h-6 w-6" /></Button>
+                            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Fermer le menu"><X className="h-6 w-6" /></Button>
                         </div>
                         <nav className="flex-grow p-6 flex flex-col gap-y-4">
                             {navItems.map((item) => (
@@ -187,7 +177,8 @@ function MobileNav({ isOpen, setIsOpen, language, onLanguageChange, isDarkMode, 
                             </Link>
                             <MoroccanDivider className="my-6" />
                             <div className="flex justify-center gap-x-4">
-                               <NavActions language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} />
+                               {/* Only shows the cart icon on mobile */}
+                               <NavActions language={language} />
                             </div>
                         </div>
                     </motion.div>
@@ -195,22 +186,4 @@ function MobileNav({ isOpen, setIsOpen, language, onLanguageChange, isDarkMode, 
             )}
         </AnimatePresence>
     )
-}
-
-function DropdownMenu({ trigger, children }: { trigger: React.ReactNode, children: React.ReactNode }) {
-    const [isOpen, setIsOpen] = useState(false);
-    return (
-        <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
-            {trigger}
-            <AnimatePresence>
-                {isOpen && (
-                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }} className="absolute top-full right-0 mt-2 z-50">
-                        <div className="bg-background border rounded-lg shadow-lg w-36 p-2">
-                            {children}
-                        </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
-    );
 }
