@@ -1,7 +1,8 @@
 "use client";
 
 import { MoroccanDivider } from "@/components/moroccan-divider";
-import { ProductShowcase, ProductShowcaseProps } from "@/components/product-showcase"; // Assuming ProductShowcaseProps is exported
+// FIX: Removed the non-existent 'ProductShowcaseProps' from the import
+import { ProductShowcase } from "@/components/product-showcase";
 import { QuickViewModal } from "@/components/quick-view-modal";
 import { products } from "@/data/products";
 import { useCart } from "@/hooks/use-cart";
@@ -32,8 +33,8 @@ export default function ProductsPageClient() {
     window.dispatchEvent(new CustomEvent("languageChange", { detail: { language: newLanguage } }));
   };
 
-  // Define the handler functions required by ProductShowcase
-  const handleAddToCart: ProductShowcaseProps['onAddToCart'] = (productId, quantity = 1) => {
+  // Define the handler functions with explicit types, since we can't import the props type
+  const handleAddToCart = (productId: string, quantity = 1) => {
     const product = products.find((p) => p.id === productId);
     if (product) {
       for (let i = 0; i < quantity; i++) {
@@ -42,7 +43,7 @@ export default function ProductsPageClient() {
     }
   };
 
-  const handleQuickView: ProductShowcaseProps['onQuickView'] = (productId) => {
+  const handleQuickView = (productId: string) => {
     setSelectedProductId(productId);
     setIsQuickViewOpen(true);
   };
@@ -138,7 +139,6 @@ export default function ProductsPageClient() {
 
       {/* Products Showcase */}
       <section className="py-16">
-        {/* FIX: Pass all required props to the ProductShowcase component */}
         <ProductShowcase
           language={language}
           onAddToCart={handleAddToCart}
