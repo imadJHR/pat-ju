@@ -1,298 +1,289 @@
 "use client"
 
-import { MoroccanDivider } from "@/components/moroccan-divider"
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { Button } from "@/components/ui/button" // Assuming you use shadcn/ui
+import { MoroccanDivider } from "@/components/moroccan-divider"
+import { Gem, ScrollText, Sparkles, ArrowRight } from "lucide-react" // Importing new icons
+
+// --- ADDED: Reusable ValueCard component for cleaner code ---
+const ValueCard = ({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) => (
+    <div className="group text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 transform">
+        <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-white ring-4 ring-amber-100 transition-all duration-300 group-hover:ring-amber-200">
+            <Icon className="h-10 w-10 text-amber-600" />
+        </div>
+        <h3 className="font-playfair text-2xl text-stone-800 mb-2">{title}</h3>
+        <p className="font-poppins text-stone-600">{description}</p>
+    </div>
+);
 
 export default function AboutPageClient() {
-  const [language, setLanguage] = useState("fr")
+  const [language, setLanguage] = useState<"fr" | "ar" | "en">("fr")
 
-  const translations = {
-    fr: {
-      title: "Notre Histoire",
-      subtitle: "Trois Générations de Passion",
-      heritage: {
-        title: "Un Héritage Familial",
-        content:
-          "Depuis 1952, notre famille perpétue l'art de la pâtisserie marocaine traditionnelle. Fondée par notre grand-père Ahmed dans les ruelles de la médina de Fès, notre maison a su préserver les recettes ancestrales tout en s'adaptant aux goûts contemporains.",
-      },
-      tradition: {
-        title: "Tradition & Authenticité",
-        content:
-          "Chaque pâtisserie est confectionnée selon les méthodes traditionnelles, avec des ingrédients soigneusement sélectionnés : miel de montagne, amandes de Tafilalet, fleur d'oranger de Nabeul, et épices rares du souk.",
-      },
-      craftsmanship: {
-        title: "Savoir-Faire Artisanal",
-        content:
-          "Nos maîtres pâtissiers, formés dans le respect de la tradition, façonnent chaque création à la main. De la préparation de la pâte feuilletée aux délicats motifs de décoration, chaque geste témoigne d'un savoir-faire unique.",
-      },
-      mission: {
-        title: "Notre Mission",
-        content:
-          "Faire découvrir au monde entier la richesse de la pâtisserie marocaine, en préservant son authenticité tout en innovant pour satisfaire les palais les plus exigeants.",
-      },
-      values: {
-        title: "Nos Valeurs",
-        quality: "Qualité Premium",
-        qualityDesc: "Ingrédients nobles et processus artisanal",
-        tradition: "Respect des Traditions",
-        traditionDesc: "Recettes ancestrales préservées",
-        innovation: "Innovation Créative",
-        innovationDesc: "Nouvelles créations inspirées du patrimoine",
-      },
-      breadcrumb: {
-        home: "Accueil",
-        about: "À Propos",
-      },
-    },
-    ar: {
-      title: "قصتنا",
-      subtitle: "ثلاثة أجيال من الشغف",
-      heritage: {
-        title: "تراث عائلي",
-        content:
-          "منذ عام 1952، تواصل عائلتنا فن الحلويات المغربية التقليدية. تأسست على يد جدنا أحمد في أزقة مدينة فاس العتيقة، واستطاعت دارنا الحفاظ على الوصفات الأصيلة مع التكيف مع الأذواق المعاصرة.",
-      },
-      tradition: {
-        title: "التقليد والأصالة",
-        content:
-          "كل حلوى تُصنع وفقاً للطرق التقليدية، بمكونات مختارة بعناية: عسل الجبل، لوز تافيلالت، ماء الزهر من نابل، والتوابل النادرة من السوق.",
-      },
-      craftsmanship: {
-        title: "الحرفية اليدوية",
-        content:
-          "أساتذة الحلويات لدينا، المدربون في احترام التقاليد، يشكلون كل إبداع باليد. من تحضير العجين المورق إلى الزخارف الدقيقة، كل حركة تشهد على مهارة فريدة.",
-      },
-      mission: {
-        title: "مهمتنا",
-        content: "تعريف العالم بثراء الحلويات المغربية، مع الحفاظ على أصالتها والابتكار لإرضاء أكثر الأذواق تطلباً.",
-      },
-      values: {
-        title: "قيمنا",
-        quality: "جودة عالية",
-        qualityDesc: "مكونات نبيلة وعملية حرفية",
-        tradition: "احترام التقاليد",
-        traditionDesc: "وصفات أجدادنا محفوظة",
-        innovation: "الابتكار الإبداعي",
-        innovationDesc: "إبداعات جديدة مستوحاة من التراث",
-      },
-      breadcrumb: {
-        home: "الرئيسية",
-        about: "من نحن",
-      },
-    },
-    en: {
-      title: "Our Story",
-      subtitle: "Three Generations of Passion",
-      heritage: {
-        title: "A Family Heritage",
-        content:
-          "Since 1952, our family has perpetuated the art of traditional Moroccan pastry. Founded by our grandfather Ahmed in the alleys of Fez medina, our house has preserved ancestral recipes while adapting to contemporary tastes.",
-      },
-      tradition: {
-        title: "Tradition & Authenticity",
-        content:
-          "Each pastry is crafted according to traditional methods, with carefully selected ingredients: mountain honey, Tafilalet almonds, orange blossom from Nabeul, and rare spices from the souk.",
-      },
-      craftsmanship: {
-        title: "Artisanal Craftsmanship",
-        content:
-          "Our master pastry chefs, trained in respect of tradition, shape each creation by hand. From preparing puff pastry to delicate decorative patterns, each gesture testifies to unique expertise.",
-      },
-      mission: {
-        title: "Our Mission",
-        content:
-          "To introduce the world to the richness of Moroccan pastry, preserving its authenticity while innovating to satisfy the most demanding palates.",
-      },
-      values: {
-        title: "Our Values",
-        quality: "Premium Quality",
-        qualityDesc: "Noble ingredients and artisanal process",
-        tradition: "Respect for Traditions",
-        traditionDesc: "Ancestral recipes preserved",
-        innovation: "Creative Innovation",
-        innovationDesc: "New creations inspired by heritage",
-      },
-      breadcrumb: {
-        home: "Home",
-        about: "About",
-      },
-    },
-  }
+  const translations = {
+    fr: {
+      title: "Notre Histoire",
+      subtitle: "Trois Générations de Passion Pâtissière",
+      heritage: {
+        title: "Un Héritage Familial Précieux",
+        era1_year: "1952",
+        era1_title: "La Fondation par Ahmed",
+        era1_content: "Dans les ruelles parfumées de la médina de Fès, notre grand-père Ahmed allume le premier four, posant la première pierre d'un héritage de saveurs.",
+        era2_year: "1985",
+        era2_title: "La Transmission du Savoir",
+        era2_content: "Son fils, Mustafa, reprend le flambeau. Il modernise l'atelier tout en préservant scrupuleusement les recettes et techniques ancestrales qui font notre renommée.",
+        era3_year: "Aujourd'hui",
+        era3_title: "L'Innovation dans la Tradition",
+        era3_content: "La troisième génération, nous continuons de faire vivre cet art. Nous marions l'authenticité des goûts d'antan avec une créativité contemporaine, pour vous offrir des émotions uniques.",
+      },
+      craftsmanship: {
+        title: "Le Geste de l'Artisan",
+        content: "Nos maîtres pâtissiers, formés dans le respect de la tradition, façonnent chaque création à la main. De la préparation de la pâte feuilletée aux délicats motifs de décoration, chaque geste témoigne d'un savoir-faire unique et d'une passion inébranlable.",
+      },
+      ingredients: {
+          title: "Le Secret de nos Ingrédients",
+          content: "Nous sélectionnons uniquement les trésors de notre terroir : miel pur de l'Atlas, amandes de Tafilalet baignées de soleil, et fleur d'oranger distillée traditionnellement.",
+      },
+      values: {
+        title: "Nos Valeurs Fondamentales",
+        quality: "Qualité Premium",
+        qualityDesc: "Des ingrédients nobles pour un goût d'exception.",
+        tradition: "Respect des Traditions",
+        traditionDesc: "Des recettes ancestrales qui racontent une histoire.",
+        innovation: "Innovation Créative",
+        innovationDesc: "Des créations inspirées qui surprennent les palais.",
+      },
+      cta: {
+          title: "Goûtez à notre Histoire",
+          content: "Chaque pâtisserie est un chapitre de notre livre de famille. Nous vous invitons à le découvrir.",
+          button: "Découvrir nos Créations",
+      },
+      breadcrumb: { home: "Accueil", about: "À Propos" },
+    },
+    ar: {
+        title: "قصتنا",
+        subtitle: "ثلاثة أجيال من شغف الحلويات",
+        heritage: {
+            title: "تراث عائلي ثمين",
+            era1_year: "1952",
+            era1_title: "التأسيس على يد أحمد",
+            era1_content: "في أزقة فاس العتيقة المعطرة، أشعل جدنا أحمد الفرن الأول، واضعًا حجر الأساس لإرث من النكهات.",
+            era2_year: "1985",
+            era2_title: "نقل المعرفة",
+            era2_content: "استلم ابنه مصطفى الشعلة. قام بتحديث الورشة مع الحفاظ بدقة على الوصفات والتقنيات الأصيلة التي صنعت شهرتنا.",
+            era3_year: "اليوم",
+            era3_title: "الابتكار في التقاليد",
+            era3_content: "الجيل الثالث، نحن، نواصل إحياء هذا الفن. نمزج أصالة نكهات الماضي مع إبداع معاصر، لنقدم لكم أحاسيس فريدة.",
+        },
+        craftsmanship: {
+            title: "لمسة الحرفي",
+            content: "أساتذة الحلويات لدينا، المدربون في احترام التقاليد، يشكلون كل إبداع باليد. من تحضير العجين المورق إلى الزخارف الدقيقة، كل حركة تشهد على مهارة فريدة وشغف لا يتزعزع.",
+        },
+        ingredients: {
+            title: "سر مكوناتنا",
+            content: "نختار فقط كنوز أرضنا: عسل الأطلس النقي، لوز تافيلالت المشمس، وماء الزهر المقطر تقليديًا.",
+        },
+        values: {
+            title: "قيمنا الأساسية",
+            quality: "جودة عالية",
+            qualityDesc: "مكونات نبيلة لمذاق استثنائي.",
+            tradition: "احترام التقاليد",
+            traditionDesc: "وصفات أجداد تروي حكاية.",
+            innovation: "الابتكار الإبداعي",
+            innovationDesc: "إبداعات ملهمة تفاجئ الأذواق.",
+        },
+        cta: {
+            title: "تذوقوا قصتنا",
+            content: "كل حلوى هي فصل من كتاب عائلتنا. ندعوكم لاكتشافه.",
+            button: "اكتشفوا إبداعاتنا",
+        },
+        breadcrumb: { home: "الرئيسية", about: "من نحن" },
+    },
+    en: {
+        title: "Our Story",
+        subtitle: "Three Generations of Pastry Passion",
+        heritage: {
+            title: "A Precious Family Heritage",
+            era1_year: "1952",
+            era1_title: "Foundation by Ahmed",
+            era1_content: "In the fragrant alleys of the Fez medina, our grandfather Ahmed lit the first oven, laying the cornerstone of a legacy of flavors.",
+            era2_year: "1985",
+            era2_title: "Passing Down the Knowledge",
+            era2_content: "His son, Mustafa, took up the torch. He modernized the workshop while scrupulously preserving the ancestral recipes and techniques that make our reputation.",
+            era3_year: "Today",
+            era3_title: "Innovation in Tradition",
+            era3_content: "The third generation, we continue to bring this art to life. We blend the authenticity of old-fashioned tastes with contemporary creativity to offer you unique emotions.",
+        },
+        craftsmanship: {
+            title: "The Artisan's Touch",
+            content: "Our master pastry chefs, trained in the respect of tradition, shape each creation by hand. From preparing the puff pastry to the delicate decorative patterns, each gesture testifies to unique know-how and an unwavering passion.",
+        },
+        ingredients: {
+            title: "The Secret of Our Ingredients",
+            content: "We select only the treasures of our land: pure Atlas honey, sun-drenched Tafilalet almonds, and traditionally distilled orange blossom water.",
+        },
+        values: {
+            title: "Our Core Values",
+            quality: "Premium Quality",
+            qualityDesc: "Noble ingredients for an exceptional taste.",
+            tradition: "Respect for Traditions",
+            traditionDesc: "Ancestral recipes that tell a story.",
+            innovation: "Creative Innovation",
+            innovationDesc: "Inspired creations that surprise the palate.",
+        },
+        cta: {
+            title: "Taste our Story",
+            content: "Each pastry is a chapter in our family book. We invite you to discover it.",
+            button: "Discover our Creations",
+        },
+        breadcrumb: { home: "Home", about: "About" },
+    }
+  }
 
-  const t = translations[language as keyof typeof translations]
+  const t = translations[language]
 
-  return (
-    <div className={`min-h-screen bg-gradient-to-b from-almond-50 to-white ${language === "ar" ? "rtl" : "ltr"}`}>
-      {/* --- MODIFIED SECTION: Breadcrumb and Language Switcher --- */}
-      <div className="container mx-auto px-4 pt-24 pb-8">
-        <div className="flex justify-between items-center mb-8">
-          <nav className="flex items-center space-x-2 text-sm text-honey-600">
-            <Link href="/" className="hover:text-saffron-500 transition-colors">
-              {t.breadcrumb.home}
-            </Link>
-            <span>/</span>
-            <span className="text-saffron-600 font-medium">{t.breadcrumb.about}</span>
-          </nav>
+  return (
+    <div className={`min-h-screen bg-stone-50 ${language === "ar" ? "rtl" : "ltr"}`} dir={language === "ar" ? "rtl" : "ltr"}>
+      {/* --- REFINED: Header Section --- */}
+      <header className="container mx-auto px-4 pt-8 pb-8">
+        <div className="flex justify-between items-center">
+          <nav aria-label="Breadcrumb" className="flex items-center space-x-2 text-sm text-stone-500">
+            <Link href="/" className="hover:text-amber-600 transition-colors">{t.breadcrumb.home}</Link>
+            <span className="rtl:hidden">/</span><span className="ltr:hidden">\</span>
+            <span className="font-medium text-amber-700">{t.breadcrumb.about}</span>
+          </nav>
 
-          {/* --- ADDED: Language Switcher --- */}
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setLanguage("fr")}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${
-                language === "fr"
-                  ? "bg-saffron-500 text-white shadow-md"
-                  : "bg-white text-saffron-700 hover:bg-saffron-50"
-              }`}
-            >
-              FR
-            </button>
-            <button
-              onClick={() => setLanguage("en")}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${
-                language === "en"
-                  ? "bg-saffron-500 text-white shadow-md"
-                  : "bg-white text-saffron-700 hover:bg-saffron-50"
-              }`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLanguage("ar")}
-              className={`px-3 py-1 text-sm font-medium rounded-md transition-all ${
-                language === "ar"
-                  ? "bg-saffron-500 text-white shadow-md"
-                  : "bg-white text-saffron-700 hover:bg-saffron-50"
-              }`}
-            >
-              AR
-            </button>
+          <div className="flex gap-1 rounded-full p-1 bg-stone-200/50">
+             {(["fr", "en", "ar"] as const).map(lang => (
+                <button
+                  key={lang}
+                  onClick={() => setLanguage(lang)}
+                  className={`px-3 py-1 text-sm font-semibold rounded-full transition-all ${
+                    language === lang
+                      ? "bg-white text-amber-700 shadow-sm"
+                      : "text-stone-600 hover:text-amber-700"
+                  }`}
+                >
+                  {lang.toUpperCase()}
+                </button>
+             ))}
           </div>
         </div>
-      </div>
+      </header>
 
-      {/* Hero Section */}
-      <section className="container mx-auto px-4 pb-16">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="font-great-vibes text-6xl md:text-7xl text-[#d4b05d] mb-4">{t.title}</h1>
-          <p className="font-playfair text-2xl md:text-3xl text-[#d4b05d] mb-6">{t.subtitle}</p>
-        </div>
-      </section>
+      {/* --- REFINED: Hero Section --- */}
+      <section className="container mx-auto px-4 pt-12 pb-20 text-center">
+        <h1 className="font-great-vibes text-6xl md:text-8xl text-amber-600 mb-4">{t.title}</h1>
+        <p className="font-playfair text-2xl md:text-3xl text-stone-600 max-w-3xl mx-auto">{t.subtitle}</p>
+      </section>
+      
+      {/* --- ADDED: Timeline Section --- */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+                <h2 className="text-center font-playfair text-4xl text-stone-800 mb-16">{t.heritage.title}</h2>
+                <div className="relative space-y-16">
+                    {/* The vertical line */}
+                    <div className="absolute left-5 top-5 bottom-5 w-0.5 bg-amber-200 rtl:left-auto rtl:right-5"></div>
 
-      <MoroccanDivider />
+                    {/* Timeline Item 1 */}
+                    <div className="relative flex items-start gap-8">
+                        <div className="flex-shrink-0 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg z-10">{/* 1 */}</div>
+                        <div className="flex-1 pt-1">
+                            <p className="font-bold text-amber-600 text-sm mb-1">{t.heritage.era1_year}</p>
+                            <h3 className="font-playfair text-2xl font-semibold mb-2">{t.heritage.era1_title}</h3>
+                            <p className="text-stone-600 leading-relaxed">{t.heritage.era1_content}</p>
+                        </div>
+                    </div>
+                    {/* Timeline Item 2 */}
+                     <div className="relative flex items-start gap-8">
+                        <div className="flex-shrink-0 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg z-10">{/* 2 */}</div>
+                        <div className="flex-1 pt-1">
+                            <p className="font-bold text-amber-600 text-sm mb-1">{t.heritage.era2_year}</p>
+                            <h3 className="font-playfair text-2xl font-semibold mb-2">{t.heritage.era2_title}</h3>
+                            <p className="text-stone-600 leading-relaxed">{t.heritage.era2_content}</p>
+                        </div>
+                    </div>
+                     {/* Timeline Item 3 */}
+                    <div className="relative flex items-start gap-8">
+                        <div className="flex-shrink-0 w-10 h-10 bg-amber-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg z-10">{/* 3 */}</div>
+                        <div className="flex-1 pt-1">
+                            <p className="font-bold text-amber-600 text-sm mb-1">{t.heritage.era3_year}</p>
+                            <h3 className="font-playfair text-2xl font-semibold mb-2">{t.heritage.era3_title}</h3>
+                            <p className="text-stone-600 leading-relaxed">{t.heritage.era3_content}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </section>
+      
+      {/* --- REFINED: Craftsmanship Section with alternating layout --- */}
+      <section className="py-24 bg-stone-50 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+             <div className="relative aspect-square lg:order-last">
+               <Image
+                 src="/images/moroccan-pastry-chef-hands.jpg" // Replace with a real, high-quality image
+                 alt="Artisan pastry chef crafting Moroccan sweets"
+                 fill
+                 sizes="(max-width: 1024px) 100vw, 50vw"
+                 className="rounded-2xl object-cover shadow-2xl"
+               />
+            </div>
+            <div className="space-y-4 lg:order-first">
+              <h2 className="font-playfair text-4xl text-stone-800">{t.craftsmanship.title}</h2>
+              <MoroccanDivider />
+              <p className="font-poppins text-stone-600 leading-relaxed text-lg">{t.craftsmanship.content}</p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      {/* Heritage Story */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
-            <div className="space-y-8">
-              <div>
-                <h2 className="font-playfair text-3xl text-saffron-600 mb-4">{t.heritage.title}</h2>
-                <p className="font-poppins text-gray-600 leading-relaxed">{t.heritage.content}</p>
-              </div>
+      {/* --- ADDED: Ingredients Showcase --- */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+            <div className="text-center max-w-3xl mx-auto mb-12">
+                <h2 className="font-playfair text-4xl text-stone-800 mb-4">{t.ingredients.title}</h2>
+                <p className="font-poppins text-stone-600 leading-relaxed">{t.ingredients.content}</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div className="text-center group"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/almonds.jpg" alt="Tafilalet almonds" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Amandes de Tafilalet</h3></div>
+                <div className="text-center group"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/honey.jpg" alt="Atlas mountain honey" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Miel de l'Atlas</h3></div>
+                <div className="text-center group col-span-2 md:col-span-1"><div className="relative aspect-square rounded-full overflow-hidden mb-4 shadow-lg"><Image src="/images/orange-blossom.jpg" alt="Orange blossom water" fill sizes="33vw" className="object-cover group-hover:scale-105 transition-transform duration-300"/></div><h3 className="font-semibold text-stone-700">Fleur d'Oranger</h3></div>
+            </div>
+        </div>
+      </section>
+      
+      {/* --- REFINED: Values Section --- */}
+      <section className="py-24 bg-stone-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="font-playfair text-4xl text-stone-800">{t.values.title}</h2>
+             <MoroccanDivider className="mx-auto mt-4"/>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <ValueCard icon={Gem} title={t.values.quality} description={t.values.qualityDesc} />
+            <ValueCard icon={ScrollText} title={t.values.tradition} description={t.values.traditionDesc} />
+            <ValueCard icon={Sparkles} title={t.values.innovation} description={t.values.innovationDesc} />
+          </div>
+        </div>
+      </section>
 
-              <div>
-                <h3 className="font-playfair text-2xl text-honey-700 mb-3">{t.tradition.title}</h3>
-                <p className="font-poppins text-gray-600 leading-relaxed">{t.tradition.content}</p>
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="aspect-square rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src="/placeholder.svg?height=500&width=500"
-                  alt="Traditional Moroccan pastry making"
-                  width={500}
-                  height={500}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-saffron-100 rounded-full moroccan-pattern opacity-20"></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <MoroccanDivider />
-
-      {/* Craftsmanship & Mission */}
-      <section className="py-16 bg-gradient-to-r from-honey-50 to-saffron-50">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
-            <div className="space-y-8">
-              <div>
-                <h2 className="font-playfair text-3xl text-saffron-600 mb-4">{t.craftsmanship.title}</h2>
-                <p className="font-poppins text-gray-600 leading-relaxed">{t.craftsmanship.content}</p>
-              </div>
-            </div>
-
-            <div>
-              <h2 className="font-playfair text-3xl text-honey-700 mb-4">{t.mission.title}</h2>
-              <p className="font-poppins text-gray-600 leading-relaxed">{t.mission.content}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Values Section */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="font-playfair text-4xl text-saffron-600 mb-4">{t.values.title}</h2>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-saffron-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-saffron-500 rounded-full"></div>
-              </div>
-              <h3 className="font-playfair text-xl text-honey-700 mb-2">{t.values.quality}</h3>
-              <p className="font-poppins text-gray-600 text-sm">{t.values.qualityDesc}</p>
-            </div>
-
-            <div className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-honey-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-honey-500 rounded-full"></div>
-              </div>
-              <h3 className="font-playfair text-xl text-honey-700 mb-2">{t.values.tradition}</h3>
-              <p className="font-poppins text-gray-600 text-sm">{t.values.traditionDesc}</p>
-            </div>
-
-            <div className="text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-shadow">
-              <div className="w-16 h-16 bg-almond-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                <div className="w-8 h-8 bg-almond-500 rounded-full"></div>
-              </div>
-              <h3 className="font-playfair text-xl text-honey-700 mb-2">{t.values.innovation}</h3>
-              <p className="font-poppins text-gray-600 text-sm">{t.values.innovationDesc}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SEO Schema Markup */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "Pâtisseries Marocaines Authentiques",
-            description: "Famille de pâtissiers marocains depuis 1952",
-            foundingDate: "1952",
-            founder: {
-              "@type": "Person",
-              name: "Ahmed",
-            },
-            address: {
-              "@type": "PostalAddress",
-              addressCountry: "MA",
-              addressLocality: "Fès",
-            },
-            specialty: "Pâtisseries marocaines traditionnelles",
-          }),
-        }}
-      />
-    </div>
-  )
+      {/* --- ADDED: Call to Action (CTA) Section --- */}
+      <section className="py-24 bg-amber-600 text-white">
+        <div className="container mx-auto px-4 text-center">
+            <h2 className="font-playfair text-4xl mb-4">{t.cta.title}</h2>
+            <p className="font-poppins max-w-2xl mx-auto mb-8 opacity-90">{t.cta.content}</p>
+            <Link href="/products">
+                <Button size="lg" variant="secondary" className="bg-white text-amber-700 hover:bg-amber-50 text-lg group">
+                    {t.cta.button}
+                    <ArrowRight className="h-5 w-5 ml-2 transition-transform group-hover:translate-x-1 rtl:mr-2 rtl:ml-0 rtl:group-hover:-translate-x-1" />
+                </Button>
+            </Link>
+        </div>
+      </section>
+    </div>
+  )
 }

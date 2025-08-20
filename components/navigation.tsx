@@ -3,291 +3,214 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-// FIX: Import the 'Variants' type from framer-motion
 import { motion, AnimatePresence, Variants } from "framer-motion"
-
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Menu, X, Sun, Moon } from "lucide-react"
+import { ShoppingCart, Menu, X, Sun, Moon, Globe, ChevronDown } from "lucide-react" // Added Globe & ChevronDown
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
+import { MoroccanDivider } from "@/components/moroccan-divider" // Assuming this exists
 
+// Types and Translations (no changes here, but kept for context)
 interface NavigationProps {
   language: "en" | "fr" | "ar"
+  onLanguageChange: (lang: "en" | "fr" | "ar") => void
   isDarkMode: boolean
   onThemeToggle: () => void
 }
 
 const translations = {
-  en: {
-    home: "Home",
-    products: "Products",
-    about: "About",
-    contact: "Contact",
-    blog: "Blog",
-    cart: "Cart",
-    orderNow: "Order Now",
-    language: "Language",
-  },
-  fr: {
-    home: "Accueil",
-    products: "Produits",
-    about: "À Propos",
-    contact: "Contact",
-    blog: "Blog",
-    cart: "Panier",
-    orderNow: "Commander",
-    language: "Langue",
-  },
-  ar: {
-    home: "الرئيسية",
-    products: "المنتجات",
-    about: "من نحن",
-    contact: "اتصل بنا",
-    blog: "المدونة",
-    cart: "السلة",
-    orderNow: "اطلب الآن",
-    language: "اللغة",
-  },
+    en: { home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now", language: "Language", traditional: "Traditional", celebration: "Celebration", assortments: "Assortments" },
+    fr: { home: "Accueil", products: "Produits", about: "À Propos", contact: "Contact", blog: "Blog", cart: "Panier", orderNow: "Commander", language: "Langue", traditional: "Traditionnels", celebration: "Célébration", assortments: "Assortiments" },
+    ar: { home: "الرئيسية", products: "المنتجات", about: "من نحن", contact: "اتصل بنا", blog: "المدونة", cart: "السلة", orderNow: "اطلب الآن", language: "اللغة", traditional: "تقليدية", celebration: "احتفالات", assortments: "تشكيلات" },
 }
 
-export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationProps) {
+// --- REFINED: Main Component Orchestrator ---
+export function Navigation({ language, onLanguageChange, isDarkMode, onThemeToggle }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  
-  const { openCart, getItemCount } = useCart()
-  const t = translations[language]
-  const isRTL = language === "ar"
   const pathname = usePathname()
+  const isRTL = language === "ar"
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10)
-    }
+    const handleScroll = () => setIsScrolled(window.scrollY > 10)
     window.addEventListener("scroll", handleScroll)
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      setIsMobileMenuOpen(false)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (isMobileMenuOpen) setIsMobileMenuOpen(false)
   }, [pathname])
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'auto'
-    }
-    return () => {
-      document.body.style.overflow = 'auto'
-    }
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'auto'
+    return () => { document.body.style.overflow = 'auto' }
   }, [isMobileMenuOpen])
-
-  const navItems = [
-    { key: "home", href: "/" },
-    { key: "products", href: "/products" },
-    { key: "about", href: "/about" },
-    { key: "blog", href: "/blog" },
-    { key: "contact", href: "/contact" },
-  ]
-
-  // FIX: Added the 'Variants' type annotation
-  const mobileMenuVariants: Variants = {
-    hidden: {
-      x: isRTL ? "100%" : "-100%",
-      opacity: 0,
-      transition: {
-        type: "tween",
-        duration: 0.3,
-        ease: "easeIn"
-      }
-    },
-    visible: {
-      x: 0,
-      opacity: 1,
-      transition: {
-        type: "tween",
-        duration: 0.3,
-        ease: "easeOut"
-      }
-    },
-  }
-
-  // FIX: Added the 'Variants' type annotation for consistency
-  const navListVariants: Variants = {
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.2,
-      },
-    },
-    hidden: {}, // Add a hidden variant for completeness
-  }
-
-  // FIX: Added the 'Variants' type annotation
-  const navItemVariants: Variants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 120,
-        damping: 12
-      }
-    },
-  }
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 w-full transition-all duration-300 border-b 
-        ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md border-border" : "bg-background/95 backdrop-blur border-transparent"}
-        ${isRTL ? "rtl" : "ltr"}`}
-      >
+      <header className={`sticky top-0 z-50 w-full transition-all duration-300 border-b ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md border-border" : "bg-background/95 backdrop-blur border-transparent"} ${isRTL ? "rtl" : "ltr"}`}>
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-14' : 'h-16'}`}>
-            <div className="flex-shrink-0">
-              <Link href="/" className="flex items-center">
-                <motion.h1 
-                  className="font-great-vibes text-2xl md:text-3xl text-[#d0a84b] font-bold cursor-pointer"
-                  whileHover={{ scale: 1.05 }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  patisserie les jumeaux
-                </motion.h1>
-              </Link>
-            </div>
+          <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
+            <Link href="/" className="flex-shrink-0">
+                <h1 className="font-great-vibes text-3xl md:text-4xl text-amber-500 font-bold cursor-pointer">
+                    Pâtisserie Les Jumeaux
+                </h1>
+            </Link>
 
-            <nav className="hidden md:flex items-center space-x-4 lg:space-x-8">
-              {navItems.map((item) => (
-                <Link
-                  key={item.key}
-                  href={item.href}
-                  className="relative group text-foreground hover:text-primary transition-colors duration-200 font-medium"
-                >
-                  {t[item.key as keyof typeof t]}
-                  <span className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#d0a84b] w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-center ${pathname === item.href ? 'scale-x-100' : ''}`} />
-                </Link>
-              ))}
-            </nav>
+            <DesktopNav language={language} pathname={pathname} />
 
-            <div className="flex items-center space-x-1 sm:space-x-2">
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button variant="ghost" size="icon" className="w-8 h-8" onClick={onThemeToggle}>
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.div
-                      key={isDarkMode ? "moon" : "sun"}
-                      initial={{ y: -20, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 20, opacity: 0 }}
-                      transition={{ duration: 0.2 }}
-                    >
-                      {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                    </motion.div>
-                  </AnimatePresence>
-                  <span className="sr-only">Toggle theme</span>
-                </Button>
-              </motion.div>
-
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                <Button variant="ghost" size="icon" className="relative w-8 h-8" onClick={openCart}>
-                  <ShoppingCart className="h-5 w-5" />
-                  {getItemCount() > 0 && (
-                    <Badge
-                      variant="destructive"
-                      className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center text-xs rounded-full"
-                    >
-                      {getItemCount()}
-                    </Badge>
-                  )}
-                  <span className="sr-only">{t.cart}</span>
-                </Button>
-              </motion.div>
-
-              <div className="hidden md:block ml-2">
-                <Link href="/products">
-                  <Button className="bg-[#d0a84b] hover:bg-[#d0a84b]/90 text-primary-foreground">
-                    {t.orderNow}
-                  </Button>
-                </Link>
-              </div>
-
-              <div className="md:hidden ml-2">
-                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="w-8 h-8"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                    aria-controls="mobile-menu"
-                    aria-expanded={isMobileMenuOpen}
-                  >
-                    <AnimatePresence mode="wait">
-                      {isMobileMenuOpen ? (
-                         <motion.div key="close" initial={{ rotate: -90, scale: 0 }} animate={{ rotate: 0, scale: 1 }} exit={{ rotate: 90, scale: 0 }}>
-                           <X className="h-5 w-5" />
-                         </motion.div>
-                      ) : (
-                        <motion.div key="open" initial={{ rotate: 90, scale: 0 }} animate={{ rotate: 0, scale: 1 }} exit={{ rotate: -90, scale: 0 }}>
-                           <Menu className="h-5 w-5" />
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    <span className="sr-only">Open main menu</span>
-                  </Button>
-                </motion.div>
-              </div>
+            <div className="flex items-center gap-1">
+                <NavActions language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} />
+                <div className="md:hidden">
+                    <Button variant="ghost" size="icon" onClick={() => setIsMobileMenuOpen(true)} aria-label="Open menu">
+                        <Menu className="h-6 w-6" />
+                    </Button>
+                </div>
             </div>
           </div>
         </div>
-
-        <AnimatePresence>
-          {isMobileMenuOpen && (
-            <motion.div
-              id="mobile-menu"
-              className="md:hidden fixed inset-x-0 top-14 h-[calc(100vh-3.5rem)] bg-background/95 backdrop-blur-lg z-40"
-              initial="hidden"
-              animate="visible"
-              exit="hidden"
-              variants={mobileMenuVariants}
-            >
-              <div className="container h-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
-                <motion.nav 
-                  className="flex flex-col space-y-4"
-                  initial="hidden"
-                  animate="visible"
-                  variants={navListVariants}
-                >
-                  {navItems.map((item) => (
-                    <motion.div key={item.key} variants={navItemVariants}>
-                      <Link
-                        href={item.href}
-                        className="block text-center text-lg font-medium text-foreground hover:text-primary hover:bg-muted rounded-md py-3 transition-colors duration-200"
-                        onClick={() => setIsMobileMenuOpen(false)}
-                      >
-                        {t[item.key as keyof typeof t]}
-                      </Link>
-                    </motion.div>
-                  ))}
-                  <motion.div className="pt-6" variants={navItemVariants}>
-                    <Link href="/products" className="block" onClick={() => setIsMobileMenuOpen(false)}>
-                        <Button className="w-full bg-[#d0a84b] hover:bg-[#d0a84b]/90 text-primary-foreground text-lg py-6">
-                            {t.orderNow}
-                        </Button>
-                    </Link>
-                  </motion.div>
-                </motion.nav>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </header>
-
+      <MobileNav isOpen={isMobileMenuOpen} setIsOpen={setIsMobileMenuOpen} language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} pathname={pathname}/>
       <CartDrawer language={language} />
     </>
   )
+}
+
+// --- ADDED: Sub-components for better organization ---
+
+function DesktopNav({ language, pathname }: { language: "en" | "fr" | "ar", pathname: string }) {
+    const t = translations[language]
+    const navItems = [
+        { key: "home", href: "/" },
+        { key: "products", href: "/products", dropdown: [
+            { key: "traditional", href: "/products/traditional" },
+            { key: "celebration", href: "/products/celebration" },
+            { key: "assortments", href: "/products/assortments" },
+        ]},
+        { key: "about", href: "/about" },
+        { key: "blog", href: "/blog" },
+        { key: "contact", href: "/contact" },
+    ]
+
+    return (
+        <nav className="hidden md:flex items-center gap-x-6 lg:gap-x-8">
+            {navItems.map((item) => (
+                item.dropdown ? <ProductDropdown key={item.key} item={item} t={t} /> : (
+                <Link key={item.key} href={item.href} className={`relative group text-foreground hover:text-amber-500 transition-colors duration-200 font-medium text-sm ${(pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))) ? 'text-amber-500' : ''}`}>
+                    {t[item.key as keyof typeof t]}
+                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-amber-500 w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${(pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))) ? 'scale-x-100' : ''}`} />
+                </Link>
+            )))}
+        </nav>
+    )
+}
+
+function ProductDropdown({ item, t }: { item: any, t: any }) {
+    const [isOpen, setIsOpen] = useState(false)
+    return (
+        <motion.div onHoverStart={() => setIsOpen(true)} onHoverEnd={() => setIsOpen(false)} className="relative">
+            <Link href={item.href} className="relative group text-foreground hover:text-amber-500 transition-colors duration-200 font-medium text-sm flex items-center gap-1">
+                {t[item.key]} <ChevronDown className="h-4 w-4 transition-transform duration-300 group-hover:rotate-180" />
+            </Link>
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }} className="absolute top-full left-1/2 -translate-x-1/2 pt-2">
+                        <div className="bg-background border rounded-lg shadow-lg w-48 p-2">
+                            {item.dropdown.map((subItem: any) => (
+                                <Link key={subItem.key} href={subItem.href} className="block px-3 py-2 text-sm rounded-md hover:bg-muted">
+                                    {t[subItem.key]}
+                                </Link>
+                            ))}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </motion.div>
+    )
+}
+
+function NavActions({ language, onLanguageChange, isDarkMode, onThemeToggle }: Omit<NavigationProps, 'isRTL'>) {
+    const { openCart, getItemCount } = useCart()
+    const t = translations[language]
+
+    return (
+        <>
+           
+
+        
+            {/* Cart Button */}
+            <Button variant="ghost" size="icon" className="relative" onClick={openCart} aria-label="Open cart">
+                <ShoppingCart className="h-5 w-5" />
+                <AnimatePresence>
+                {getItemCount() > 0 && (
+                    <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }} transition={{ type: 'spring', stiffness: 500, damping: 30 }} className="absolute -top-1 -right-1">
+                        <Badge variant="destructive" className="h-5 w-5 p-0 flex items-center justify-center text-xs rounded-full">{getItemCount()}</Badge>
+                    </motion.div>
+                )}
+                </AnimatePresence>
+            </Button>
+
+            {/* Order Now Button */}
+            <div className="hidden md:block ml-2">
+                <Link href="/products">
+                    <Button className="bg-amber-500 hover:bg-amber-500/90 text-primary-foreground">{t.orderNow}</Button>
+                </Link>
+            </div>
+        </>
+    )
+}
+
+function MobileNav({ isOpen, setIsOpen, language, onLanguageChange, isDarkMode, onThemeToggle, pathname }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void } & Omit<NavigationProps, 'isRTL'> & { pathname: string }) {
+    const t = translations[language]
+    const navItems = [{ key: "home", href: "/" }, { key: "products", href: "/products" }, { key: "about", href: "/about" }, { key: "blog", href: "/blog" }, { key: "contact", href: "/contact" }]
+
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-50 md:hidden" onClick={() => setIsOpen(false)}>
+                    <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: "easeInOut" }} className="absolute inset-y-0 right-0 w-full max-w-sm bg-background shadow-lg flex flex-col" onClick={e => e.stopPropagation()}>
+                        <div className="p-4 flex justify-between items-center border-b">
+                            <h2 className="font-playfair font-semibold">Menu</h2>
+                            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Close menu"><X className="h-6 w-6" /></Button>
+                        </div>
+                        <nav className="flex-grow p-6 flex flex-col gap-y-4">
+                            {navItems.map((item) => (
+                                <Link key={item.key} href={item.href} className={`text-lg font-medium p-3 rounded-md transition-colors ${pathname === item.href ? 'bg-muted text-amber-500' : 'hover:bg-muted'}`} onClick={() => setIsOpen(false)}>
+                                    {t[item.key as keyof typeof t]}
+                                </Link>
+                            ))}
+                        </nav>
+                        <div className="p-6 border-t">
+                            <Link href="/products" onClick={() => setIsOpen(false)}>
+                                <Button size="lg" className="w-full bg-amber-500 hover:bg-amber-500/90 text-primary-foreground">{t.orderNow}</Button>
+                            </Link>
+                            <MoroccanDivider className="my-6" />
+                            <div className="flex justify-center gap-x-4">
+                               <NavActions language={language} onLanguageChange={onLanguageChange} isDarkMode={isDarkMode} onThemeToggle={onThemeToggle} />
+                            </div>
+                        </div>
+                    </motion.div>
+                </motion.div>
+            )}
+        </AnimatePresence>
+    )
+}
+
+function DropdownMenu({ trigger, children }: { trigger: React.ReactNode, children: React.ReactNode }) {
+    const [isOpen, setIsOpen] = useState(false);
+    return (
+        <div className="relative" onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+            {trigger}
+            <AnimatePresence>
+                {isOpen && (
+                    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: 10 }} transition={{ duration: 0.2 }} className="absolute top-full right-0 mt-2 z-50">
+                        <div className="bg-background border rounded-lg shadow-lg w-36 p-2">
+                            {children}
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    );
 }

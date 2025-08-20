@@ -1,75 +1,50 @@
+// components/navigation-wrapper.tsx
 "use client"
 
-import { useState, useEffect } from "react"
-import { Navigation } from "./navigation"
+import { useState, useEffect } from 'react'
+import { useTheme } from 'next-themes'
+import { Navigation } from './navigation' // Your main navigation component
 
 export function NavigationWrapper() {
-  const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
-  const [isDarkMode, setIsDarkMode] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+  // --- ADDED: Language state management ---
+  const [language, setLanguage] = useState<'en' | 'fr' | 'ar'>('fr')
 
-  // Handle hydration
   useEffect(() => {
+    // This handles hydration errors with next-themes
     setMounted(true)
-
-    // Load saved language from localStorage
-    const savedLanguage = localStorage.getItem("language") as "en" | "fr" | "ar"
-    if (savedLanguage && ["en", "fr", "ar"].includes(savedLanguage)) {
-      setLanguage(savedLanguage)
+    // You could also load the language from localStorage here
+    const storedLang = localStorage.getItem('language')
+    if (storedLang && ['en', 'fr', 'ar'].includes(storedLang)) {
+      setLanguage(storedLang as 'en' | 'fr' | 'ar');
     }
-
-    // Load saved theme from localStoragezz
-    const savedTheme = localStorage.getItem("theme")
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches
-    setIsDarkMode(savedTheme === "dark" || (!savedTheme && prefersDark))
   }, [])
 
-  // Update document attributes when language changes
-  useEffect(() => {
-    if (mounted) {
-      document.documentElement.lang = language
-      document.documentElement.dir = language === "ar" ? "rtl" : "ltr"
-      localStorage.setItem("language", language)
-    }
-  }, [language, mounted])
-
-  // Update theme when isDarkMode changes
-  useEffect(() => {
-    if (mounted) {
-      if (isDarkMode) {
-        document.documentElement.classList.add("dark")
-        localStorage.setItem("theme", "dark")
-      } else {
-        document.documentElement.classList.remove("dark")
-        localStorage.setItem("theme", "light")
-      }
-    }
-  }, [isDarkMode, mounted])
-
-
-  const handleThemeToggle = () => {
-    setIsDarkMode(!isDarkMode)
+  // --- ADDED: Handler to change language and save it ---
+  const handleLanguageChange = (lang: 'en' | 'fr' | 'ar') => {
+    setLanguage(lang)
+    localStorage.setItem('language', lang)
+    // This line is important for RTL support
+    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'
+    document.documentElement.lang = lang
   }
 
-  // Don't render until mounted to avoid hydration mismatch
+  const handleThemeToggle = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
   if (!mounted) {
-    return (
-      <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b border-border">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex-shrink-0">
-              <h1 className="font-great-vibes text-2xl md:text-3xl text-primary font-bold">Pâtisserie Marocaine</h1>
-            </div>
-          </div>
-        </div>
-      </nav>
-    )
+    // Render a placeholder or null on the server to avoid hydration mismatch
+    // A simple height placeholder can prevent layout shift
+    return <header className="h-20" />
   }
 
   return (
     <Navigation
       language={language}
-      isDarkMode={isDarkMode}
+      onLanguageChange={handleLanguageChange}
+      isDarkMode={theme === 'dark'}
       onThemeToggle={handleThemeToggle}
     />
   )
