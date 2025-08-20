@@ -92,6 +92,7 @@ export default function ProductsClient() {
         new: "Nouveau",
         bestseller: "Bestseller",
         rating: "Note minimum",
+        allRatings: "Toutes",
         sortBy: "Trier par",
         clearAll: "Effacer tout",
         showFilters: "Afficher les filtres",
@@ -138,6 +139,7 @@ export default function ProductsClient() {
         new: "جديد",
         bestseller: "الأكثر مبيعاً",
         rating: "أقل تقييم",
+        allRatings: "الكل",
         sortBy: "ترتيب حسب",
         clearAll: "مسح الكل",
         showFilters: "إظهار المرشحات",
@@ -184,6 +186,7 @@ export default function ProductsClient() {
         new: "New",
         bestseller: "Bestseller",
         rating: "Minimum Rating",
+        allRatings: "All",
         sortBy: "Sort By",
         clearAll: "Clear All",
         showFilters: "Show Filters",
@@ -215,6 +218,11 @@ export default function ProductsClient() {
   const isRTL = language === "ar"
 
   const filteredAndSortedProducts = useMemo(() => {
+    // A NOTE ON CATEGORY FILTERING:
+    // This filtering logic relies on string matching the English category name (e.g., product.category.en.toLowerCase().includes("almond")).
+    // This is functional but can be fragile. A more robust solution would be to add a language-agnostic category key to the product data,
+    // for example: `categoryKey: "almond_pastries"`, and filter against that key directly.
+    // This would make the filter independent of display names and prevent potential mismatches.
     const filtered = products.filter((product) => {
       if (searchQuery) {
         const searchLower = searchQuery.toLowerCase()
@@ -234,7 +242,8 @@ export default function ProductsClient() {
           filled: productCategoryEn.includes("filled"),
           phyllo: productCategoryEn.includes("phyllo"),
         }
-        if (!categoryMatches[selectedCategoryLower]) return false
+        if (!(selectedCategoryLower in categoryMatches)) return false
+        if (!categoryMatches[selectedCategoryLower as keyof typeof categoryMatches]) return false
       }
       if (product.price < priceRange[0] || product.price > priceRange[1]) return false
       if (showInStock && !product.inStock) return false
@@ -245,26 +254,30 @@ export default function ProductsClient() {
       return true
     })
 
+    const sorted = [...filtered]; // Create a new array to avoid mutating the filtered array directly
+
     switch (sortBy) {
       case "priceLowHigh":
-        filtered.sort((a, b) => a.price - b.price)
+        sorted.sort((a, b) => a.price - b.price)
         break
       case "priceHighLow":
-        filtered.sort((a, b) => b.price - a.price)
+        sorted.sort((a, b) => b.price - a.price)
         break
       case "rating":
-        filtered.sort((a, b) => b.rating - a.rating)
+        sorted.sort((a, b) => b.rating - a.rating)
         break
       case "name":
-        filtered.sort((a, b) => a.name[language].localeCompare(b.name[language]))
+        sorted.sort((a, b) => a.name[language].localeCompare(b.name[language]))
         break
       case "newest":
-        filtered.sort((a, b) => (b.isNew ? 1 : 0) - (a.isNew ? 1 : 0))
+        // This sort puts 'new' items first
+        sorted.sort((a, b) => Number(b.isNew) - Number(a.isNew))
         break
       default:
+        // No sort applied, or sort by a default criterion if needed
         break
     }
-    return filtered
+    return sorted
   }, [
     searchQuery,
     selectedCategory,
@@ -281,7 +294,7 @@ export default function ProductsClient() {
   const selectedProduct = selectedProductId ? products.find((p) => p.id === selectedProductId) : null
 
   return (
-    <div className={`min-h-screen   ${isRTL ? "rtl" : "ltr"}`}>
+    <div className={`min-h-screen ${isRTL ? "rtl" : "ltr"}`}>
       {/* Breadcrumb Navigation */}
       <div className="container mx-auto px-4 pt-24 pb-8">
         <nav className={`flex items-center space-x-2 text-sm text-gray-600 mb-8 ${isRTL ? "space-x-reverse" : ""}`}>
@@ -296,27 +309,26 @@ export default function ProductsClient() {
       {/* Hero Section */}
       <section className="container mx-auto px-4 pb-16">
         <div className="text-center max-w-4xl mx-auto">
-          <h1 className="font-great-vibes text-6xl md:text-7xl" style={{ color: "#d4b05d" }}>{t.title}</h1>
-          <p className="font-playfair text-2xl md:text-3xl" style={{ color: "#d4b05d" }}>{t.subtitle}</p>
-          <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto">{t.description}</p>
+            <h1 className="font-great-vibes text-6xl md:text-7xl" style={{ color: "#d4b05d" }}>{t.title}</h1>
+            <p className="font-playfair text-2xl md:text-3xl" style={{ color: "#d4b05d" }}>{t.subtitle}</p>
+            <MoroccanDivider />
+            <p className="font-poppins text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
         </div>
       </section>
 
-      <MoroccanDivider />
-
       {/* Filters and Products Section */}
       <section className="py-16">
-        <div className="container  mx-auto px-4">
-          <div className="flex flex-col  lg:flex-row gap-8">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col lg:flex-row gap-8">
             {/* Filters Sidebar */}
             <div className="lg:w-1/4">
               {/* Mobile Filter Toggle */}
-              <div className="lg:hidden  mb-4">
+              <div className="lg:hidden mb-4">
                 <Button
                   variant="outline"
                   onClick={() => setShowFilters(!showFilters)}
                   className="w-full flex hover:bg-[#8e9b7a] items-center justify-center gap-2"
-                  style={{ borderColor: "#8e9b7a", color: "#" }}
+                  style={{ borderColor: "#8e9b7a", color: "#8e9b7a" }}
                 >
                   <Filter className="h-4 w-4" />
                   {showFilters ? t.filters.hideFilters : t.filters.showFilters}
@@ -327,10 +339,10 @@ export default function ProductsClient() {
               {/* Filters Panel */}
               <div className={`lg:block ${showFilters ? "block" : "hidden"}`}>
                 <Card className="bg-[#f4ead5]">
-                  <CardHeader className="pb-4 ">
+                  <CardHeader className="pb-4">
                     <div className="flex items-center justify-between">
-                      <CardTitle className="text-lg font-playfair" style={{ color: "#" }}>{t.filters.title}</CardTitle>
-                      <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs" style={{ color: "#" }}>
+                      <CardTitle className="text-lg font-playfair" style={{ color: "#d4b05d" }}>{t.filters.title}</CardTitle>
+                      <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs" style={{ color: "#d4b05d" }}>
                         <X className="h-3 w-3 mr-1" />
                         {t.filters.clearAll}
                       </Button>
@@ -339,7 +351,7 @@ export default function ProductsClient() {
                   <CardContent className="space-y-6">
                     {/* Search */}
                     <div>
-                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#" }}>{t.filters.search}</Label>
+                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.search}</Label>
                       <div className="relative">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <Input
@@ -347,16 +359,16 @@ export default function ProductsClient() {
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           className="pl-10"
-                          style={{ borderColor: "#" }}
+                          style={{ borderColor: "#d4b05d" }}
                         />
                       </div>
                     </div>
 
                     {/* Category */}
                     <div>
-                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#" }}>{t.filters.category}</Label>
+                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.category}</Label>
                       <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                        <SelectTrigger style={{ borderColor: "#", color: "#" }}>
+                        <SelectTrigger style={{ borderColor: "#d4b05d", color: "#d4b05d" }}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -389,17 +401,18 @@ export default function ProductsClient() {
 
                     {/* Availability */}
                     <div>
-                      <Label className="text-sm font-medium mb-3 block" style={{ color: "#" }}>{t.filters.availability}</Label>
+                      <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.availability}</Label>
                       <div className="space-y-2">
                         <div className="flex items-center space-x-2">
-                          <Checkbox id="inStock" checked={showInStock} onCheckedChange={setShowInStock} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                          <Label htmlFor="inStock" className="text-sm" style={{ color: "#" }}>
+                          {/* FIX 1: Correctly handle onCheckedChange */}
+                          <Checkbox id="inStock" checked={showInStock} onCheckedChange={(checked) => setShowInStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                          <Label htmlFor="inStock" className="text-sm" style={{ color: "#d4b05d" }}>
                             {t.filters.inStock}
                           </Label>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <Checkbox id="outOfStock" checked={showOutOfStock} onCheckedChange={setShowOutOfStock} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                          <Label htmlFor="outOfStock" className="text-sm" style={{ color: "#" }}>
+                          <Checkbox id="outOfStock" checked={showOutOfStock} onCheckedChange={(checked) => setShowOutOfStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                          <Label htmlFor="outOfStock" className="text-sm" style={{ color: "#d4b05d" }}>
                             {t.filters.outOfStock}
                           </Label>
                         </div>
@@ -408,27 +421,28 @@ export default function ProductsClient() {
 
                     {/* Special Filters */}
                     <div>
-                      <Label className="text-sm font-medium mb-3 block" style={{ color: "#" }}>{t.filters.special}</Label>
-                      <div className="space-y-2">
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="new" checked={showNew} onCheckedChange={setShowNew} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                          <Label htmlFor="new" className="text-sm" style={{ color: "#" }}>
-                            {t.filters.new}
-                          </Label>
+                        <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.special}</Label>
+                        <div className="space-y-2">
+                            <div className="flex items-center space-x-2">
+                                <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                <Label htmlFor="new" className="text-sm" style={{ color: "#d4b05d" }}>
+                                    {t.filters.new}
+                                </Label>
+                            </div>
+                            <div className="flex items-center space-x-2">
+                                <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                <Label htmlFor="bestseller" className="text-sm" style={{ color: "#d4b05d" }}>
+                                    {t.filters.bestseller}
+                                </Label>
+                            </div>
                         </div>
-                        <div className="flex items-center space-x-2">
-                          <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={setShowBestseller} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                          <Label htmlFor="bestseller" className="text-sm" style={{ color: "#" }}>
-                            {t.filters.bestseller}
-                          </Label>
-                        </div>
-                      </div>
                     </div>
 
                     {/* Rating Filter */}
                     <div>
-                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#" }}>
-                        {t.filters.rating}: {minRating > 0 ? `${minRating}+` : "Toutes"}
+                      <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>
+                        {/* FIX 2: Use translation for the 'All' ratings text */}
+                        {t.filters.rating}: {minRating > 0 ? `${minRating}+` : t.filters.allRatings}
                       </Label>
                       <div className="flex items-center space-x-1">
                         {[1, 2, 3, 4, 5].map((rating) => (
@@ -518,37 +532,31 @@ export default function ProductsClient() {
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
-            "@type": "Store",
-            name: "Pâtisseries Marocaines Authentiques",
-            description: "Boutique en ligne de pâtisseries marocaines traditionnelles",
-            url: "https://yoursite.com/products",
-            address: {
-              "@type": "PostalAddress",
-              addressCountry: "MA",
-              addressLocality: "Casablanca",
-            },
-            hasOfferCatalog: {
-              "@type": "OfferCatalog",
-              name: "Pâtisseries Marocaines",
-              itemListElement: filteredAndSortedProducts.map((product) => ({
-                "@type": "Offer",
-                itemOffered: {
-                  "@type": "Product",
-                  name: product.name[language],
-                  category: product.category[language],
-                  offers: {
-                    "@type": "Offer",
-                    price: product.price,
-                    priceCurrency: "MAD",
-                    availability: product.inStock ? "InStock" : "OutOfStock",
-                  },
+            "@type": "ItemList",
+            "name": t.title,
+            "description": t.description,
+            "url": "https://yoursite.com/products", // Replace with the actual URL
+            "numberOfItems": filteredAndSortedProducts.length,
+            "itemListElement": filteredAndSortedProducts.map((product, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "item": {
+                "@type": "Product",
+                "name": product.name[language],
+                "category": product.category[language],
+                "offers": {
+                  "@type": "Offer",
+                  "price": product.price,
+                  "priceCurrency": "MAD",
+                  // FIX 3: Use full Schema.org URLs for availability
+                  "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
                 },
-              })),
-            },
+              },
+            })),
           }),
         }}
       />
-
+      
       <style jsx>{`
         @keyframes fade-in-up {
           from {
