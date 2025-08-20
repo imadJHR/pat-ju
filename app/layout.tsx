@@ -1,13 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-// Corrected: Import all fonts from next/font/google
-import { Poppins, Great_Vibes, Playfair_Display } from "next/font/google"
+import { Poppins } from "next/font/google"
 import "./globals.css"
 import { NavigationWrapper } from "@/components/navigation-wrapper"
 import { FooterWrapper } from "@/components/footer-wrapper"
 import { BackToTopWrapper } from "@/components/back-to-top-wrapper"
 
-// Corrected: Set up all fonts using the recommended method
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700"],
@@ -15,34 +13,20 @@ const poppins = Poppins({
   display: "swap",
 })
 
-const greatVibes = Great_Vibes({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-great-vibes",
-  display: "swap",
-})
-
-const playfairDisplay = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-playfair-display",
-  display: "swap",
-})
-
 export const metadata: Metadata = {
-  title: "Pâtisserie Les Jumeaux | Pâtisserie Marocaine à Casablanca",
+  title: "Pâtisserie Marocaine | Authentic Moroccan Pastries",
   description:
-    "Découvrez les meilleures pâtisseries marocaines authentiques à Casablanca. Pâtisserie Les Jumeaux vous propose des recettes traditionnelles avec des ingrédients premium. Commandez en ligne et payez à la livraison.",
-  keywords: "pâtisserie marocaine, Casablanca, gâteaux marocains, sucreries traditionnelles, baklava, chebakia, commande en ligne, paiement à la livraison",
-  authors: [{ name: "Pâtisserie Les Jumeaux" }],
-  generator: "Next.js",
+    "Discover the finest authentic Moroccan pastries crafted with traditional recipes and premium ingredients. Order online with cash on delivery.",
+  keywords: "Moroccan pastries, pâtisserie marocaine, traditional sweets, baklava, chebakia, authentic desserts",
+  authors: [{ name: "Pâtisserie Marocaine" }],
+  generator: "v0.app",
   openGraph: {
-    title: "Pâtisserie Les Jumeaux | Pâtisserie Marocaine Authentique",
+    title: "Pâtisserie Marocaine | Authentic Moroccan Pastries",
     description:
-      "Le meilleur de la pâtisserie marocaine traditionnelle, préparé avec passion à Casablanca.",
+      "Discover the finest authentic Moroccan pastries crafted with traditional recipes and premium ingredients.",
     type: "website",
-    locale: "fr_MA",
-    alternateLocale: ["en_US", "ar_MA"],
+    locale: "en_US",
+    alternateLocale: ["fr_FR", "ar_MA"],
   },
 }
 
@@ -52,15 +36,26 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    // Corrected: Apply all font variables to the <html> tag
-    <html lang="fr" className={`${poppins.variable} ${greatVibes.variable} ${playfairDisplay.variable} antialiased`}>
-      {/*
-        NOTE: The <head> tag with manual <link> and <style> tags has been removed.
-        Next.js's `next/font` handles all font optimization automatically.
-      */}
+    <html lang="en" className={`${poppins.variable} antialiased`}>
+      <head>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+        
+        <style>{`
+html {
+  font-family: ${poppins.style.fontFamily};
+  --font-poppins: ${poppins.variable};
+}
+        `}</style>
+      </head>
       <body className="font-poppins">
         <NavigationWrapper />
-        <main className="min-h-screen bg-background">{children}</main>
+        <div className="min-h-screen bg-background">{children}</div>
         <FooterWrapper />
         <BackToTopWrapper />
       </body>
