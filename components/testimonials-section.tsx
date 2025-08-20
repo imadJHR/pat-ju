@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react"
@@ -150,7 +151,7 @@ export function TestimonialsSection({ language }: TestimonialsSectionProps) {
                       <Quote className="h-12 w-12 text-white/50 mx-auto mb-6" />
 
                       <p className="font-playfair text-lg md:text-xl leading-relaxed mb-8 italic">
-                        "{testimonial.text}"
+                        &ldquo;{testimonial.text}&rdquo;
                       </p>
 
                       <div className="flex justify-center mb-4">
@@ -160,11 +161,14 @@ export function TestimonialsSection({ language }: TestimonialsSectionProps) {
                       </div>
 
                       <div className="flex items-center justify-center gap-4">
-                        <img
-                          src={testimonial.avatar || "/placeholder.svg"}
-                          alt={testimonial.name}
-                          className="w-12 h-12 rounded-full border-2 border-white/30"
-                        />
+                        <div className="relative w-12 h-12 rounded-full border-2 border-white/30 overflow-hidden">
+                          <Image
+                            src={testimonial.avatar || "/placeholder.svg"}
+                            alt={testimonial.name}
+                            fill
+                            className="object-cover"
+                          />
+                        </div>
                         <div className="text-left">
                           <h4 className="font-semibold text-white">{testimonial.name}</h4>
                           <p className="text-white/70 text-sm">{testimonial.location}</p>

@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -81,10 +82,11 @@ export function QuickViewModal({ product, isOpen, onClose, language, onAddToCart
           {/* Image Section */}
           <div className="space-y-4">
             <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
-              <img
+              <Image
                 src={product.images[selectedImageIndex] || "/placeholder.svg"}
                 alt={name}
-                className="w-full h-full object-cover"
+                fill
+                className="object-cover"
               />
 
               {/* Badges */}
@@ -114,11 +116,14 @@ export function QuickViewModal({ product, isOpen, onClose, language, onAddToCart
                     }`}
                     onClick={() => setSelectedImageIndex(index)}
                   >
-                    <img
-                      src={image || "/placeholder.svg"}
-                      alt={`${name} ${index + 1}`}
-                      className="w-full h-full object-cover"
-                    />
+                    <div className="relative w-full h-full">
+                      <Image
+                        src={image || "/placeholder.svg"}
+                        alt={`${name} ${index + 1}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </button>
                 ))}
               </div>

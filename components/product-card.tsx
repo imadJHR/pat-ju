@@ -1,10 +1,11 @@
 "use client"
 
 import { useState } from "react"
+import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Star, ShoppingCart, Heart, Eye } from "lucide-react"
+import { Star, ShoppingCart, Eye } from "lucide-react"
 import type { Product } from "@/types/product"
 
 interface ProductCardProps {
@@ -15,8 +16,6 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product, language, onAddToCart, onQuickView }: ProductCardProps) {
-  const [isHovered, setIsHovered] = useState(false)
-  const [isFavorited, setIsFavorited] = useState(false)
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
 
   const isRTL = language === "ar"
@@ -56,15 +55,14 @@ export function ProductCard({ product, language, onAddToCart, onQuickView }: Pro
   return (
     <Card
       className={`group bg-[#f4ead5] relative overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-2  border-border ${isRTL ? "rtl" : "ltr"}`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Image Container */}
       <div className="relative aspect-square overflow-hidden">
-        <img
+        <Image
           src={product.images[currentImageIndex] || "/placeholder.svg"}
           alt={name}
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          fill
+          className="object-cover transition-transform duration-500 group-hover:scale-110"
         />
 
         {/* Overlay with Actions */}

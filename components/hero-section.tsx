@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 
 interface HeroSectionProps {
@@ -51,10 +52,12 @@ export function HeroSection({ language }: HeroSectionProps) {
     >
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/placeholder.svg?height=1080&width=1920"
           alt="Moroccan Pastries"
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/60"></div>
       </div>

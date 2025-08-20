@@ -3,6 +3,7 @@ import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
+import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,11 +13,23 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { CreditCard, Truck, MapPin, Phone, Mail, User } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
-import type { ShippingAddress } from "@/types/cart"
+import type { ShippingAddress, CartItem } from "@/types/cart"
 
 interface CheckoutFormProps {
   language: "en" | "fr" | "ar"
-  onOrderComplete: (orderData: any) => void
+  onOrderComplete: (orderData: OrderData) => void
+}
+
+interface OrderData {
+  id: string
+  items: CartItem[]
+  shippingAddress: ShippingAddress
+  subtotal: number
+  shipping: number
+  total: number
+  paymentMethod: "cod"
+  status: "pending"
+  createdAt: Date
 }
 
 const translations = {
@@ -103,7 +116,7 @@ const translations = {
   },
 }
 
-const createSchema = (t: any) =>
+const createSchema = (t: typeof translations.en) =>
   z.object({
     firstName: z.string().min(1, t.required),
     lastName: z.string().min(1, t.required),
@@ -138,15 +151,15 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
   const onSubmit = async (data: ShippingAddress) => {
     setIsProcessing(true)
     await new Promise((resolve) => setTimeout(resolve, 2000))
-    const orderData = {
+    const orderData: OrderData = {
       id: `ORD-${Date.now()}`,
       items,
       shippingAddress: data,
       subtotal,
       shipping,
       total,
-      paymentMethod: "cod" as const,
-      status: "pending" as const,
+      paymentMethod: "cod",
+      status: "pending",
       createdAt: new Date(),
     }
     clearCart()
@@ -342,11 +355,14 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                 <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
                   {items.map((item) => (
                     <div key={item.id} className="flex items-start gap-4 p-3 bg-white rounded-lg">
-                      <img
-                        src={item.image || "/placeholder.svg"}
-                        alt={item.name[language]}
-                        className="w-14 h-14 object-cover rounded-md flex-shrink-0"
-                      />
+                      <div className="w-14 h-14 relative flex-shrink-0">
+                        <Image
+                          src={item.image || "/placeholder.svg"}
+                          alt={item.name[language]}
+                          fill
+                          className="object-cover rounded-md"
+                        />
+                      </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-medium text-black line-clamp-1">
                           {item.name[language]}

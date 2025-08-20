@@ -8,8 +8,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { ShoppingCart, Menu, X, Globe, Sun, Moon } from "lucide-react"
+import { ShoppingCart, Menu, X, Sun, Moon } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
 
@@ -77,7 +76,7 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false)
     }
-  }, [pathname])
+  }, [pathname, isMobileMenuOpen])
 
   // Prevent scrolling when mobile menu is open
   useEffect(() => {
@@ -186,23 +185,6 @@ export function Navigation({ language, onLanguageChange, isDarkMode, onThemeTogg
 
             {/* Right side controls */}
             <div className="flex items-center space-x-1 sm:space-x-2">
-              {/* Language Selector */}
-              <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
-               {/* <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="w-8 h-8">
-                      <Globe className="h-4 w-4" />
-                      <span className="sr-only">{t.language}</span>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem onClick={() => onLanguageChange("en")}>English</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onLanguageChange("fr")}>Français</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => onLanguageChange("ar")}>العربية</DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu> */}
-              </motion.div>
-
               {/* Theme Toggle */}
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button variant="ghost" size="icon" className="w-8 h-8" onClick={onThemeToggle}>
