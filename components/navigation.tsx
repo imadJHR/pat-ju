@@ -14,7 +14,6 @@ import { CartDrawer } from "./cart-drawer"
 
 interface NavigationProps {
   language: "en" | "fr" | "ar"
-  onLanguageChange: (lang: "en" | "fr" | "ar") => void
   isDarkMode: boolean
   onThemeToggle: () => void
 }
@@ -52,7 +51,7 @@ const translations = {
   },
 }
 
-export function Navigation({ language, onLanguageChange, isDarkMode, onThemeToggle }: NavigationProps) {
+export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   // NEW: State to track scroll position for header animation
   const [isScrolled, setIsScrolled] = useState(false)
