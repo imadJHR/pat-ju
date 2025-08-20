@@ -46,9 +46,6 @@ export function NavigationWrapper() {
     }
   }, [isDarkMode, mounted])
 
-  const handleLanguageChange = (lang: "en" | "fr" | "ar") => {
-    setLanguage(lang)
-  }
 
   const handleThemeToggle = () => {
     setIsDarkMode(!isDarkMode)

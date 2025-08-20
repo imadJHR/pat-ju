@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-// NEW: Framer Motion imports for animation
-import { motion, AnimatePresence } from "framer-motion"
+// FIX: Import the 'Variants' type from framer-motion
+import { motion, AnimatePresence, Variants } from "framer-motion"
 
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -53,7 +53,6 @@ const translations = {
 
 export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  // NEW: State to track scroll position for header animation
   const [isScrolled, setIsScrolled] = useState(false)
   
   const { openCart, getItemCount } = useCart()
@@ -61,7 +60,6 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
   const isRTL = language === "ar"
   const pathname = usePathname()
 
-  // NEW: Effect for header scroll animation
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10)
@@ -70,14 +68,13 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
     return () => window.removeEventListener("scroll", handleScroll)
   }, [])
 
-  // Close mobile menu on route change
   useEffect(() => {
     if (isMobileMenuOpen) {
       setIsMobileMenuOpen(false)
     }
-  }, [pathname, isMobileMenuOpen])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname])
 
-  // Prevent scrolling when mobile menu is open
   useEffect(() => {
     if (isMobileMenuOpen) {
       document.body.style.overflow = 'hidden'
@@ -89,7 +86,6 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
     }
   }, [isMobileMenuOpen])
 
-
   const navItems = [
     { key: "home", href: "/" },
     { key: "products", href: "/products" },
@@ -98,8 +94,8 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
     { key: "contact", href: "/contact" },
   ]
 
-  // NEW: Animation variants for the mobile menu container
-  const mobileMenuVariants = {
+  // FIX: Added the 'Variants' type annotation
+  const mobileMenuVariants: Variants = {
     hidden: {
       x: isRTL ? "100%" : "-100%",
       opacity: 0,
@@ -120,17 +116,19 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
     },
   }
 
-  // NEW: Animation variants for the list and items inside mobile menu
-  const navListVariants = {
+  // FIX: Added the 'Variants' type annotation for consistency
+  const navListVariants: Variants = {
     visible: {
       transition: {
         staggerChildren: 0.08,
         delayChildren: 0.2,
       },
     },
+    hidden: {}, // Add a hidden variant for completeness
   }
 
-  const navItemVariants = {
+  // FIX: Added the 'Variants' type annotation
+  const navItemVariants: Variants = {
     hidden: { y: 20, opacity: 0 },
     visible: {
       y: 0,
@@ -146,15 +144,12 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
   return (
     <>
       <header
-        // CHANGED: Added classes for scroll animation
-        className={`sticky top-0 z-50 w-full transition-all duration-300 border-b border-border 
-        ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md" : "bg-background/95 backdrop-blur"}
+        className={`sticky top-0 z-50 w-full transition-all duration-300 border-b 
+        ${isScrolled ? "bg-background/80 backdrop-blur-lg shadow-md border-border" : "bg-background/95 backdrop-blur border-transparent"}
         ${isRTL ? "rtl" : "ltr"}`}
       >
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* CHANGED: Added height transition for header shrink effect */}
           <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-14' : 'h-16'}`}>
-            {/* Logo */}
             <div className="flex-shrink-0">
               <Link href="/" className="flex items-center">
                 <motion.h1 
@@ -167,24 +162,20 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
               </Link>
             </div>
 
-            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-4 lg:space-x-8">
               {navItems.map((item) => (
                 <Link
                   key={item.key}
                   href={item.href}
-                  className="relative group text-foreground hover:text-primary  transition-colors duration-200 font-medium"
+                  className="relative group text-foreground hover:text-primary transition-colors duration-200 font-medium"
                 >
                   {t[item.key as keyof typeof t]}
-                  {/* NEW: Animated underline for desktop links */}
-                  <span className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#d0a84b]  w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-center ${pathname === item.href ? 'scale-x-100' : ''}`} />
+                  <span className={`absolute bottom-[-4px] left-0 h-0.5 bg-[#d0a84b] w-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out origin-center ${pathname === item.href ? 'scale-x-100' : ''}`} />
                 </Link>
               ))}
             </nav>
 
-            {/* Right side controls */}
             <div className="flex items-center space-x-1 sm:space-x-2">
-              {/* Theme Toggle */}
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button variant="ghost" size="icon" className="w-8 h-8" onClick={onThemeToggle}>
                   <AnimatePresence mode="wait" initial={false}>
@@ -202,7 +193,6 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
                 </Button>
               </motion.div>
 
-              {/* Cart */}
               <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                 <Button variant="ghost" size="icon" className="relative w-8 h-8" onClick={openCart}>
                   <ShoppingCart className="h-5 w-5" />
@@ -218,7 +208,6 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
                 </Button>
               </motion.div>
 
-              {/* CTA Button */}
               <div className="hidden md:block ml-2">
                 <Link href="/products">
                   <Button className="bg-[#d0a84b] hover:bg-[#d0a84b]/90 text-primary-foreground">
@@ -227,7 +216,6 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
                 </Link>
               </div>
 
-              {/* Mobile menu button */}
               <div className="md:hidden ml-2">
                 <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.9 }}>
                   <Button
@@ -257,12 +245,11 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
           </div>
         </div>
 
-        {/* --- Mobile Navigation Menu --- */}
         <AnimatePresence>
           {isMobileMenuOpen && (
             <motion.div
               id="mobile-menu"
-              className="md:hidden fixed inset-x-0 top-14 h-[calc(100vh-3.5rem)] bg-background/95 backdrop-blur-lg z-40" // CHANGED: top value to match scrolled header
+              className="md:hidden fixed inset-x-0 top-14 h-[calc(100vh-3.5rem)] bg-background/95 backdrop-blur-lg z-40"
               initial="hidden"
               animate="visible"
               exit="hidden"
@@ -271,6 +258,8 @@ export function Navigation({ language, isDarkMode, onThemeToggle }: NavigationPr
               <div className="container h-full mx-auto px-4 sm:px-6 lg:px-8 pt-8">
                 <motion.nav 
                   className="flex flex-col space-y-4"
+                  initial="hidden"
+                  animate="visible"
                   variants={navListVariants}
                 >
                   {navItems.map((item) => (
