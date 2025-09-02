@@ -75,20 +75,21 @@ export function Footer({ language }: FooterProps) {
   const isRTL = language === "ar"
 
   return (
-    <footer className={`bg-[#342923] text-background py-16 ${isRTL ? "rtl" : "ltr"}`}>
+   <footer className={`bg-[#342923] text-white py-16 ${isRTL ? "rtl" : "ltr"}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
+        {/* The grid is responsive: 1 column on small screens, 2 on medium, and 4 on large */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <h3 className="font-great-vibes text-3xl text-[#d0a84b] mb-4">patisserie les jumeaux</h3>
-            <p className="text-background/80 mb-6 leading-relaxed">{t.tagline}</p>
+            <h3 className="font-serif text-3xl text-[#d0a84b] mb-4">patisserie les jumeaux</h3>
+            <p className="text-white/80 mb-6 leading-relaxed">{t.tagline}</p>
             <div className="moroccan-stars opacity-20 h-16"></div>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4 text-[#d0a84b]">{t.quickLinks}</h4>
+            <h4 className="font-sans text-lg font-semibold mb-4 text-[#d0a84b]">{t.quickLinks}</h4>
             <ul className="space-y-2">
               {[
                 { key: "home", href: "#home" },
@@ -98,8 +99,8 @@ export function Footer({ language }: FooterProps) {
                 { key: "contact", href: "#contact" },
               ].map((link) => (
                 <li key={link.key}>
-                  <a href={link.href} className="text-background/80 hover:text-primary transition-colors duration-200">
-                    {t[link.key as keyof typeof t]}
+                  <a href={link.href} className="text-white/80 hover:text-[#d0a84b] transition-colors duration-200">
+                    {t[link.key]}
                   </a>
                 </li>
               ))}
@@ -108,70 +109,71 @@ export function Footer({ language }: FooterProps) {
 
           {/* Contact Information */}
           <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4 text-[#d0a84b]">{t.contactInfo}</h4>
+            <h4 className="font-sans text-lg font-semibold mb-4 text-[#d0a84b]">{t.contactInfo}</h4>
             <div className="space-y-3">
               <div className="flex items-center gap-3">
                 <Phone className="h-4 w-4 text-[#d0a84b] flex-shrink-0" />
-                <span className="text-background/80">{t.phone}</span>
+                <span className="text-white/80">{t.phone}</span>
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="h-4 w-4 text-[#d0a84b] flex-shrink-0" />
-                <span className="text-background/80">{t.email}</span>
+                <span className="text-white/80">{t.email}</span>
               </div>
               <div className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 text-[#d0a84b] flex-shrink-0 mt-1" />
-                <span className="text-background/80">{t.address}</span>
+                <span className="text-white/80">{t.address}</span>
               </div>
             </div>
           </div>
 
           {/* Social Media & Newsletter */}
           <div>
-            <h4 className="font-playfair text-lg font-semibold mb-4 text-[#d0a84b]">{t.followUs}</h4>
+            <h4 className="font-sans text-lg font-semibold mb-4 text-[#d0a84b]">{t.followUs}</h4>
             <div className="flex gap-4 mb-6">
               <a
                 href="#"
-                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-foreground transition-colors duration-200"
+                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-[#342923] transition-colors duration-200"
               >
                 <Facebook className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-foreground transition-colors duration-200"
+                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-[#342923] transition-colors duration-200"
               >
-                <Instagram className="h-5 w-5 " />
+                <Instagram className="h-5 w-5" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-foreground transition-colors duration-200"
+                className="w-10 h-10 bg-[#d0a84b]/20 rounded-full flex items-center justify-center hover:bg-[#d0a84b] hover:text-[#342923] transition-colors duration-200"
               >
                 <Twitter className="h-5 w-5" />
               </a>
             </div>
-            <p className="text-background/80 text-sm mb-3">{t.newsletterText}</p>
+            <p className="text-white/80 text-sm mb-3">{t.newsletterText}</p>
             <div className="flex gap-2">
               <input
                 type="email"
                 placeholder="Email"
-                className="flex-1 px-3 py-2 bg-background/10 border border-background/20 rounded-md text-background placeholder-background/60 focus:outline-none focus:ring-2 focus:ring-primary"
+                className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#d0a84b]"
               />
-              <button className="px-4 py-2 bg-[#d0a84b] text-foreground rounded-md hover:bg-primary/90 transition-colors duration-200">
+              <button className="px-4 py-2 bg-[#d0a84b] text-[#342923] rounded-md hover:bg-[#d0a84b]/90 transition-colors duration-200">
                 {t.subscribe}
               </button>
             </div>
           </div>
         </div>
 
-        <MoroccanDivider symbol="✦" className="my-8" />
+        <MoroccanDivider className="my-8" />
 
         {/* Bottom Footer */}
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/60">
+        {/* The layout is responsive: column on small screens, row on medium and up */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
           <p>{t.copyright}</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-primary transition-colors duration-200">
+            <a href="#" className="hover:text-[#d0a84b] transition-colors duration-200">
               {t.privacy}
             </a>
-            <a href="#" className="hover:text-primary transition-colors duration-200">
+            <a href="#" className="hover:text-[#d0a84b] transition-colors duration-200">
               {t.terms}
             </a>
           </div>
