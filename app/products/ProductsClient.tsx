@@ -472,7 +472,7 @@ export default function ProductsClient() {
               </div>
 
               {filteredAndSortedProducts.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+                <div className="grid grid-cols-2 sm:grid-cols-2 xl:grid-cols-4 gap-6">
                   {filteredAndSortedProducts.map((product, index) => (
                     <div key={product.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
                       <ProductCard
