@@ -6,10 +6,10 @@ import { usePathname } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react" // Simplified imports
+import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react" 
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
-import { MoroccanDivider } from "@/components/moroccan-divider" // Assuming this exists
+import { MoroccanDivider } from "@/components/moroccan-divider"
 
 // Translations object (kept for French text)
 const translations = {
@@ -62,7 +62,7 @@ export function Navigation() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
             <Link href="/" className="flex-shrink-0">
-                <h1 className="font-great-vibes text-3xl md:text-4xl text-amber-500 font-bold cursor-pointer">
+                <h1 className="font-great-vibes text-3xl md:text-4xl text-[#fe9a00] font-bold cursor-pointer">
                     Pâtisserie Les Jumeaux
                 </h1>
             </Link>
