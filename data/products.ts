@@ -863,7 +863,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat26],
+    images: [pat26.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -894,7 +894,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat27],
+    images: [pat27.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -925,7 +925,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat28],
+    images: [pat28.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
