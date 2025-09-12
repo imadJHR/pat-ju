@@ -17,14 +17,14 @@ const translations = {
     contact: "Contact",
     blog: "Blog",
     contactInfo: "Contact Information",
-    phone: "+1 (555) 123-4567",
-    email: "info@patisseriemarocaine.com",
-    address: "123 Pastry Street, Culinary District, NY 10001",
+    phone: "+212 6 12 34 56 78", // Corrected for Morocco
+    email: "contact@patisserielesjumeaux.ma",
+    address: "25 Avenue des Jumeaux, Casablanca, Morocco",
     followUs: "Follow Us",
     newsletter: "Newsletter",
     newsletterText: "Subscribe to receive updates about new pastries and special offers",
     subscribe: "Subscribe",
-    copyright: "© 2024 Pâtisserie Marocaine. All rights reserved.",
+    copyright: "© 2024 Pâtisserie Les Jumeaux. All rights reserved.",
     privacy: "Privacy Policy",
     terms: "Terms of Service",
   },
@@ -37,14 +37,14 @@ const translations = {
     contact: "Contact",
     blog: "Blog",
     contactInfo: "Informations de Contact",
-    phone: "+1 (555) 123-4567",
-    email: "info@patisseriemarocaine.com",
-    address: "123 Rue des Pâtisseries, Quartier Culinaire, NY 10001",
+    phone: "+212 6 12 34 56 78", // Corrected for Morocco
+    email: "contact@patisserielesjumeaux.ma",
+    address: "25 Avenue des Jumeaux, Casablanca, Maroc",
     followUs: "Suivez-Nous",
     newsletter: "Newsletter",
     newsletterText: "Abonnez-vous pour recevoir des mises à jour sur les nouvelles pâtisseries et offres spéciales",
     subscribe: "S'abonner",
-    copyright: "© 2024 Pâtisserie Marocaine. Tous droits réservés.",
+    copyright: "© 2024 Pâtisserie Les Jumeaux. Tous droits réservés.",
     privacy: "Politique de Confidentialité",
     terms: "Conditions d'Utilisation",
   },
@@ -57,32 +57,46 @@ const translations = {
     contact: "اتصل بنا",
     blog: "المدونة",
     contactInfo: "معلومات الاتصال",
-    phone: "+1 (555) 123-4567",
-    email: "info@patisseriemarocaine.com",
-    address: "123 شارع المعجنات، الحي الطهوي، نيويورك 10001",
+    phone: "+212 6 12 34 56 78", // Corrected for Morocco
+    email: "contact@patisserielesjumeaux.ma",
+    address: "25 شارع التوأم، الدار البيضاء، المغرب",
     followUs: "تابعنا",
     newsletter: "النشرة الإخبارية",
     newsletterText: "اشترك لتلقي التحديثات حول المعجنات الجديدة والعروض الخاصة",
     subscribe: "اشتراك",
-    copyright: "© 2024 حلويات مغربية. جميع الحقوق محفوظة.",
+    copyright: "© 2024 حلويات التوأم. جميع الحقوق محفوظة.",
     privacy: "سياسة الخصوصية",
     terms: "شروط الخدمة",
   },
 }
 
+// Define a type for a single translation set to ensure consistency
+type TranslationSet = typeof translations['en'];
+// Define a type for the keys that are used in the quick links
+type QuickLinkKey = "home" | "products" | "about" | "blog" | "contact";
+
+
 export function Footer({ language }: FooterProps) {
-  const t = translations[language]
+  const t: TranslationSet = translations[language]
   const isRTL = language === "ar"
 
+  // Define the links with the specific key type
+  const quickLinks: { key: QuickLinkKey; href: string }[] = [
+    { key: "home", href: "#home" },
+    { key: "products", href: "#products" },
+    { key: "about", href: "#about" },
+    { key: "blog", href: "#blog" },
+    { key: "contact", href: "#contact" },
+  ];
+
   return (
-   <footer className={`bg-[#342923] text-white py-16 ${isRTL ? "rtl" : "ltr"}`}>
+    <footer className={`bg-[#342923] text-white py-16 ${isRTL ? "rtl" : "ltr"}`}>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main Footer Content */}
-        {/* The grid is responsive: 1 column on small screens, 2 on medium, and 4 on large */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* Brand Section */}
           <div className="lg:col-span-1">
-            <h3 className="font-serif text-3xl text-[#d0a84b] mb-4">patisserie les jumeaux</h3>
+            <h3 className="font-serif text-3xl text-[#d0a84b] mb-4">Pâtisserie Les Jumeaux</h3>
             <p className="text-white/80 mb-6 leading-relaxed">{t.tagline}</p>
             <div className="moroccan-stars opacity-20 h-16"></div>
           </div>
@@ -91,15 +105,10 @@ export function Footer({ language }: FooterProps) {
           <div>
             <h4 className="font-sans text-lg font-semibold mb-4 text-[#d0a84b]">{t.quickLinks}</h4>
             <ul className="space-y-2">
-              {[
-                { key: "home", href: "#home" },
-                { key: "products", href: "#products" },
-                { key: "about", href: "#about" },
-                { key: "blog", href: "#blog" },
-                { key: "contact", href: "#contact" },
-              ].map((link) => (
+              {quickLinks.map((link) => (
                 <li key={link.key}>
                   <a href={link.href} className="text-white/80 hover:text-[#d0a84b] transition-colors duration-200">
+                    {/* This line is now type-safe */}
                     {t[link.key]}
                   </a>
                 </li>
@@ -166,7 +175,6 @@ export function Footer({ language }: FooterProps) {
         <MoroccanDivider className="my-8" />
 
         {/* Bottom Footer */}
-        {/* The layout is responsive: column on small screens, row on medium and up */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
           <p>{t.copyright}</p>
           <div className="flex gap-6">
