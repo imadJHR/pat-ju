@@ -88,7 +88,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat1],
+    images: [pat1.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -119,7 +119,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat2],
+    images: [pat2.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -150,7 +150,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat3],
+    images: [pat3.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -181,7 +181,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat4],
+    images: [pat4.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -212,7 +212,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat5],
+    images: [pat5.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -243,7 +243,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat6],
+    images: [pat6.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -274,7 +274,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat7],
+    images: [pat7.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -305,7 +305,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat8],
+    images: [pat8.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -336,7 +336,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat9],
+    images: [pat9.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -367,7 +367,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat10],
+    images: [pat10.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
