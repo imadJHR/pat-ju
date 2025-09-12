@@ -398,7 +398,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat11],
+    images: [pat11.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -429,7 +429,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat12],
+    images: [pat12.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -460,7 +460,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat13],
+    images: [pat13.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -491,7 +491,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat14],
+    images: [pat14.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -522,7 +522,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat15],
+    images: [pat15.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -553,7 +553,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat16],
+    images: [pat16.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -584,7 +584,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat17],
+    images: [pat17.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -615,7 +615,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat18],
+    images: [pat18.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -646,7 +646,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat19],
+    images: [pat19.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -677,7 +677,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat20],
+    images: [pat20.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -708,7 +708,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat21],
+    images: [pat21.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -739,7 +739,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat22],
+    images: [pat22.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -770,7 +770,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat23],
+    images: [pat23.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -801,7 +801,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat24],
+    images: [pat24.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -832,7 +832,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat25],
+    images: [pat25.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -956,7 +956,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat29],
+    images: [pat29.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -987,7 +987,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat30],
+    images: [pat30.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1018,7 +1018,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat31],
+    images: [pat31.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1049,7 +1049,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat32],
+    images: [pat32.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1080,7 +1080,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat33],
+    images: [pat33.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1111,7 +1111,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat34],
+    images: [pat34.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1142,7 +1142,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat35],
+    images: [pat35.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1173,7 +1173,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat36],
+    images: [pat36.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1204,7 +1204,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat37],
+    images: [pat37.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1235,7 +1235,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat38],
+    images: [pat38.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1266,7 +1266,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat39],
+    images: [pat39.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1297,7 +1297,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat40],
+    images: [pat40.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1328,7 +1328,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat41],
+    images: [pat41.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1359,7 +1359,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat42],
+    images: [pat42.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1390,7 +1390,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat43],
+    images: [pat43.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1421,7 +1421,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat44],
+    images: [pat44.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1452,7 +1452,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat45],
+    images: [pat45.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1483,7 +1483,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat46],
+    images: [pat46.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1514,7 +1514,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat47],
+    images: [pat47.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1545,7 +1545,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat48],
+    images: [pat48.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1576,7 +1576,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat49],
+    images: [pat49.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1607,7 +1607,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat50],
+    images: [pat50.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1638,7 +1638,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat51],
+    images: [pat51.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1669,7 +1669,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat52],
+    images: [pat52.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1700,7 +1700,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat53],
+    images: [pat53.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1731,7 +1731,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat54],
+    images: [pat54.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1762,7 +1762,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat55],
+    images: [pat55.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1793,7 +1793,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat56],
+    images: [pat56.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1824,7 +1824,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat57],
+    images: [pat57.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1855,7 +1855,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat58],
+    images: [pat58.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1886,7 +1886,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat59],
+    images: [pat59.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1917,7 +1917,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat60],
+    images: [pat60.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1948,7 +1948,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat61],
+    images: [pat61.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -1979,7 +1979,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat62],
+    images: [pat62.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2010,7 +2010,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat63],
+    images: [pat63.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2041,7 +2041,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat64],
+    images: [pat64.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2072,7 +2072,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat65],
+    images: [pat65.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2103,7 +2103,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat66],
+    images: [pat66.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2134,7 +2134,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat67],
+    images: [pat67.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2165,7 +2165,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat68],
+    images: [pat68.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2196,7 +2196,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat69],
+    images: [pat69.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2227,7 +2227,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat70],
+    images: [pat70.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2258,7 +2258,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat71],
+    images: [pat71.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2289,7 +2289,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat72],
+    images: [pat72.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
@@ -2320,7 +2320,7 @@ export const products: Product[] = [
     },
     price: 259.9,
     originalPrice: 0,
-    images: [pat73],
+    images: [pat73.src],
     category: {
       en: "",
       fr: "Douceurs Traditionnelles",
