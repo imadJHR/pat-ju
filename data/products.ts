@@ -87,7 +87,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat1],
     category: {
       en: "",
@@ -118,7 +118,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat2],
     category: {
       en: "",
@@ -149,7 +149,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat3],
     category: {
       en: "",
@@ -180,7 +180,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat4],
     category: {
       en: "",
@@ -211,7 +211,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat5],
     category: {
       en: "",
@@ -242,7 +242,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat6],
     category: {
       en: "",
@@ -273,7 +273,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat7],
     category: {
       en: "",
@@ -304,7 +304,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat8],
     category: {
       en: "",
@@ -335,7 +335,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat9],
     category: {
       en: "",
@@ -366,7 +366,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat10],
     category: {
       en: "",
@@ -397,7 +397,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat11],
     category: {
       en: "",
@@ -428,7 +428,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat12],
     category: {
       en: "",
@@ -459,7 +459,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat13],
     category: {
       en: "",
@@ -490,7 +490,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat14],
     category: {
       en: "",
@@ -521,7 +521,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat15],
     category: {
       en: "",
@@ -552,7 +552,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat16],
     category: {
       en: "",
@@ -583,7 +583,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat17],
     category: {
       en: "",
@@ -614,7 +614,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat18],
     category: {
       en: "",
@@ -645,7 +645,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat19],
     category: {
       en: "",
@@ -676,7 +676,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat20],
     category: {
       en: "",
@@ -707,7 +707,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat21],
     category: {
       en: "",
@@ -738,7 +738,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat22],
     category: {
       en: "",
@@ -769,7 +769,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat23],
     category: {
       en: "",
@@ -800,7 +800,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat24],
     category: {
       en: "",
@@ -831,7 +831,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat25],
     category: {
       en: "",
@@ -862,7 +862,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat26],
     category: {
       en: "",
@@ -893,7 +893,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat27],
     category: {
       en: "",
@@ -924,7 +924,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat28],
     category: {
       en: "",
@@ -955,7 +955,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat29],
     category: {
       en: "",
@@ -986,7 +986,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat30],
     category: {
       en: "",
@@ -1017,7 +1017,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat31],
     category: {
       en: "",
@@ -1048,7 +1048,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat32],
     category: {
       en: "",
@@ -1079,7 +1079,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat33],
     category: {
       en: "",
@@ -1110,7 +1110,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat34],
     category: {
       en: "",
@@ -1141,7 +1141,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat35],
     category: {
       en: "",
@@ -1172,7 +1172,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat36],
     category: {
       en: "",
@@ -1203,7 +1203,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat37],
     category: {
       en: "",
@@ -1234,7 +1234,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat38],
     category: {
       en: "",
@@ -1265,7 +1265,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat39],
     category: {
       en: "",
@@ -1296,7 +1296,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat40],
     category: {
       en: "",
@@ -1327,7 +1327,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat41],
     category: {
       en: "",
@@ -1358,7 +1358,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat42],
     category: {
       en: "",
@@ -1389,7 +1389,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat43],
     category: {
       en: "",
@@ -1420,7 +1420,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat44],
     category: {
       en: "",
@@ -1451,7 +1451,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat45],
     category: {
       en: "",
@@ -1482,7 +1482,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat46],
     category: {
       en: "",
@@ -1513,7 +1513,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat47],
     category: {
       en: "",
@@ -1544,7 +1544,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat48],
     category: {
       en: "",
@@ -1575,7 +1575,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat49],
     category: {
       en: "",
@@ -1606,7 +1606,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat50],
     category: {
       en: "",
@@ -1637,7 +1637,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat51],
     category: {
       en: "",
@@ -1668,7 +1668,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat52],
     category: {
       en: "",
@@ -1699,7 +1699,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat53],
     category: {
       en: "",
@@ -1730,7 +1730,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat54],
     category: {
       en: "",
@@ -1761,7 +1761,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat55],
     category: {
       en: "",
@@ -1792,7 +1792,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat56],
     category: {
       en: "",
@@ -1823,7 +1823,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat57],
     category: {
       en: "",
@@ -1854,7 +1854,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat58],
     category: {
       en: "",
@@ -1885,7 +1885,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat59],
     category: {
       en: "",
@@ -1916,7 +1916,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat60],
     category: {
       en: "",
@@ -1947,7 +1947,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat61],
     category: {
       en: "",
@@ -1978,7 +1978,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat62],
     category: {
       en: "",
@@ -2009,7 +2009,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat63],
     category: {
       en: "",
@@ -2040,7 +2040,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat64],
     category: {
       en: "",
@@ -2071,7 +2071,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat65],
     category: {
       en: "",
@@ -2102,7 +2102,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat66],
     category: {
       en: "",
@@ -2133,7 +2133,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat67],
     category: {
       en: "",
@@ -2164,7 +2164,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat68],
     category: {
       en: "",
@@ -2195,7 +2195,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat69],
     category: {
       en: "",
@@ -2226,7 +2226,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+  originalPrice: null,
     images: [pat70],
     category: {
       en: "",
@@ -2257,7 +2257,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat71],
     category: {
       en: "",
@@ -2288,7 +2288,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat72],
     category: {
       en: "",
@@ -2319,7 +2319,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: "",
+    originalPrice: null,
     images: [pat73],
     category: {
       en: "",
