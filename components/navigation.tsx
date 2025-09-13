@@ -12,8 +12,6 @@ import { CartDrawer } from "./cart-drawer"
 import { MoroccanDivider } from "@/components/moroccan-divider"
 
 // --- STEP 1: Centralized Category Data ---
-// In a real app, this should be in a separate file (e.g., /data/categories.ts)
-// and imported into both Navigation.tsx and ProductsClient.tsx.
 const productCategoryTranslations = {
   traditional: { fr: "Douceurs Traditionnelles", en: "Traditional Sweets", ar: "حلويات تقليدية" },
   almond: { fr: "Pâtisseries aux Amandes", en: "Almond Pastries", ar: "معجنات اللوز" },
@@ -25,8 +23,16 @@ const productCategoryTranslations = {
 type ProductCategoryKey = keyof typeof productCategoryTranslations;
 
 
-// --- STEP 2: Merge category translations with main navigation translations ---
-const translations = {
+// --- STEP 2: FIX - Define all keys explicitly for strong typing ---
+// Define base navigation keys separately
+const baseNavKeys = ["home", "products", "about", "contact", "blog", "cart", "orderNow"] as const;
+type BaseNavKey = typeof baseNavKeys[number];
+
+// Combine base keys and category keys into one comprehensive type
+type TranslationKeys = BaseNavKey | ProductCategoryKey;
+
+// Now, use this explicit type to define the translations object
+const translations: Record<"en" | "fr" | "ar", Record<TranslationKeys, string>> = {
   en: { 
     home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now",
     ...Object.fromEntries(Object.entries(productCategoryTranslations).map(([key, value]) => [key, value.en]))
@@ -42,13 +48,12 @@ const translations = {
 }
 
 // Define types for navigation items for better type safety
-type TranslationKeys = keyof typeof translations['fr'];
 interface SubNavItem {
-  key: TranslationKeys;
+  key: TranslationKeys; // This now correctly uses the comprehensive type
   href: string;
 }
 interface NavItem {
-  key: TranslationKeys;
+  key: TranslationKeys; // This also uses the comprehensive type
   href: string;
   dropdown?: SubNavItem[];
 }
@@ -162,7 +167,7 @@ function MobileNav({ isOpen, setIsOpen, language, pathname }: { isOpen: boolean,
     const t = translations[language];
     const [isProductsOpen, setIsProductsOpen] = useState(false);
     
-    const navItems = [
+    const navItems: NavItem[] = [
         { key: "home", href: "/" },
         { 
             key: "products", 
