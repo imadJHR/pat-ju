@@ -1,5 +1,6 @@
 "use client"
 
+
 import { MoroccanDivider } from "@/components/moroccan-divider"
 
 import { QuickViewModal } from "@/components/quick-view-modal"
