@@ -87,7 +87,7 @@ export const products: Product[] = [
       ar: "",
     },
     price: 259.9,
-    originalPrice: 0,
+    originalPrice: "",
     images: [pat1.src],
     category: {
       en: "",
