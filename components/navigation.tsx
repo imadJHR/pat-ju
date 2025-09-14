@@ -31,21 +31,32 @@ type BaseNavKey = typeof baseNavKeys[number];
 // Combine base keys and category keys into one comprehensive type
 type TranslationKeys = BaseNavKey | ProductCategoryKey;
 
+// --- FIX STARTS HERE ---
+
+// Helper function to create a language-specific record of product categories
+const createCategoryTranslations = (lang: "en" | "fr" | "ar"): Record<ProductCategoryKey, string> => {
+  return Object.fromEntries(
+    Object.entries(productCategoryTranslations).map(([key, value]) => [key, value[lang]])
+  ) as Record<ProductCategoryKey, string>;
+};
+
 // Now, use this explicit type to define the translations object
 const translations: Record<"en" | "fr" | "ar", Record<TranslationKeys, string>> = {
-  en: { 
+  en: {
     home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now",
-    ...Object.fromEntries(Object.entries(productCategoryTranslations).map(([key, value]) => [key, value.en]))
+    ...createCategoryTranslations("en")
   },
-  fr: { 
+  fr: {
     home: "Accueil", products: "Produits", about: "À Propos", contact: "Contact", blog: "Blog", cart: "Panier", orderNow: "Commander",
-    ...Object.fromEntries(Object.entries(productCategoryTranslations).map(([key, value]) => [key, value.fr]))
+    ...createCategoryTranslations("fr")
   },
-  ar: { 
+  ar: {
     home: "الرئيسية", products: "المنتجات", about: "من نحن", contact: "اتصل بنا", blog: "المدونة", cart: "السلة", orderNow: "اطلب الآن",
-    ...Object.fromEntries(Object.entries(productCategoryTranslations).map(([key, value]) => [key, value.ar]))
+    ...createCategoryTranslations("ar")
   },
 }
+
+// --- FIX ENDS HERE ---
 
 // Define types for navigation items for better type safety
 interface SubNavItem {
@@ -106,14 +117,14 @@ export function Navigation() {
 
 function DesktopNav({ language, pathname }: { language: "fr", pathname: string }) {
   const t = translations[language]
-  
+
   const navItems: NavItem[] = [
     { key: "home", href: "/" },
     {
-      key: "products", href: "/products", 
+      key: "products", href: "/products",
       dropdown: Object.keys(productCategoryTranslations).map(catKey => ({
-          key: catKey as ProductCategoryKey,
-          href: `/products?category=${catKey}`
+        key: catKey as ProductCategoryKey,
+        href: `/products?category=${catKey}`
       }))
     },
     { key: "about", href: "/about" },
@@ -124,8 +135,8 @@ function DesktopNav({ language, pathname }: { language: "fr", pathname: string }
   return (
     <nav className="hidden md:flex items-center gap-x-6 lg:gap-x-8">
       {navItems.map((item) => (
-        item.dropdown 
-          ? <ProductDropdown key={item.key} item={item} t={t} pathname={pathname}/> 
+        item.dropdown
+          ? <ProductDropdown key={item.key} item={item} t={t} pathname={pathname} />
           : (
             <Link key={item.key} href={item.href} className={`relative group text-foreground hover:text-amber-500 transition-colors duration-200 font-medium text-sm ${(pathname === item.href) ? 'text-amber-500' : ''}`}>
               {t[item.key]}
@@ -164,81 +175,81 @@ function ProductDropdown({ item, t, pathname }: { item: NavItem, t: typeof trans
 }
 
 function MobileNav({ isOpen, setIsOpen, language, pathname }: { isOpen: boolean, setIsOpen: (isOpen: boolean) => void, language: "fr", pathname: string }) {
-    const t = translations[language];
-    const [isProductsOpen, setIsProductsOpen] = useState(false);
-    
-    const navItems: NavItem[] = [
-        { key: "home", href: "/" },
-        { 
-            key: "products", 
-            href: "/products",
-            dropdown: Object.keys(productCategoryTranslations).map(catKey => ({
-                key: catKey as ProductCategoryKey,
-                href: `/products?category=${catKey}`
-            }))
-        },
-        { key: "about", href: "/about" },
-        { key: "blog", href: "/blog" },
-        { key: "contact", href: "/contact" }
-    ];
+  const t = translations[language];
+  const [isProductsOpen, setIsProductsOpen] = useState(false);
 
-    return (
-        <AnimatePresence>
-            {isOpen && (
-                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-[100] md:hidden" onClick={() => setIsOpen(false)}>
-                    <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: "easeInOut" }} className="absolute inset-y-0 right-0 w-full max-w-sm bg-background shadow-lg flex flex-col" onClick={e => e.stopPropagation()}>
-                        <div className="p-4 flex justify-between items-center border-b">
-                            <h2 className="font-playfair font-semibold">Menu</h2>
-                            <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Fermer le menu"><X className="h-6 w-6" /></Button>
-                        </div>
-                        <nav className="flex-grow p-6 flex flex-col gap-y-2">
-                            {navItems.map((item) => (
-                                item.dropdown ? (
-                                    <div key={item.key}>
-                                        <div className={`flex justify-between items-center text-lg font-medium p-3 rounded-md transition-colors ${pathname.startsWith(item.href) ? 'bg-muted text-amber-500' : 'hover:bg-muted'}`}>
-                                            <Link href={item.href} onClick={() => setIsOpen(false)} className="flex-grow">
-                                                {t[item.key as keyof typeof t]}
-                                            </Link>
-                                            <button onClick={() => setIsProductsOpen(!isProductsOpen)} className="p-2 -mr-2">
-                                                <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
-                                            </button>
-                                        </div>
-                                        <AnimatePresence>
-                                            {isProductsOpen && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    exit={{ height: 0, opacity: 0 }}
-                                                    className="overflow-hidden ml-4 pl-4 border-l"
-                                                >
-                                                    <div className="pt-2 flex flex-col gap-y-1">
-                                                        {item.dropdown.map(subItem => (
-                                                            <Link key={subItem.key} href={subItem.href} className="block p-2 rounded-md hover:bg-muted text-md" onClick={() => setIsOpen(false)}>
-                                                                {t[subItem.key as keyof typeof t]}
-                                                            </Link>
-                                                        ))}
-                                                    </div>
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
-                                    </div>
-                                ) : (
-                                    <Link key={item.key} href={item.href} className={`text-lg font-medium p-3 rounded-md transition-colors ${pathname === item.href ? 'bg-muted text-amber-500' : 'hover:bg-muted'}`} onClick={() => setIsOpen(false)}>
-                                        {t[item.key as keyof typeof t]}
-                                    </Link>
-                                )
+  const navItems: NavItem[] = [
+    { key: "home", href: "/" },
+    {
+      key: "products",
+      href: "/products",
+      dropdown: Object.keys(productCategoryTranslations).map(catKey => ({
+        key: catKey as ProductCategoryKey,
+        href: `/products?category=${catKey}`
+      }))
+    },
+    { key: "about", href: "/about" },
+    { key: "blog", href: "/blog" },
+    { key: "contact", href: "/contact" }
+  ];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/50 z-[100] md:hidden" onClick={() => setIsOpen(false)}>
+          <motion.div initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "tween", ease: "easeInOut" }} className="absolute inset-y-0 right-0 w-full max-w-sm bg-background shadow-lg flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="p-4 flex justify-between items-center border-b">
+              <h2 className="font-playfair font-semibold">Menu</h2>
+              <Button variant="ghost" size="icon" onClick={() => setIsOpen(false)} aria-label="Fermer le menu"><X className="h-6 w-6" /></Button>
+            </div>
+            <nav className="flex-grow p-6 flex flex-col gap-y-2">
+              {navItems.map((item) => (
+                item.dropdown ? (
+                  <div key={item.key}>
+                    <div className={`flex justify-between items-center text-lg font-medium p-3 rounded-md transition-colors ${pathname.startsWith(item.href) ? 'bg-muted text-amber-500' : 'hover:bg-muted'}`}>
+                      <Link href={item.href} onClick={() => setIsOpen(false)} className="flex-grow">
+                        {t[item.key as keyof typeof t]}
+                      </Link>
+                      <button onClick={() => setIsProductsOpen(!isProductsOpen)} className="p-2 -mr-2">
+                        <ChevronDown className={`h-5 w-5 transition-transform duration-300 ${isProductsOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                    </div>
+                    <AnimatePresence>
+                      {isProductsOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: 'auto', opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden ml-4 pl-4 border-l"
+                        >
+                          <div className="pt-2 flex flex-col gap-y-1">
+                            {item.dropdown.map(subItem => (
+                              <Link key={subItem.key} href={subItem.href} className="block p-2 rounded-md hover:bg-muted text-md" onClick={() => setIsOpen(false)}>
+                                {t[subItem.key as keyof typeof t]}
+                              </Link>
                             ))}
-                        </nav>
-                        <div className="p-6 border-t">
-                            <Link href="/products" onClick={() => setIsOpen(false)}>
-                                <Button size="lg" className="w-full bg-amber-500 hover:bg-amber-500/90 text-primary-foreground">{t.orderNow}</Button>
-                            </Link>
-                        </div>
-                    </motion.div>
-                </motion.div>
-            )}
-        </AnimatePresence>
-    );
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ) : (
+                  <Link key={item.key} href={item.href} className={`text-lg font-medium p-3 rounded-md transition-colors ${pathname === item.href ? 'bg-muted text-amber-500' : 'hover:bg-muted'}`} onClick={() => setIsOpen(false)}>
+                    {t[item.key as keyof typeof t]}
+                  </Link>
+                )
+              ))}
+            </nav>
+            <div className="p-6 border-t">
+              <Link href="/products" onClick={() => setIsOpen(false)}>
+                <Button size="lg" className="w-full bg-amber-500 hover:bg-amber-500/90 text-primary-foreground">{t.orderNow}</Button>
+              </Link>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 }
 
 // NavActions component remains the same
