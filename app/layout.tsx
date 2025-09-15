@@ -19,7 +19,9 @@ export const metadata: Metadata = {
     "Discover the finest authentic Moroccan pastries crafted with traditional recipes and premium ingredients. Order online with cash on delivery.",
   keywords: "Moroccan pastries, pâtisserie marocaine, traditional sweets, baklava, chebakia, authentic desserts",
   authors: [{ name: "Pâtisserie Marocaine" }],
-  generator: "v0.app",
+  creator: "Pâtisserie Marocaine",
+  publisher: "Pâtisserie Marocaine",
+  metadataBase: new URL("https://www./lesjumeaux.ma"),
   openGraph: {
     title: "Pâtisserie Marocaine | Authentic Moroccan Pastries",
     description:

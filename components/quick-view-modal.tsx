@@ -158,9 +158,7 @@ export function QuickViewModal({ product, isOpen, onClose, language, onAddToCart
             {/* Price */}
             <div className="flex items-center gap-2">
               <span className="text-2xl font-bold text-[#d0a84b]">{product.price} MAD</span>
-              {product.originalPrice && (
-                <span className="text-lg text-[#77707f] line-through">{product.originalPrice} MAD</span>
-              )}
+             
             </div>
 
             {/* Quantity Selector */}

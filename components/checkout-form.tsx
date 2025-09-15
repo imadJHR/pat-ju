@@ -16,7 +16,6 @@ import { useCart } from "@/hooks/use-cart"
 import type { ShippingAddress, CartItem } from "@/types/cart"
 
 interface CheckoutFormProps {
-  language: "en" | "fr" | "ar"
   onOrderComplete: (orderData: OrderData) => void
 }
 
@@ -32,125 +31,41 @@ interface OrderData {
   createdAt: Date
 }
 
-const translations = {
-  en: {
-    checkout: "Checkout",
-    shippingInfo: "Shipping Information",
-    orderSummary: "Order Summary",
-    paymentMethod: "Payment Method",
-    cashOnDelivery: "Cash on Delivery",
-    codDescription: "Pay when your order arrives at your doorstep",
-    firstName: "First Name",
-    lastName: "Last Name",
-    email: "Email Address",
-    phone: "Phone Number",
-    address: "Street Address",
-    city: "City",
-    postalCode: "Postal Code",
-    country: "Country",
-    notes: "Order Notes (Optional)",
-    notesPlaceholder: "Any special instructions for your order...",
-    subtotal: "Subtotal",
-    shipping: "Shipping",
-    total: "Total",
-    placeOrder: "Place Order",
-    free: "Free",
-    processing: "Processing...",
-    required: "This field is required",
-    invalidEmail: "Please enter a valid email address",
-    invalidPhone: "Please enter a valid phone number",
-  },
-  fr: {
-    checkout: "Commande",
-    shippingInfo: "Informations de Livraison",
-    orderSummary: "Résumé de la Commande",
-    paymentMethod: "Mode de Paiement",
-    cashOnDelivery: "Paiement à la Livraison",
-    codDescription: "Payez à la réception de votre commande",
-    firstName: "Prénom",
-    lastName: "Nom",
-    email: "Adresse Email",
-    phone: "Numéro de Téléphone",
-    address: "Adresse",
-    city: "Ville",
-    postalCode: "Code Postal",
-    country: "Pays",
-    notes: "Notes de Commande (Optionnel)",
-    notesPlaceholder: "Instructions spéciales pour votre commande...",
-    subtotal: "Sous-total",
-    shipping: "Livraison",
-    total: "Total",
-    placeOrder: "Passer la Commande",
-    free: "Gratuit",
-    processing: "Traitement...",
-    required: "Ce champ est requis",
-    invalidEmail: "Veuillez entrer une adresse email valide",
-    invalidPhone: "Veuillez entrer un numéro de téléphone valide",
-  },
-  ar: {
-    checkout: "الدفع",
-    shippingInfo: "معلومات الشحن",
-    orderSummary: "ملخص الطلب",
-    paymentMethod: "طريقة الدفع",
-    cashOnDelivery: "الدفع عند الاستلام",
-    codDescription: "ادفع عند وصول طلبك إلى باب منزلك",
-    firstName: "الاسم الأول",
-    lastName: "اسم العائلة",
-    email: "عنوان البريد الإلكتروني",
-    phone: "رقم الهاتف",
-    address: "عنوان الشارع",
-    city: "المدينة",
-    postalCode: "الرمز البريدي",
-    country: "البلد",
-    notes: "ملاحظات الطلب (اختياري)",
-    notesPlaceholder: "أي تعليمات خاصة لطلبك...",
-    subtotal: "المجموع الفرعي",
-    shipping: "الشحن",
-    total: "المجموع",
-    placeOrder: "تأكيد الطلب",
-    free: "مجاني",
-    processing: "جاري المعالجة...",
-    required: "هذا الحقل مطلوب",
-    invalidEmail: "يرجى إدخال عنوان بريد إلكتروني صحيح",
-    invalidPhone: "يرجى إدخال رقم هاتف صحيح",
-  },
-}
+// Schéma de validation Zod avec les messages en français
+const formSchema = z.object({
+  firstName: z.string().min(1, "Ce champ est requis"),
+  lastName: z.string().min(1, "Ce champ est requis"),
+  email: z.string().email("Veuillez entrer une adresse email valide"),
+  phone: z.string().min(10, "Veuillez entrer un numéro de téléphone valide"),
+  address: z.string().min(1, "Ce champ est requis"),
+  city: z.string().min(1, "Ce champ est requis"),
+  postalCode: z.string().min(1, "Ce champ est requis"),
+  country: z.string().min(1, "Ce champ est requis"),
+  notes: z.string().optional(),
+})
 
-const createSchema = (t: typeof translations.en) =>
-  z.object({
-    firstName: z.string().min(1, t.required),
-    lastName: z.string().min(1, t.required),
-    email: z.string().email(t.invalidEmail),
-    phone: z.string().min(10, t.invalidPhone),
-    address: z.string().min(1, t.required),
-    city: z.string().min(1, t.required),
-    postalCode: z.string().min(1, t.required),
-    country: z.string().min(1, t.required),
-    notes: z.string().optional(),
-  })
-
-export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
+export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const { items, getSubtotal, clearCart } = useCart()
-  const t = translations[language]
-  const isRTL = language === "ar"
-  const schema = createSchema(t)
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ShippingAddress>({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(formSchema),
   })
 
   const subtotal = getSubtotal()
-  const shipping = subtotal > 500 ? 0 : 59.9
+  // La livraison est toujours gratuite
+  const shipping = 0
   const total = subtotal + shipping
 
   const onSubmit = async (data: ShippingAddress) => {
     setIsProcessing(true)
+    // Simule une requête réseau
     await new Promise((resolve) => setTimeout(resolve, 2000))
+
     const orderData: OrderData = {
       id: `ORD-${Date.now()}`,
       items,
@@ -162,27 +77,28 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
       status: "pending",
       createdAt: new Date(),
     }
+
     clearCart()
     onOrderComplete(orderData)
     setIsProcessing(false)
   }
 
   return (
-    <div className={`min-h-screen bg-[#f9f7f3] py-12 ${isRTL ? "rtl" : "ltr"}`}>
+    <div className="min-h-screen bg-[#f9f7f3] py-12">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <h1 className="font-great-vibes text-3xl md:text-4xl text-[#d4b05d] mb-10 text-center">
-          {t.checkout}
+          Commande
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Left Column: Shipping & Payment */}
+          {/* Colonne de gauche : Livraison & Paiement */}
           <div className="space-y-8">
-            {/* Shipping Information Card */}
+            {/* Carte d'informations de livraison */}
             <Card className="bg-[#e6d7c3] border-none shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-[#d4b05d] font-playfair text-xl">
                   <MapPin className="h-6 w-6 text-[#d4b05d]" />
-                  {t.shippingInfo}
+                  Informations de Livraison
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -191,7 +107,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                     <div className="space-y-2">
                       <Label htmlFor="firstName" className="text-black flex items-center gap-2">
                         <User className="h-4 w-4 text-[#d4b05d]" />
-                        {t.firstName}
+                        Prénom
                       </Label>
                       <Input
                         id="firstName"
@@ -204,7 +120,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="lastName" className="text-black">
-                        {t.lastName}
+                        Nom
                       </Label>
                       <Input
                         id="lastName"
@@ -221,7 +137,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                     <div className="space-y-2">
                       <Label htmlFor="email" className="text-black flex items-center gap-2">
                         <Mail className="h-4 w-4 text-[#d4b05d]" />
-                        {t.email}
+                        Adresse Email
                       </Label>
                       <Input
                         id="email"
@@ -236,7 +152,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                     <div className="space-y-2">
                       <Label htmlFor="phone" className="text-black flex items-center gap-2">
                         <Phone className="h-4 w-4 text-[#d4b05d]" />
-                        {t.phone}
+                        Numéro de Téléphone
                       </Label>
                       <Input
                         id="phone"
@@ -252,7 +168,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
 
                   <div className="space-y-2">
                     <Label htmlFor="address" className="text-black">
-                      {t.address}
+                      Adresse
                     </Label>
                     <Input
                       id="address"
@@ -267,7 +183,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="city" className="text-black">
-                        {t.city}
+                        Ville
                       </Label>
                       <Input
                         id="city"
@@ -280,7 +196,7 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                     </div>
                     <div className="space-y-2">
                       <Label htmlFor="postalCode" className="text-black">
-                        {t.postalCode}
+                        Code Postal
                       </Label>
                       <Input
                         id="postalCode"
@@ -291,29 +207,16 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                         <p className="text-sm text-red-500 mt-1">{errors.postalCode.message}</p>
                       )}
                     </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="country" className="text-black">
-                        {t.country}
-                      </Label>
-                      <Input
-                        id="country"
-                        {...register("country")}
-                        className={`bg-white border-black/20 ${errors.country ? "border-red-500" : ""}`}
-                      />
-                      {errors.country && (
-                        <p className="text-sm text-red-500 mt-1">{errors.country.message}</p>
-                      )}
-                    </div>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="notes" className="text-black">
-                      {t.notes}
+                      Notes de Commande (Optionnel)
                     </Label>
                     <Textarea
                       id="notes"
                       {...register("notes")}
-                      placeholder={t.notesPlaceholder}
+                      placeholder="Instructions spéciales pour votre commande..."
                       className="bg-white border-black/20 min-h-[100px]"
                     />
                   </div>
@@ -321,51 +224,51 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
               </CardContent>
             </Card>
 
-            {/* Payment Method Card */}
+            {/* Carte du mode de paiement */}
             <Card className="bg-[#e6d7c3] border-none shadow-sm">
               <CardHeader>
                 <CardTitle className="flex items-center gap-3 text-[#d4b05d] font-playfair text-xl">
                   <CreditCard className="h-6 w-6 text-[#d4b05d]" />
-                  {t.paymentMethod}
+                  Mode de Paiement
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="flex items-center gap-4 p-4 border border-[#d4b05d] rounded-lg bg-white">
                   <Truck className="h-8 w-8 text-[#d4b05d]" />
                   <div className="flex-1">
-                    <h4 className="font-semibold text-[#d4b05d]">{t.cashOnDelivery}</h4>
-                    <p className="text-black/70">{t.codDescription}</p>
+                    <h4 className="font-semibold text-[#d4b05d]">Paiement à la Livraison</h4>
+                    <p className="text-black/70">Payez à la réception de votre commande</p>
                   </div>
-                  <Badge className="bg-[#d4b05d] text-white">{t.free}</Badge>
+                  <Badge className="bg-[#d4b05d] text-white">Gratuit</Badge>
                 </div>
               </CardContent>
             </Card>
           </div>
 
-          {/* Right Column: Order Summary */}
+          {/* Colonne de droite : Résumé de la commande */}
           <div className="lg:sticky lg:top-24">
             <Card className="bg-[#e6d7c3] border-none shadow-sm">
               <CardHeader>
                 <CardTitle className="text-[#d4b05d] font-playfair text-xl">
-                  {t.orderSummary}
+                  Résumé de la Commande
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {/* Order Items */}
+                {/* Articles de la commande */}
                 <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
                   {items.map((item) => (
                     <div key={item.id} className="flex items-start gap-4 p-3 bg-white rounded-lg">
                       <div className="w-14 h-14 relative flex-shrink-0">
                         <Image
                           src={item.image || "/placeholder.svg"}
-                          alt={item.name[language]}
+                          alt={item.name.fr}
                           fill
                           className="object-cover rounded-md"
                         />
                       </div>
                       <div className="flex-1 min-w-0">
                         <h4 className="text-sm font-medium text-black line-clamp-1">
-                          {item.name[language]}
+                          {item.name.fr}
                         </h4>
                         <p className="text-xs text-black/60">
                           {item.quantity} × {item.price.toFixed(2)} MAD
@@ -378,26 +281,22 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                   ))}
                 </div>
 
-                {/* Order Totals */}
+                {/* Totaux de la commande */}
                 <Separator className="bg-black/20" />
                 <div className="space-y-3">
                   <div className="flex justify-between text-black">
-                    <span>{t.subtotal}</span>
+                    <span>Sous-total</span>
                     <span className="font-medium">{subtotal.toFixed(2)} MAD</span>
                   </div>
                   <div className="flex justify-between text-black">
-                    <span>{t.shipping}</span>
+                    <span>Livraison</span>
                     <span className="font-medium">
-                      {shipping === 0 ? (
-                        <span className="text-[#d4b05d]">{t.free}</span>
-                      ) : (
-                        `${shipping.toFixed(2)} MAD`
-                      )}
+                      <span className="text-[#d4b05d]">Gratuit</span>
                     </span>
                   </div>
                   <Separator className="bg-black/20" />
                   <div className="flex justify-between text-xl font-bold">
-                    <span className="text-black">{t.total}</span>
+                    <span className="text-black">Total</span>
                     <span className="text-[#d4b05d]">{total.toFixed(2)} MAD</span>
                   </div>
                 </div>
@@ -409,10 +308,10 @@ export function CheckoutForm({ language, onOrderComplete }: CheckoutFormProps) {
                 >
                   {isProcessing ? (
                     <>
-                      <span className="animate-pulse">•••</span> {t.processing}
+                      <span className="animate-pulse">•••</span> Traitement...
                     </>
                   ) : (
-                    t.placeOrder
+                    "Passer la Commande"
                   )}
                 </Button>
               </CardContent>
