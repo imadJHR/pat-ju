@@ -3,16 +3,17 @@
 import { MoroccanDivider } from "./moroccan-divider"
 import { Facebook, Instagram, Phone, Mail, MapPin } from "lucide-react"
 
+
 // L'interface de props n'est plus nécessaire si 'language' est la seule prop
 // export interface FooterProps {}
 
 // Les liens sont maintenant définis avec leur texte directement en français
 const quickLinks = [
-  { label: "Accueil", href: "/#home" },
+  { label: "Accueil", href: "/home" },
   { label: "Produits", href: "/products" },
-  { label: "À Propos", href: "/#about" },
-  { label: "Blog", href: "/#blog" },
-  { label: "Contact", href: "/#contact" },
+  { label: "À Propos", href: "/about" },
+  { label: "Blog", href: "/blog" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Footer() {
@@ -32,6 +33,7 @@ export function Footer() {
           {/* Section Marque */}
           <div className="lg:col-span-1">
             <h3 className="font-serif text-2xl sm:text-3xl text-[#d0a84b] mb-4">Pâtisserie Les Jumeaux</h3>
+          
             <p className="text-white/80 mb-6 leading-relaxed">Pâtisseries Marocaines Authentiques Depuis 2008</p>
             <div className="moroccan-stars opacity-20 h-16"></div>
           </div>
@@ -107,7 +109,7 @@ export function Footer() {
                 type="submit"
                 className="px-4 py-2 bg-[#d0a84b] text-[#342923] rounded-md font-semibold hover:bg-[#d0a84b]/90 transition-colors duration-200"
               >
-                S'abonner
+                S&apos;abonner
               </button>
             </form>
           </div>
@@ -123,7 +125,7 @@ export function Footer() {
               Politique de Confidentialité
             </a>
             <a href="/terms-of-service" className="hover:text-[#d0a84b] transition-colors duration-200">
-              Conditions d'Utilisation
+              Conditions d&apos;Utilisation
             </a>
           </div>
         </div>
