@@ -39,8 +39,8 @@ export function FooterWrapper() {
 
   // Prevent hydration mismatch
   if (!mounted) {
-    return <Footer language="fr" />
+    return <Footer  />
   }
 
-  return <Footer language={language} />
+  return <Footer />
 }
