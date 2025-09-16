@@ -2,12 +2,6 @@
 
 import { MoroccanDivider } from "./moroccan-divider"
 import { Facebook, Instagram, Phone, Mail, MapPin } from "lucide-react"
-
-
-// L'interface de props n'est plus nécessaire si 'language' est la seule prop
-// export interface FooterProps {}
-
-// Les liens sont maintenant définis avec leur texte directement en français
 const quickLinks = [
   { label: "Accueil", href: "/home" },
   { label: "Produits", href: "/products" },
