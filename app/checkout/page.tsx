@@ -60,7 +60,7 @@ export default function CheckoutPage() {
             <div className="space-y-3">
               <Link href="/">
                 <Button className="w-full bg-[#d4b05d] hover:bg-[#b89943] text-white py-6 text-lg font-medium rounded-lg transition-colors">
-                  Retour à l'Accueil
+                  Retour à l&apos;Accueil
                 </Button>
               </Link>
               <Link href="/#products">
