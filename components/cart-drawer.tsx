@@ -67,7 +67,8 @@ export function CartDrawer({ language }: CartDrawerProps) {
 
   // Calculate costs
   const subtotal = getSubtotal()
-  const shipping = subtotal > 500 ? 0 : 0 // Free shipping for orders over 500 MAD
+  const shippingFee = 30 // Example shipping fee of 30 MAD
+  const shipping = subtotal > 500 ? 0 : shippingFee // Free shipping for orders over 500 MAD
   const total = subtotal + shipping
 
   return (
