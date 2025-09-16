@@ -43,6 +43,9 @@ const formSchema = z.object({
   notes: z.string().optional(),
 })
 
+// FIX 1: Infer the form's data type directly from the Zod schema.
+type CheckoutFormData = z.infer<typeof formSchema>
+
 export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const { items, getSubtotal, clearCart } = useCart()
@@ -51,7 +54,8 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<ShippingAddress>({
+    // FIX 2: Use the inferred type for useForm.
+  } = useForm<CheckoutFormData>({
     resolver: zodResolver(formSchema),
   })
 
@@ -60,7 +64,8 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
   const shipping = 0
   const total = subtotal + shipping
 
-  const onSubmit = async (data: ShippingAddress) => {
+  // FIX 3: Use the inferred type in the onSubmit function signature.
+  const onSubmit = async (data: CheckoutFormData) => {
     setIsProcessing(true)
     // Simule une requête réseau
     await new Promise((resolve) => setTimeout(resolve, 2000))
@@ -68,7 +73,11 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
     const orderData: OrderData = {
       id: `ORD-${Date.now()}`,
       items,
-      shippingAddress: data,
+      // FIX 4: Construct the full ShippingAddress object by adding the missing 'country' field.
+      shippingAddress: {
+        ...data,
+        country: "Morocco",
+      },
       subtotal,
       shipping,
       total,
@@ -101,7 +110,8 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <form className="space-y-6">
+                {/* NOTE: We removed the <form> tag here because handleSubmit will manage it */}
+                <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="firstName" className="text-black flex items-center gap-2">
@@ -179,7 +189,7 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                     )}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="city" className="text-black">
                         Ville
@@ -219,7 +229,7 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                       className="bg-white border-black/20 min-h-[100px]"
                     />
                   </div>
-                </form>
+                </div>
               </CardContent>
             </Card>
 
@@ -238,14 +248,14 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                     <h4 className="font-semibold text-[#d4b05d]">Paiement à la Livraison</h4>
                     <p className="text-black/70">Payez à la réception de votre commande</p>
                   </div>
-                  <Badge className="bg-[#d4b05d] text-white">Gratuit</Badge>
+                  <Badge className="bg-[#d4b05d] text-white">Sélectionné</Badge>
                 </div>
               </CardContent>
             </Card>
           </div>
 
           {/* Colonne de droite : Résumé de la commande */}
-          <div className="lg:sticky lg:top-24">
+          <div className="lg:sticky lg:top-24 h-fit">
             <Card className="bg-[#e6d7c3] border-none shadow-sm">
               <CardHeader>
                 <CardTitle className="text-[#d4b05d] font-playfair text-xl">
@@ -307,7 +317,11 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                 >
                   {isProcessing ? (
                     <>
-                      <span className="animate-pulse">•••</span> Traitement...
+                      <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Traitement...
                     </>
                   ) : (
                     "Passer la Commande"
