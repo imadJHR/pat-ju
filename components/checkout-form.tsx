@@ -40,7 +40,6 @@ const formSchema = z.object({
   address: z.string().min(1, "Ce champ est requis"),
   city: z.string().min(1, "Ce champ est requis"),
   postalCode: z.string().min(1, "Ce champ est requis"),
-  country: z.string().min(1, "Ce champ est requis"),
   notes: z.string().optional(),
 })
 
