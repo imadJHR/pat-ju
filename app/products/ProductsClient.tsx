@@ -128,7 +128,8 @@ export default function ProductsClient() {
     const isRTL = language === "ar"
 
     const filteredAndSortedProducts = useMemo(() => {
-        let filtered = products.filter((product) => {
+        // FIX: Changed 'let' to 'const' as 'filtered' is not reassigned.
+        const filtered = products.filter((product) => {
             if (searchQuery) {
                 const searchLower = searchQuery.toLowerCase()
                 if (
@@ -376,13 +377,13 @@ export default function ProductsClient() {
                                           </Button>
                                           {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
                                               <Button 
-                                                key={pageNumber} 
-                                                variant={currentPage === pageNumber ? 'default' : 'outline'} 
-                                                size="icon" 
-                                                onClick={() => handlePageChange(pageNumber)}
-                                                className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a]' : ''}
-                                                aria-label={`${t.pagination.page} ${pageNumber}`}
-                                                aria-current={currentPage === pageNumber ? 'page' : undefined}
+                                                  key={pageNumber} 
+                                                  variant={currentPage === pageNumber ? 'default' : 'outline'} 
+                                                  size="icon" 
+                                                  onClick={() => handlePageChange(pageNumber)}
+                                                  className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a]' : ''}
+                                                  aria-label={`${t.pagination.page} ${pageNumber}`}
+                                                  aria-current={currentPage === pageNumber ? 'page' : undefined}
                                               >
                                                   {pageNumber}
                                               </Button>
