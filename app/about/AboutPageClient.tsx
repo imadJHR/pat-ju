@@ -24,8 +24,8 @@ export default function AboutPageClient() {
     subtitle: "Trois Générations de Passion Pâtissière",
     heritage: {
       title: "Un Héritage Familial Précieux",
-      era1_year: "1952",
-      era1_title: "La Fondation par Ahmed",
+      era1_year: "2008",
+      era1_title: "La Fondation par mohammed",
       era1_content: "Dans les ruelles parfumées de la médina de Fès, notre grand-père Ahmed allume le premier four, posant la première pierre d'un héritage de saveurs.",
       era2_year: "1985",
       era2_title: "La Transmission du Savoir",

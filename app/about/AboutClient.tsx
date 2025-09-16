@@ -6,8 +6,6 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button" // Assuming you use shadcn/ui
 import { Gem, ScrollText, Sparkles, ArrowRight } from "lucide-react" // New icons for values
-
-// --- ADDED: Reusable component for the "Values" section for cleaner code ---
 const ValueCard = ({ icon: Icon, title, description }: { icon: React.ElementType, title: string, description: string }) => (
     <div className="group text-center p-8 bg-white rounded-2xl shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-300">
         <div className="w-20 h-20 bg-amber-100/50 rounded-full flex items-center justify-center mx-auto mb-6 border-4 border-white ring-4 ring-amber-100 transition-all duration-300 group-hover:bg-amber-100 group-hover:ring-amber-200">
