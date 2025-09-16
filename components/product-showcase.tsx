@@ -36,7 +36,7 @@ const translations = {
     date: "Pâtisseries aux Dattes",
     filled: "Biscuits Fourrés",
     phyllo: "Pâtisseries Phyllo",
-    viewAll: "Voir Tous les Produits",
+    viewAll: "Voir Plus des Produits",
     showingResults: "Affichage de {count} produits",
   },
   ar: {
