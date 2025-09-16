@@ -22,6 +22,17 @@ import React from "react"
 const PRODUCTS_PER_PAGE = 12;
 const LOCAL_STORAGE_PAGE_KEY = 'productsCurrentPage';
 
+// --- Category Mapping ---
+const categoryMapping = {
+  all: "all",
+  traditional: "traditional",
+  almond: "almond",
+  layered: "layered",
+  date: "date",
+  filled: "filled",
+  phyllo: "phyllo"
+} as const;
+
 // --- Translations (moved outside component for performance) ---
 const translations = {
     fr: {
@@ -128,7 +139,6 @@ export default function ProductsClient() {
     const isRTL = language === "ar"
 
     const filteredAndSortedProducts = useMemo(() => {
-        // FIX: Changed 'let' to 'const' as 'filtered' is not reassigned.
         const filtered = products.filter((product) => {
             if (searchQuery) {
                 const searchLower = searchQuery.toLowerCase()
@@ -139,8 +149,12 @@ export default function ProductsClient() {
                 ) return false
             }
             if (selectedCategory !== "all") {
-                const productCategoryKey = Object.keys(product.categoryKeys).find(key => product.categoryKeys[key as keyof typeof product.categoryKeys]);
-                if (productCategoryKey !== selectedCategory) return false;
+                // Get the category key from the product's category text
+                const categoryKey = Object.entries(t.categories).find(
+                    ([key, value]) => value === product.category[language]
+                )?.[0];
+                
+                if (categoryKey !== selectedCategory) return false;
             }
             if (product.price < priceRange[0] || product.price > priceRange[1]) return false
             if (showInStock && !product.inStock) return false
