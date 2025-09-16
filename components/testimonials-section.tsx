@@ -35,14 +35,14 @@ const translations = {
 const testimonials = {
   en: [
     {
-      name: "Sarah Johnson",
+      name: "imad johar",
       location: "New York, USA",
       rating: 5,
       text: "The most authentic Moroccan pastries I've ever tasted outside of Morocco! The chebakia reminds me of my grandmother's recipe.",
       avatar: "/placeholder.svg?height=60&width=60",
     },
     {
-      name: "Ahmed Benali",
+      name: "souhaib benali",
       location: "Paris, France",
       rating: 5,
       text: "Exceptional quality and taste. These pastries transport me back to the souks of Marrakech. Highly recommended!",
@@ -57,25 +57,18 @@ const testimonials = {
     },
   ],
   fr: [
-    {
-      name: "Sarah Johnson",
+  {
+      name: "imad johar",
       location: "New York, USA",
       rating: 5,
-      text: "Les pâtisseries marocaines les plus authentiques que j'aie jamais goûtées en dehors du Maroc ! La chebakia me rappelle la recette de ma grand-mère.",
+      text: "The most authentic Moroccan pastries I've ever tasted outside of Morocco! The chebakia reminds me of my grandmother's recipe.",
       avatar: "/placeholder.svg?height=60&width=60",
     },
     {
-      name: "Ahmed Benali",
+      name: "souhaib benali",
       location: "Paris, France",
       rating: 5,
-      text: "Qualité et goût exceptionnels. Ces pâtisseries me transportent dans les souks de Marrakech. Hautement recommandé !",
-      avatar: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      name: "Maria Rodriguez",
-      location: "Madrid, Spain",
-      rating: 5,
-      text: "Les cornes de gazelle sont absolument divines ! Équilibre parfait entre douceur et texture. Je commanderai certainement à nouveau.",
+      text: "Exceptional quality and taste. These pastries transport me back to the souks of Marrakech. Highly recommended!",
       avatar: "/placeholder.svg?height=60&width=60",
     },
   ],
@@ -161,17 +154,9 @@ export function TestimonialsSection({ language }: TestimonialsSectionProps) {
                       </div>
 
                       <div className="flex items-center justify-center gap-4">
-                        <div className="relative w-12 h-12 rounded-full border-2 border-white/30 overflow-hidden">
-                          <Image
-                            src={testimonial.avatar || "/placeholder.svg"}
-                            alt={testimonial.name}
-                            fill
-                            className="object-cover"
-                          />
-                        </div>
+                      
                         <div className="text-left">
                           <h4 className="font-semibold text-white">{testimonial.name}</h4>
-                          <p className="text-white/70 text-sm">{testimonial.location}</p>
                         </div>
                       </div>
                     </CardContent>

@@ -27,7 +27,7 @@ const translations = {
     title: "Notre Héritage",
     subtitle: "Un Voyage à Travers la Tradition Culinaire Marocaine",
     story:
-      "Depuis des générations, notre famille confectionne des pâtisseries marocaines authentiques en utilisant des recettes ancestrales transmises à travers les siècles. Chaque création délicate raconte l'histoire du riche patrimoine culinaire du Maroc.",
+      "Depuis des générations, Pâtisseries Les Jumeaux perpétue l’art de la confection des pâtisseries marocaines authentiques, en suivant des recettes ancestrales transmises à travers les siècles. Chaque création raffinée reflète le riche patrimoine culinaire du Maroc et raconte une histoire de tradition et de passion.",
     tradition: "Méthodes Traditionnelles",
     traditionDesc:
       "Nous utilisons uniquement des techniques traditionnelles et des ingrédients authentiques importés directement du Maroc.",
