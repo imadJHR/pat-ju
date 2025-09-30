@@ -78,25 +78,25 @@ export const products: Product[] = [
     id: "1",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Gâteau Trianon ",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Gâteau au chocolat avec une base croustillante, une mousse au chocolat et un glaçage brillant",
       ar: "",
     },
-    price: 259.9,
+    price: 170,
     originalPrice: 0,
     images: [pat1.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit chocolat moelleux aux noix", "la mousse chocolat noir", "la mousse chocolat blanc et au lait", "glaçage chocolat au lait",],
       ar: [""],
     },
     isNew: false,
@@ -109,20 +109,20 @@ export const products: Product[] = [
     id: "2",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Royal chocolat",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "L'essence du plaisir chocolaté. Ce Royal au chocolat est un entremets élégant qui marie la richesse d'une mousse au chocolat aérienne et intense à un croustillant praliné irrésistible, le tout sous un glaçage miroir brillant. Décoré d'un macaron chocolaté, c'est le gâteau parfait pour une pure indulgence.",
       ar: "",
     },
-    price: 259.9,
+    price: 170,
     originalPrice: 0,
     images: [pat2.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -140,25 +140,25 @@ export const products: Product[] = [
     id: "3",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Framboise pistache",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Découvrez cet entremets spectaculaire à la framboise et à la pistache. Sous son éblouissant glaçage miroir rouge vif, il cache l'équilibre parfait entre l'acidulé du fruit et le crémeux subtil de la pistache, le tout magnifiquement décoré de rubans de chocolat. Une explosion de saveurs fruitées et de textures légères.",
       ar: "",
     },
-    price: 259.9,
+    price: 170,
     originalPrice: 0,
     images: [pat3.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Patisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit joconde pistache", "Créme pistache", "Mouse Pistache", "croustillant pistache", " glaçage rouge"],
       ar: [""],
     },
     isNew: false,
@@ -171,7 +171,7 @@ export const products: Product[] = [
     id: "4",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "ka3b 4ZAL",
       ar: "",
     },
     description: {
@@ -179,12 +179,12 @@ export const products: Product[] = [
       fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
       ar: "",
     },
-    price: 259.9,
+    price: 170,
     originalPrice: 0,
     images: [pat4.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -202,7 +202,7 @@ export const products: Product[] = [
     id: "5",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "7alwa loz ",
       ar: "",
     },
     description: {
@@ -233,7 +233,7 @@ export const products: Product[] = [
     id: "6",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "m7ancha",
       ar: "",
     },
     description: {
@@ -264,7 +264,7 @@ export const products: Product[] = [
     id: "7",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "7alwa loz",
       ar: "",
     },
     description: {
@@ -791,12 +791,12 @@ export const products: Product[] = [
     id: "24",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Macaron Praliné",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Succombez à l'élégance carrée de ce gâteau aux saveurs intenses. Il marie une onctueuse crème pralinée avec des textures croquantes, le tout sur un biscuit léger, et une surface généreusement saupoudrée d'éclats de noisettes et de mini-touches de coulis. Le décor final : un délicat macaron posé sur le dessus. Un délice riche et nuancé.",
       ar: "",
     },
     price: 259.9,
@@ -804,12 +804,12 @@ export const products: Product[] = [
     images: [pat24.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["croustillant croquant ", "chocolat au lait", " biscuit joconde", " crème mousseline praline ", "ganaj chocolat noir nouga"],
       ar: [""],
     },
     isNew: false,
@@ -822,12 +822,12 @@ export const products: Product[] = [
     id: "25",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Trois Chocolat",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Un délice pour les puristes du chocolat ! Cet entremets Trois Chocolats offre un voyage sensoriel à travers des couches parfaitement équilibrées de mousse au chocolat noir, chocolat au lait et chocolat blanc, le tout sur un biscuit fondant. Son glaçage miroir éclatant et ses élégantes décorations en chocolat en font une expérience à la fois riche et légère.",
       ar: "",
     },
     price: 259.9,
@@ -840,7 +840,7 @@ export const products: Product[] = [
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit chocolat croquant", "futile", "la mousse chocolat noir", "mousse chocolat blanc", "la mousse chocolat en lait"],
       ar: [""],
     },
     isNew: false,
@@ -977,12 +977,12 @@ export const products: Product[] = [
     id: "30",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Délice De Chef",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Cet entremets carré est une symphonie de textures et de saveurs. Il présente des couches alternées de mousses légères et de biscuits, probablement axées sur le caramel et le praliné, ou le café. Sous son glaçage miroir parfaitement lisse, le gâteau offre une base croustillante et est surmonté de délicates décorations en spirales de crème. Un délice sophistiqué pour les amateurs de notes grillées et sucrées",
       ar: "",
     },
     price: 259.9,
@@ -990,12 +990,12 @@ export const products: Product[] = [
     images: [pat30.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["croquant amande", "biscuit chocolat", "crème caramel", "la mousse chocolat blanc", "la mousse chocolat blanc", "a mousse chocolat au lait"],
       ar: [""],
     },
     isNew: false,
@@ -1008,12 +1008,12 @@ export const products: Product[] = [
     id: "31",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Mariage",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Élégance et douceur caractérisent ce gâteau 'Mariage'. Il offre une harmonie de textures entre des couches de biscuit léger aux fruits secs (ou amandes) et une crème onctueuse à la vanille ou au praliné. Son glaçage blanc ivoire impeccable est couronné d'une magnifique rose en chocolat blanc et de quelques amandes, symbolisant la pureté et la finesse.",
       ar: "",
     },
     price: 259.9,
@@ -1021,12 +1021,12 @@ export const products: Product[] = [
     images: [pat31.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit Saint-Michel", " croquant futaine", "crème mousseline", "noisette", " la finition  la pâte d'amande"],
       ar: [""],
     },
     isNew: false,
@@ -1039,12 +1039,12 @@ export const products: Product[] = [
     id: "32",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Forêt Noire",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Laissez-vous tenter par cette version moderne et raffinée de la Forêt Noire. Cet entremets carré superpose avec élégance un biscuit au chocolat, une crème légère à la vanille ou chantilly, et une mousse intense au chocolat, le tout souvent imbibé de kirsch. Son brillant glaçage cacao est généreusement garni de cerises juteuses et de superbes copeaux de chocolat pour une expérience riche et fruitée.",
       ar: "",
     },
     price: 259.9,
@@ -1052,12 +1052,12 @@ export const products: Product[] = [
     images: [pat32.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit chocolat", "la mousse chocolat noir et amarena", " la mousse chocolat blanc"],
       ar: [""],
     },
     isNew: false,
@@ -1070,12 +1070,12 @@ export const products: Product[] = [
     id: "33",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Zigzag",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Découvrez le gâteau 'Zigzag', un entremets sophistiqué aux notes de noisettes et de chocolat. Il présente des couches superposées de biscuit riche, de crème onctueuse (peut-être pralinée ou café) et d'une base croustillante aux fruits secs. Son fini est un élégant glaçage lisse couleur caramel, joliment décoré de coques de chocolat et de noisettes entières. Un délice gourmand jouant sur les textures et les saveurs grillées.",
       ar: "",
     },
     price: 259.9,
@@ -1083,12 +1083,12 @@ export const products: Product[] = [
     images: [pat33.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Pâtisseries",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["croquant aux amandes", " biscuit chocolat", "crème noisette", "la mousse chocolat noir"],
       ar: [""],
     },
     isNew: false,
@@ -2248,12 +2248,12 @@ export const products: Product[] = [
     id: "71",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "Exotique",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Ce gâteau propose une association fraîche et acidulée de fruits exotiques (comme la mangue ou le fruit de la passion) et de fruits rouges, le tout sur une base croustillante. Son glaçage jaune vif est magnifiquement décoré de meringues, de pistaches et de coques de chocolat, promettant une expérience à la fois légère et intense.",
       ar: "",
     },
     price: 259.9,
@@ -2261,12 +2261,12 @@ export const products: Product[] = [
     images: [pat71.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "La Patisserie",
       ar: "",
     },
     ingredients: {
       en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      fr: ["biscuit joconde", "pistache", "pistache", " couche banane ", "couche mangue", "couche fruit rouge", "crème citron",],
       ar: [""],
     },
     isNew: false,
@@ -2329,6 +2329,68 @@ export const products: Product[] = [
     ingredients: {
       en: [""],
       fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
+      ar: [""],
+    },
+    isNew: false,
+    isBestseller: false,
+    inStock: true,
+    rating: 4.8,
+    reviewCount: 127,
+  },
+  {
+    id: "74",
+    name: {
+      en: "",
+      fr: "Jazz",
+      ar: "",
+    },
+    description: {
+      en: "",
+      fr: "Gâteau au chocolat avec une base croustillante, une mousse au chocolat et un glaçage brillant",
+      ar: "",
+    },
+    price: 170,
+    originalPrice: 0,
+    images: [pat1.src],
+    category: {
+      en: "",
+      fr: "La Pâtisseries",
+      ar: "",
+    },
+    ingredients: {
+      en: [""],
+      fr: ["biscuit chocolat", "sans farine", "croustillant", "chocolat noir", "ganache chocolat noir", " confit framboise"],
+      ar: [""],
+    },
+    isNew: false,
+    isBestseller: false,
+    inStock: true,
+    rating: 4.8,
+    reviewCount: 127,
+  },
+  {
+    id: "74",
+    name: {
+      en: "",
+      fr: "Chamonix",
+      ar: "",
+    },
+    description: {
+      en: "",
+      fr: "Gâteau au chocolat avec une base croustillante, une mousse au chocolat et un glaçage brillant",
+      ar: "",
+    },
+    price: 170,
+    originalPrice: 0,
+    images: [pat1.src],
+    category: {
+      en: "",
+      fr: "La Pâtisseries",
+      ar: "",
+    },
+    ingredients: {
+      en: [""],
+      fr: ["biscuit génoise", " crème des plantes vanille et morceaux fruits mix"],
       ar: [""],
     },
     isNew: false,

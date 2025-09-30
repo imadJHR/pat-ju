@@ -74,14 +74,14 @@ export default function HomePage() {
       <HeroSection language="fr" />
       <ProductShowcase language="fr" onAddToCart={handleAddToCart} onQuickView={handleQuickView} />
       <AboutSection language="fr" />
-      <TestimonialsSection  language="fr" />
+      <TestimonialsSection language="fr" />
 
       <QuickViewModal
         product={selectedProduct}
         isOpen={isQuickViewOpen}
         onClose={handleQuickViewClose}
         onAddToCart={handleQuickViewAddToCart}
-         language="fr"
+        language="fr"
       />
     </>
   )

@@ -42,7 +42,7 @@ const translations = {
             "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
         breadcrumb: { home: "Accueil", products: "Produits" },
         filters: { title: "Filtres", search: "Rechercher des produits...", category: "Catégorie", priceRange: "Gamme de prix", availability: "Disponibilité", inStock: "En stock", outOfStock: "Rupture de stock", special: "Spécial", new: "Nouveau", bestseller: "Bestseller", rating: "Note minimum", allRatings: "Toutes", sortBy: "Trier par", clearAll: "Effacer tout", showFilters: "Afficher les filtres", hideFilters: "Masquer les filtres" },
-        categories: { all: "Tous les Produits", traditional: "Douceurs Traditionnelles", almond: "Pâtisseries aux Amandes", layered: "Pâtisseries Feuilletées", date: "Pâtisseries aux Dattes", filled: "Biscuits Fourrés", phyllo: "Pâtisseries Phyllo" },
+        categories: { all: "Tous les Produits", traditional: "Moroccan", almond: "Pâtisseries aux Amandes", layered: "Pâtisseries Feuilletées", date: "Pâtisseries aux Dattes", filled: "Biscuits Fourrés", phyllo: "Pâtisseries Phyllo" },
         sorting: { default: "Par défaut", priceLowHigh: "Prix: Croissant", priceHighLow: "Prix: Décroissant", rating: "Note", name: "Nom", newest: "Plus récent" },
         results: "Affichage de {count} produits",
         noResults: "Aucun produit trouvé avec ces filtres.",

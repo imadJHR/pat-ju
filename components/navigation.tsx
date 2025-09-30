@@ -55,10 +55,6 @@ const translations: Record<"en" | "fr" | "ar", Record<TranslationKeys, string>> 
     ...createCategoryTranslations("ar")
   },
 }
-
-// --- FIX ENDS HERE ---
-
-// Define types for navigation items for better type safety
 interface SubNavItem {
   key: TranslationKeys; // This now correctly uses the comprehensive type
   href: string;
@@ -74,7 +70,7 @@ export function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-  const language = "fr" as const // Language is hardcoded to French
+  const language = "fr" as const 
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10)
@@ -93,7 +89,7 @@ export function Navigation() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
             <Link href="/" className="flex-shrink-0">
-              <h1 className="font-great-vibes text-3xl md:text-4xl text-[#d4b05d] font-bold cursor-pointer">
+              <h1 className="font-great-vibes text-3xl md:text-4xl text-[#d4b05d]  font-bold cursor-pointer">
                 Pâtisserie Les Jumeaux
               </h1>
             </Link>

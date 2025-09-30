@@ -31,7 +31,30 @@ interface OrderData {
   createdAt: Date
 }
 
-// Schéma de validation Zod avec les messages en français
+// Votre numéro de téléphone WhatsApp (format international sans le +)
+const WHATSAPP_PHONE = "+212666890902" // Remplacez par votre numéro Maroc
+const WHATSAPP_MESSAGE_TEMPLATE = `
+Nouvelle commande reçue!
+
+Commande ID: {orderId}
+Date: {orderDate}
+
+🛒 PRODUITS:
+{products}
+
+👤 INFORMATIONS CLIENT:
+Nom: {firstName} {lastName}
+Email: {email}
+Téléphone: {phone}
+Adresse: {address}
+Ville: {city}
+Code Postal: {postalCode}
+Notes: {notes}
+
+💰 TOTAL: {total} MAD
+Méthode de paiement: Paiement à la livraison
+`.trim()
+
 const formSchema = z.object({
   firstName: z.string().min(1, "Ce champ est requis"),
   lastName: z.string().min(1, "Ce champ est requis"),
@@ -43,7 +66,6 @@ const formSchema = z.object({
   notes: z.string().optional(),
 })
 
-// FIX 1: Infer the form's data type directly from the Zod schema.
 type CheckoutFormData = z.infer<typeof formSchema>
 
 export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
@@ -54,26 +76,64 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    // FIX 2: Use the inferred type for useForm.
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(formSchema),
   })
 
   const subtotal = getSubtotal()
-  // La livraison est toujours gratuite
   const shipping = 0
   const total = subtotal + shipping
 
-  // FIX 3: Use the inferred type in the onSubmit function signature.
+  // Fonction pour formater les produits dans le message
+  const formatProductsMessage = (items: CartItem[]): string => {
+    return items.map(item =>
+      `• ${item.name.fr} (x${item.quantity}) - ${(item.price * item.quantity).toFixed(2)} MAD`
+    ).join('\n')
+  }
+
+  // Fonction pour envoyer la commande vers WhatsApp
+  const sendOrderToWhatsApp = (orderData: OrderData, formData: CheckoutFormData) => {
+    const productsText = formatProductsMessage(items)
+    const orderDate = new Date().toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    })
+
+    const message = WHATSAPP_MESSAGE_TEMPLATE
+      .replace('{orderId}', orderData.id)
+      .replace('{orderDate}', orderDate)
+      .replace('{products}', productsText)
+      .replace('{firstName}', formData.firstName)
+      .replace('{lastName}', formData.lastName)
+      .replace('{email}', formData.email)
+      .replace('{phone}', formData.phone)
+      .replace('{address}', formData.address)
+      .replace('{city}', formData.city)
+      .replace('{postalCode}', formData.postalCode)
+      .replace('{notes}', formData.notes || 'Aucune note')
+      .replace('{total}', total.toFixed(2))
+
+    // Encoder le message pour l'URL
+    const encodedMessage = encodeURIComponent(message)
+    // Créer l'URL WhatsApp
+    const whatsappUrl = `https://wa.me/${WHATSAPP_PHONE}?text=${encodedMessage}`
+
+    // Ouvrir dans un nouvel onglet
+    window.open(whatsappUrl, '_blank')
+  }
+
   const onSubmit = async (data: CheckoutFormData) => {
     setIsProcessing(true)
+
     // Simule une requête réseau
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 1000))
 
     const orderData: OrderData = {
       id: `ORD-${Date.now()}`,
       items,
-      // FIX 4: Construct the full ShippingAddress object by adding the missing 'country' field.
       shippingAddress: {
         ...data,
         country: "Morocco",
@@ -86,8 +146,15 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
       createdAt: new Date(),
     }
 
-    clearCart()
+    // 1. Envoyer la commande vers WhatsApp
+    sendOrderToWhatsApp(orderData, data)
+
+    // 2. Appeler la callback pour compléter la commande
     onOrderComplete(orderData)
+
+    // 3. Vider le panier
+    clearCart()
+
     setIsProcessing(false)
   }
 
@@ -110,7 +177,6 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                {/* NOTE: We removed the <form> tag here because handleSubmit will manage it */}
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
@@ -310,6 +376,12 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                   </div>
                 </div>
 
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-4">
+                  <p className="text-sm text-blue-800 text-center">
+                    <strong>Important :</strong> Après validation, vous serez redirigé vers WhatsApp pour confirmer votre commande
+                  </p>
+                </div>
+
                 <Button
                   onClick={handleSubmit(onSubmit)}
                   disabled={isProcessing || items.length === 0}
@@ -321,7 +393,7 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Traitement...
+                      Préparation de la commande...
                     </>
                   ) : (
                     "Passer la Commande"

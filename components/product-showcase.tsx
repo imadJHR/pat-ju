@@ -14,54 +14,48 @@ interface ProductShowcaseProps {
 
 const translations = {
   en: {
-    title: "Our Exquisite Collection",
-    subtitle: "Handcrafted with love using traditional Moroccan recipes",
-    all: "All Products",
-    traditional: "Traditional Sweets",
-    almond: "Almond Pastries",
-    layered: "Layered Pastries",
-    date: "Date Pastries",
-    filled: "Filled Cookies",
-    phyllo: "Phyllo Pastries",
-    viewAll: "View All Products",
-    showingResults: "Showing {count} products",
+    title: "Notre Collection Exquise",
+    subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
+    all: "Tous les Produits",
+    almond: "La Pâtisseries",
+    traditional: "Boulangeries",
+    layered: "La Viennoiseries",
+    date: "Sale",
+    filled: "Beldi",
+    viewAll: "Voir Plus des Produits",
+    showingResults: "Affichage de {count} produits",
   },
   fr: {
     title: "Notre Collection Exquise",
     subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
     all: "Tous les Produits",
-    traditional: "Douceurs Traditionnelles",
-    almond: "Pâtisseries aux Amandes",
-    layered: "Pâtisseries Feuilletées",
-    date: "Pâtisseries aux Dattes",
-    filled: "Biscuits Fourrés",
-    phyllo: "Pâtisseries Phyllo",
+    traditional: "Boulangeries",
+    almond: "La Pâtisseries",
+    layered: "La Viennoiseries",
+    date: "Sale",
+    filled: "Beldi",
     viewAll: "Voir Plus des Produits",
     showingResults: "Affichage de {count} produits",
   },
   ar: {
-    title: "مجموعتنا الرائعة",
-    subtitle: "مصنوعة بحب باستخدام وصفات مغربية تقليدية",
-    all: "جميع المنتجات",
-    traditional: "حلويات تقليدية",
-    almond: "معجنات اللوز",
-    layered: "معجنات مطبقة",
-    date: "معجنات التمر",
-    filled: "بسكويت محشو",
-    phyllo: "معجنات الفيلو",
-    viewAll: "عرض جميع المنتجات",
-    showingResults: "عرض {count} منتج",
+    title: "Notre Collection Exquise",
+    subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
+    all: "Tous les Produits",
+    traditional: "Boulangeries",
+    almond: "La Pâtisseries",
+    layered: "La Viennoiseries",
+    date: "Sale",
+    filled: "Beldi",
+    viewAll: "Voir Plus des Produits",
+    showingResults: "Affichage de {count} produits",
   },
 }
 
 export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductShowcaseProps) {
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [displayCount, setDisplayCount] = useState(6)
-
   const t = translations[language]
   const isRTL = language === "ar"
-
-  // Get unique categories
   const categories = [
     { key: "all", label: t.all },
     { key: "traditional", label: t.traditional },
@@ -89,8 +83,6 @@ export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductS
           <h2 className="font-great-vibes text-4xl md:text-5xl text-[#d0a84b] mb-4">{t.title}</h2>
           <p className="font-playfair text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">{t.subtitle}</p>
         </div>
-
-        {/* Category Filter */}
         <div className="flex flex-wrap justify-center gap-2 mb-8">
           {categories.map((category) => (
             <Button
@@ -99,13 +91,12 @@ export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductS
               size="sm"
               onClick={() => {
                 setSelectedCategory(category.key)
-                setDisplayCount(6) // Reset display count when changing category
+                setDisplayCount(6)
               }}
-              className={`transition-all border-[#e6e0d4] duration-200 ${
-                selectedCategory === category.key
-                  ? "bg-[#d0a84b] text-primary-foreground"
-                  : "hover:bg-[#d0a84b]/30 hover:text-primary"
-              }`}
+              className={`transition-all border-[#e6e0d4] duration-200 ${selectedCategory === category.key
+                ? "bg-[#d0a84b] text-primary-foreground"
+                : "hover:bg-[#d0a84b]/30 hover:text-primary"
+                }`}
             >
               {category.label}
             </Button>
