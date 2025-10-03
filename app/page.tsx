@@ -63,7 +63,7 @@ export default function HomePage() {
   return (
     <>
       {/* NOTE: The type error on the 'language' prop below must be fixed in each child component's props definition. */}
-      <HeroSection language={language} />
+      <HeroSection language="fr" />
       <ProductShowcase language={language} onAddToCart={handleAddToCart} onQuickView={handleQuickView} />
       <AboutSection language={language} />
       <TestimonialsSection language={language} />
