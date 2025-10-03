@@ -9,38 +9,30 @@ import { Badge } from "@/components/ui/badge"
 import { ShoppingCart, Menu, X, ChevronDown } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
 import { CartDrawer } from "./cart-drawer"
-import { MoroccanDivider } from "@/components/moroccan-divider"
 
-// --- STEP 1: Centralized Category Data ---
+// --- STEP 1: Centralized Category Data (UPDATED) ---
 const productCategoryTranslations = {
-  traditional: { fr: "Douceurs Traditionnelles", en: "Traditional Sweets", ar: "حلويات تقليدية" },
-  almond: { fr: "Pâtisseries aux Amandes", en: "Almond Pastries", ar: "معجنات اللوز" },
-  layered: { fr: "Pâtisseries Feuilletées", en: "Layered Pastries", ar: "معجنات مطبقة" },
-  date: { fr: "Pâtisseries aux Dattes", en: "Date Pastries", ar: "معجنات التمر" },
-  filled: { fr: "Biscuits Fourrés", en: "Filled Cookies", ar: "بسكويت محشو" },
-  phyllo: { fr: "Pâtisseries Phyllo", en: "Phyllo Pastries", ar: "معجنات الفيلو" },
+  patisseries: { fr: "Pâtisseries", en: "Pastries", ar: "حلويات" },
+  boulangerie: { fr: "Boulangerie", en: "Bakery", ar: "مخبوزات" },
+  viennoiserie: { fr: "Viennoiserie", en: "Viennoiserie", ar: "معجنات" },
+  beldi: { fr: "Beldi", en: "Traditional", ar: "بلدي" },
+  sale: { fr: "Salé", en: "Savory", ar: "مالح" },
 }
 type ProductCategoryKey = keyof typeof productCategoryTranslations;
 
 
 // --- STEP 2: FIX - Define all keys explicitly for strong typing ---
-// Define base navigation keys separately
 const baseNavKeys = ["home", "products", "about", "contact", "blog", "cart", "orderNow"] as const;
 type BaseNavKey = typeof baseNavKeys[number];
 
-// Combine base keys and category keys into one comprehensive type
 type TranslationKeys = BaseNavKey | ProductCategoryKey;
 
-// --- FIX STARTS HERE ---
-
-// Helper function to create a language-specific record of product categories
 const createCategoryTranslations = (lang: "en" | "fr" | "ar"): Record<ProductCategoryKey, string> => {
   return Object.fromEntries(
     Object.entries(productCategoryTranslations).map(([key, value]) => [key, value[lang]])
   ) as Record<ProductCategoryKey, string>;
 };
 
-// Now, use this explicit type to define the translations object
 const translations: Record<"en" | "fr" | "ar", Record<TranslationKeys, string>> = {
   en: {
     home: "Home", products: "Products", about: "About", contact: "Contact", blog: "Blog", cart: "Cart", orderNow: "Order Now",
@@ -56,11 +48,11 @@ const translations: Record<"en" | "fr" | "ar", Record<TranslationKeys, string>> 
   },
 }
 interface SubNavItem {
-  key: TranslationKeys; // This now correctly uses the comprehensive type
+  key: TranslationKeys;
   href: string;
 }
 interface NavItem {
-  key: TranslationKeys; // This also uses the comprehensive type
+  key: TranslationKeys;
   href: string;
   dropdown?: SubNavItem[];
 }
@@ -89,7 +81,7 @@ export function Navigation() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className={`flex items-center justify-between transition-height duration-300 ${isScrolled ? 'h-16' : 'h-20'}`}>
             <Link href="/" className="flex-shrink-0">
-              <h1 className="font-great-vibes text-3xl md:text-4xl text-[#d4b05d]  font-bold cursor-pointer">
+              <h1 className="font-great-vibes text-3xl md:text-4xl text-[#d4b05d] font-bold cursor-pointer">
                 Pâtisserie Les Jumeaux
               </h1>
             </Link>

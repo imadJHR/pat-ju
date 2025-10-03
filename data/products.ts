@@ -91,7 +91,7 @@ export const products: Product[] = [
     images: [pat1.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -122,7 +122,7 @@ export const products: Product[] = [
     images: [pat2.src],
     category: {
       en: "",
-      fr: "La pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -153,7 +153,7 @@ export const products: Product[] = [
     images: [pat3.src],
     category: {
       en: "",
-      fr: "La Patisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -757,37 +757,6 @@ export const products: Product[] = [
     reviewCount: 127,
   },
   {
-    id: "23",
-    name: {
-      en: "",
-      fr: "Chebakia Traditionnelle",
-      ar: "",
-    },
-    description: {
-      en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
-      ar: "",
-    },
-    price: 259.9,
-    originalPrice: 0,
-    images: [pat23.src],
-    category: {
-      en: "",
-      fr: "Douceurs Traditionnelles",
-      ar: "",
-    },
-    ingredients: {
-      en: [""],
-      fr: ["Farine", "Miel", "Graines de Sésame", "Eau de Fleur d'Oranger", "Cannelle"],
-      ar: [""],
-    },
-    isNew: false,
-    isBestseller: false,
-    inStock: true,
-    rating: 4.8,
-    reviewCount: 127,
-  },
-  {
     id: "24",
     name: {
       en: "",
@@ -804,7 +773,7 @@ export const products: Product[] = [
     images: [pat24.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -990,7 +959,7 @@ export const products: Product[] = [
     images: [pat30.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1021,7 +990,7 @@ export const products: Product[] = [
     images: [pat31.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1052,7 +1021,7 @@ export const products: Product[] = [
     images: [pat32.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1083,7 +1052,7 @@ export const products: Product[] = [
     images: [pat33.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1504,12 +1473,12 @@ export const products: Product[] = [
     id: "47",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "test Traditionnelle",
       ar: "",
     },
     description: {
       en: "",
-      fr: "Pâtisserie délicate en forme de fleur trempée dans le miel et saupoudrée de graines de sésame",
+      fr: "Cette viennoiserie présente une belle croûte dorée et brillante, probablement grâce à un dorage à l'œuf. Elle arbore les couches caractéristiques du feuilletage, témoignant d'une pâte levée beurrée",
       ar: "",
     },
     price: 259.9,
@@ -2354,7 +2323,7 @@ export const products: Product[] = [
     images: [pat1.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -2369,7 +2338,7 @@ export const products: Product[] = [
     reviewCount: 127,
   },
   {
-    id: "74",
+    id: "75",
     name: {
       en: "",
       fr: "Chamonix",
@@ -2385,7 +2354,7 @@ export const products: Product[] = [
     images: [pat1.src],
     category: {
       en: "",
-      fr: "La Pâtisseries",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {

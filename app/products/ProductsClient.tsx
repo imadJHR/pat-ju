@@ -17,23 +17,24 @@ import { Search, Filter, ChevronDown, X, Star, ChevronLeft, ChevronRight } from 
 import { ProductCard } from "@/components/product-card"
 import Link from "next/link"
 import React from "react"
+import { useSearchParams } from "next/navigation";
 
 // --- Constants ---
 const PRODUCTS_PER_PAGE = 12;
 const LOCAL_STORAGE_PAGE_KEY = 'productsCurrentPage';
 
-// --- Category Mapping ---
+// --- Category Mapping (Synchronized with Navigation) ---
 const categoryMapping = {
   all: "all",
-  traditional: "traditional",
-  almond: "almond",
-  layered: "layered",
-  date: "date",
-  filled: "filled",
-  phyllo: "phyllo"
+  patisseries: "patisseries",
+  boulangerie: "boulangerie",
+  viennoiserie: "viennoiserie",
+  beldi: "beldi",
+  sale: "sale",
 } as const;
 
-// --- Translations (moved outside component for performance) ---
+
+// --- Translations (Synchronized with Navigation) ---
 const translations = {
     fr: {
         title: "Nos Pâtisseries",
@@ -42,7 +43,14 @@ const translations = {
             "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
         breadcrumb: { home: "Accueil", products: "Produits" },
         filters: { title: "Filtres", search: "Rechercher des produits...", category: "Catégorie", priceRange: "Gamme de prix", availability: "Disponibilité", inStock: "En stock", outOfStock: "Rupture de stock", special: "Spécial", new: "Nouveau", bestseller: "Bestseller", rating: "Note minimum", allRatings: "Toutes", sortBy: "Trier par", clearAll: "Effacer tout", showFilters: "Afficher les filtres", hideFilters: "Masquer les filtres" },
-        categories: { all: "Tous les Produits", traditional: "Moroccan", almond: "Pâtisseries aux Amandes", layered: "Pâtisseries Feuilletées", date: "Pâtisseries aux Dattes", filled: "Biscuits Fourrés", phyllo: "Pâtisseries Phyllo" },
+        categories: { 
+            all: "Tous les Produits", 
+            patisseries: "Pâtisseries",
+            boulangerie: "Boulangerie",
+            viennoiserie: "Viennoiserie",
+            beldi: "Beldi",
+            sale: "Salé"
+        },
         sorting: { default: "Par défaut", priceLowHigh: "Prix: Croissant", priceHighLow: "Prix: Décroissant", rating: "Note", name: "Nom", newest: "Plus récent" },
         results: "Affichage de {count} produits",
         noResults: "Aucun produit trouvé avec ces filtres.",
@@ -55,7 +63,14 @@ const translations = {
             "اكتشف مجموعتنا المختارة من الحلويات المغربية التقليدية، المحضرة بمكونات عالية الجودة ووفقاً لوصفات أجدادنا المتوارثة عبر الأجيال.",
         breadcrumb: { home: "الرئيسية", products: "المنتجات" },
         filters: { title: "المرشحات", search: "البحث عن المنتجات...", category: "الفئة", priceRange: "نطاق السعر", availability: "التوفر", inStock: "متوفر", outOfStock: "غير متوفر", special: "خاص", new: "جديد", bestseller: "الأكثر مبيعاً", rating: "أقل تقييم", allRatings: "الكل", sortBy: "ترتيب حسب", clearAll: "مسح الكل", showFilters: "إظهار المرشحات", hideFilters: "إخفاء المرشحات" },
-        categories: { all: "جميع المنتجات", traditional: "حلويات تقليدية", almond: "معجنات اللوز", layered: "معجنات مطبقة", date: "معجنات التمر", filled: "بسكويت محشو", phyllo: "معجنات الفيلو" },
+        categories: { 
+            all: "جميع المنتجات",
+            patisseries: "حلويات",
+            boulangerie: "مخبوزات",
+            viennoiserie: "معجنات",
+            beldi: "بلدي",
+            sale: "مالح"
+        },
         sorting: { default: "افتراضي", priceLowHigh: "السعر: تصاعدي", priceHighLow: "السعر: تنازلي", rating: "التقييم", name: "الاسم", newest: "الأحدث" },
         results: "عرض {count} منتج",
         noResults: "لم يتم العثور على منتجات بهذه المرشحات.",
@@ -68,7 +83,14 @@ const translations = {
             "Discover our refined selection of traditional Moroccan pastries, prepared with premium ingredients and according to ancestral recipes passed down through generations.",
         breadcrumb: { home: "Home", products: "Products" },
         filters: { title: "Filters", search: "Search products...", category: "Category", priceRange: "Price Range", availability: "Availability", inStock: "In Stock", outOfStock: "Out of Stock", special: "Special", new: "New", bestseller: "Bestseller", rating: "Minimum Rating", allRatings: "All", sortBy: "Sort By", clearAll: "Clear All", showFilters: "Show Filters", hideFilters: "Hide Filters" },
-        categories: { all: "All Products", traditional: "Traditional Sweets", almond: "Almond Pastries", layered: "Layered Pastries", date: "Date Pastries", filled: "Filled Cookies", phyllo: "Phyllo Pastries" },
+        categories: { 
+            all: "All Products",
+            patisseries: "Pastries",
+            boulangerie: "Bakery",
+            viennoiserie: "Viennoiserie",
+            beldi: "Traditional",
+            sale: "Savory"
+        },
         sorting: { default: "Default", priceLowHigh: "Price: Low to High", priceHighLow: "Price: High to Low", rating: "Rating", name: "Name", newest: "Newest" },
         results: "Showing {count} products",
         noResults: "No products found with these filters.",
@@ -77,6 +99,8 @@ const translations = {
 };
 
 export default function ProductsClient() {
+    const searchParams = useSearchParams();
+
     // --- State Management ---
     const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
     const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
@@ -101,8 +125,15 @@ export default function ProductsClient() {
     const isInitialMount = useRef(true);
 
     // --- Effects ---
+    useEffect(() => {
+        const categoryFromUrl = searchParams.get('category');
+        const validCategories = Object.keys(categoryMapping);
 
-    // Effect for handling language changes
+        if (categoryFromUrl && validCategories.includes(categoryFromUrl)) {
+            setSelectedCategory(categoryFromUrl);
+        }
+    }, [searchParams]);
+
     useEffect(() => {
         const savedLanguage = localStorage.getItem("language") as "en" | "fr" | "ar"
         if (savedLanguage) setLanguage(savedLanguage)
@@ -112,7 +143,6 @@ export default function ProductsClient() {
         return () => window.removeEventListener("languageChange", handleLanguageChange as EventListener)
     }, [])
     
-    // Effect for handling pagination with localStorage
     useEffect(() => {
         const savedPage = localStorage.getItem(LOCAL_STORAGE_PAGE_KEY);
         if (savedPage) {
@@ -124,7 +154,6 @@ export default function ProductsClient() {
         localStorage.setItem(LOCAL_STORAGE_PAGE_KEY, JSON.stringify(currentPage));
     }, [currentPage]);
     
-    // Effect to reset page to 1 when filters change
     const filterDependencies = [searchQuery, selectedCategory, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy];
     useEffect(() => {
         if (isInitialMount.current) {
@@ -149,7 +178,6 @@ export default function ProductsClient() {
                 ) return false
             }
             if (selectedCategory !== "all") {
-                // Get the category key from the product's category text
                 const categoryKey = Object.entries(t.categories).find(
                     ([key, value]) => value === product.category[language]
                 )?.[0];
@@ -175,7 +203,7 @@ export default function ProductsClient() {
             default: break
         }
         return sorted
-    }, [language, ...filterDependencies])
+    }, [language, selectedCategory, searchQuery, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy, t.categories])
 
     // Paginated Products
     const totalPages = Math.ceil(filteredAndSortedProducts.length / PRODUCTS_PER_PAGE);
@@ -187,14 +215,12 @@ export default function ProductsClient() {
     const selectedProduct = selectedProductId ? products.find((p) => p.id === selectedProductId) : null
 
     // --- Handlers ---
-    const handleAddToCart = useCallback((productId: string, quantity = 1) => {
+    const handleAddToCart = useCallback((productId: string, quantityInKg?: number) => {
         const product = products.find((p) => p.id === productId)
         if (product) {
-            for (let i = 0; i < quantity; i++) {
-                addItem(product, language)
-            }
+            addItem(product, quantityInKg)
         }
-    }, [addItem, language])
+    }, [addItem])
 
     const handleQuickView = useCallback((productId: string) => {
         setSelectedProductId(productId)
@@ -211,19 +237,18 @@ export default function ProductsClient() {
         setShowBestseller(false)
         setMinRating(0)
         setSortBy("default")
-        setCurrentPage(1); // Also reset page
+        setCurrentPage(1);
     }, [])
 
     const handlePageChange = (page: number) => {
       if (page >= 1 && page <= totalPages) {
         setCurrentPage(page);
-        window.scrollTo(0, 0); // Scroll to top on page change
+        window.scrollTo(0, 0);
       }
     };
 
     return (
         <div className={`min-h-screen ${isRTL ? "rtl" : "ltr"}`}>
-            {/* Header Section */}
             <div className="container mx-auto px-4 pt-20 md:pt-24 pb-8">
                 <nav className={`flex items-center space-x-2 text-sm text-gray-600 mb-8 ${isRTL ? "space-x-reverse" : ""}`}>
                     <Link href="/" className="hover:text-[#d4b05d] transition-colors">{t.breadcrumb.home}</Link>
@@ -240,12 +265,10 @@ export default function ProductsClient() {
                     <p className="font-poppins text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
                 </div>
             </section>
-
-            {/* Main Content: Filters + Products */}
+            
             <section className="py-12 md:py-16">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row gap-8 xl:gap-12">
-                        {/* Filters Sidebar */}
                         <aside className="lg:w-1/4">
                             <div className="lg:hidden mb-4">
                                 <Button
@@ -272,7 +295,6 @@ export default function ProductsClient() {
                                         </div>
                                     </CardHeader>
                                     <CardContent className="space-y-6">
-                                        {/* Search */}
                                         <div>
                                             <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.search}</Label>
                                             <div className="relative">
@@ -280,28 +302,24 @@ export default function ProductsClient() {
                                                 <Input placeholder={t.filters.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" style={{ borderColor: "#d4b05d" }} />
                                             </div>
                                         </div>
-                                        {/* Category */}
+                                        
                                         <div>
                                             <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.category}</Label>
                                             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                                                 <SelectTrigger style={{ borderColor: "#d4b05d", color: "#d4b05d" }}><SelectValue /></SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="all">{t.categories.all}</SelectItem>
-                                                    <SelectItem value="traditional">{t.categories.traditional}</SelectItem>
-                                                    <SelectItem value="almond">{t.categories.almond}</SelectItem>
-                                                    <SelectItem value="layered">{t.categories.layered}</SelectItem>
-                                                    <SelectItem value="date">{t.categories.date}</SelectItem>
-                                                    <SelectItem value="filled">{t.categories.filled}</SelectItem>
-                                                    <SelectItem value="phyllo">{t.categories.phyllo}</SelectItem>
+                                                  {Object.entries(t.categories).map(([key, value]) => (
+                                                    <SelectItem key={key} value={key}>{value}</SelectItem>
+                                                  ))}
                                                 </SelectContent>
                                             </Select>
                                         </div>
-                                        {/* Price Range */}
+
                                         <div>
                                             <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.priceRange}: {priceRange[0]} MAD - {priceRange[1]} MAD</Label>
                                             <Slider value={priceRange} onValueChange={setPriceRange} max={500} step={5} style={{ "--slider-thumb-color": "#d4b05d", "--slider-track-color": "#d4b05d" } as React.CSSProperties} />
                                         </div>
-                                        {/* Availability */}
+                                        
                                         <div>
                                             <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.availability}</Label>
                                             <div className="space-y-2">
@@ -315,7 +333,7 @@ export default function ProductsClient() {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Special Badges */}
+                                        
                                         <div>
                                             <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.special}</Label>
                                             <div className="space-y-2">
@@ -329,7 +347,7 @@ export default function ProductsClient() {
                                                 </div>
                                             </div>
                                         </div>
-                                        {/* Rating */}
+                                        
                                         <div>
                                             <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.rating}: {minRating > 0 ? `${minRating}+` : t.filters.allRatings}</Label>
                                             <div className="flex items-center space-x-1">
@@ -345,7 +363,6 @@ export default function ProductsClient() {
                             </div>
                         </aside>
 
-                        {/* Products Grid */}
                         <main className="lg:w-3/4">
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                                 <Badge variant="secondary" className="text-sm" style={{ backgroundColor: "#d4b05d", color: "white" }}>
@@ -377,13 +394,12 @@ export default function ProductsClient() {
                                                     language={language}
                                                     onAddToCart={handleAddToCart}
                                                     onQuickView={handleQuickView}
-                                                    isPriority={index < 4} // Prioritize first few images on the page
+                                                    isPriority={index < 4}
                                                 />
                                             </div>
                                         ))}
                                     </div>
                                     
-                                    {/* Pagination Controls */}
                                     {totalPages > 1 && (
                                       <div className="flex justify-center items-center mt-12 space-x-2">
                                           <Button variant="outline" size="icon" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} aria-label={t.pagination.previous}>
@@ -419,7 +435,6 @@ export default function ProductsClient() {
                 </div>
             </section>
 
-            {/* Modals and Scripts */}
             {selectedProduct && (
                 <QuickViewModal
                     product={selectedProduct}

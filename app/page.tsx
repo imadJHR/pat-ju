@@ -35,11 +35,13 @@ export default function HomePage() {
     window.addEventListener("languageChanged", handleLanguageChange)
     return () => window.removeEventListener("languageChanged", handleLanguageChange)
   }, [])
-
-  const handleAddToCart = (productId: string) => {
-    const product = products.find((p) => p.id === productId)
+  // Dans votre page principale
+  const handleAddToCart = (productId: string, quantityInKg: number) => {
+    // Trouver le produit par ID
+    const product = products.find(p => p.id === productId)
     if (product) {
-      addItem(product, language)
+      // Appeler le store avec la quantité spécifiée
+      useCart.getState().addItem(product, quantityInKg)
     }
   }
 
@@ -79,9 +81,9 @@ export default function HomePage() {
       <QuickViewModal
         product={selectedProduct}
         isOpen={isQuickViewOpen}
-        onClose={handleQuickViewClose}
-        onAddToCart={handleQuickViewAddToCart}
-        language="fr"
+        onClose={() => setSelectedProduct(null)}
+        language={language}
+        onAddToCart={handleAddToCart} // Bien passer la fonction qui accepte la quantité
       />
     </>
   )

@@ -84,11 +84,25 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
   const shipping = 0
   const total = subtotal + shipping
 
+  // Fonction pour obtenir le nom sécurisé d'un produit
+  const getSafeProductName = (item: CartItem): string => {
+    if (!item.name) return "Produit"
+    
+    // Si le nom est un objet de traductions, prendre le français
+    if (typeof item.name === 'object' && item.name !== null) {
+      return (item.name as any).fr || (item.name as any).en || "Produit"
+    }
+    
+    // Si c'est déjà une string, la retourner directement
+    return item.name.toString()
+  }
+
   // Fonction pour formater les produits dans le message
   const formatProductsMessage = (items: CartItem[]): string => {
-    return items.map(item =>
-      `• ${item.name.fr} (x${item.quantity}) - ${(item.price * item.quantity).toFixed(2)} MAD`
-    ).join('\n')
+    return items.map(item => {
+      const productName = getSafeProductName(item)
+      return `• ${productName} (${item.quantity} kg) - ${(item.price * item.quantity).toFixed(2)} MAD`
+    }).join('\n')
   }
 
   // Fonction pour envoyer la commande vers WhatsApp
@@ -331,29 +345,32 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
               <CardContent className="space-y-6">
                 {/* Articles de la commande */}
                 <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2">
-                  {items.map((item) => (
-                    <div key={item.id} className="flex items-start gap-4 p-3 bg-white rounded-lg">
-                      <div className="w-14 h-14 relative flex-shrink-0">
-                        <Image
-                          src={item.image || "/placeholder.svg"}
-                          alt={item.name.fr}
-                          fill
-                          className="object-cover rounded-md"
-                        />
+                  {items.map((item) => {
+                    const productName = getSafeProductName(item)
+                    return (
+                      <div key={item.id} className="flex items-start gap-4 p-3 bg-white rounded-lg">
+                        <div className="w-14 h-14 relative flex-shrink-0">
+                          <Image
+                            src={item.image || "/placeholder.svg"}
+                            alt={productName}
+                            fill
+                            className="object-cover rounded-md"
+                          />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-sm font-medium text-black line-clamp-1">
+                            {productName}
+                          </h4>
+                          <p className="text-xs text-black/60">
+                            {item.quantity} kg × {item.price.toFixed(2)} MAD
+                          </p>
+                        </div>
+                        <span className="text-sm font-semibold text-[#d4b05d]">
+                          {(item.price * item.quantity).toFixed(2)} MAD
+                        </span>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-sm font-medium text-black line-clamp-1">
-                          {item.name.fr}
-                        </h4>
-                        <p className="text-xs text-black/60">
-                          {item.quantity} × {item.price.toFixed(2)} MAD
-                        </p>
-                      </div>
-                      <span className="text-sm font-semibold text-[#d4b05d]">
-                        {(item.price * item.quantity).toFixed(2)} MAD
-                      </span>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
 
                 {/* Totaux de la commande */}

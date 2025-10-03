@@ -8,69 +8,81 @@ import { products } from "@/data/products"
 
 interface ProductShowcaseProps {
   language: "en" | "fr" | "ar"
-  onAddToCart: (productId: string) => void
+  onAddToCart: (productId: string, quantityInKg?: number) => void
   onQuickView: (productId: string) => void
 }
 
 const translations = {
   en: {
-    title: "Notre Collection Exquise",
-    subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
-    all: "Tous les Produits",
-    almond: "La Pâtisseries",
-    traditional: "Boulangeries",
-    layered: "La Viennoiseries",
-    date: "Sale",
-    filled: "Beldi",
-    viewAll: "Voir Plus des Produits",
-    showingResults: "Affichage de {count} produits",
+    title: "Our Exquisite Collection",
+    subtitle: "Made with love using traditional Moroccan recipes",
+    categories: {
+      all: "All Products",
+      patisseries: "Pastries",
+      boulangerie: "Bakery",
+      viennoiserie: "Viennoiserie",
+      sale: "Savory",
+      beldi: "Traditional",
+    },
+    viewAll: "View More Products",
+    showingResults: "Showing {count} products",
   },
   fr: {
     title: "Notre Collection Exquise",
     subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
-    all: "Tous les Produits",
-    traditional: "Boulangeries",
-    almond: "La Pâtisseries",
-    layered: "La Viennoiseries",
-    date: "Sale",
-    filled: "Beldi",
-    viewAll: "Voir Plus des Produits",
+    categories: {
+      all: "Tous les Produits",
+      patisseries: "Pâtisseries",
+      boulangerie: "Boulangerie",
+      viennoiserie: "Viennoiserie",
+      sale: "Salé",
+      beldi: "Beldi",
+    },
+    viewAll: "Voir Plus de Produits",
     showingResults: "Affichage de {count} produits",
   },
   ar: {
-    title: "Notre Collection Exquise",
-    subtitle: "Fabriquées avec amour selon des recettes marocaines traditionnelles",
-    all: "Tous les Produits",
-    traditional: "Boulangeries",
-    almond: "La Pâtisseries",
-    layered: "La Viennoiseries",
-    date: "Sale",
-    filled: "Beldi",
-    viewAll: "Voir Plus des Produits",
-    showingResults: "Affichage de {count} produits",
+    title: "مجموعتنا الرائعة",
+    subtitle: "مصنوعة بحب وفقًا للوصفات المغربية التقليدية",
+    categories: {
+      all: "جميع المنتجات",
+      patisseries: "حلويات",
+      boulangerie: "مخبوزات",
+      viennoiserie: "معجنات",
+      sale: "مالح",
+      beldi: "بلدي",
+    },
+    viewAll: "عرض المزيد من المنتجات",
+    showingResults: "عرض {count} منتج",
   },
 }
 
+
 export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductShowcaseProps) {
   const [selectedCategory, setSelectedCategory] = useState("all")
-  const [displayCount, setDisplayCount] = useState(6)
+  const [displayCount, setDisplayCount] = useState(8)
   const t = translations[language]
   const isRTL = language === "ar"
+
   const categories = [
-    { key: "all", label: t.all },
-    { key: "traditional", label: t.traditional },
-    { key: "almond", label: t.almond },
-    { key: "layered", label: t.layered },
-    { key: "date", label: t.date },
-    { key: "filled", label: t.filled },
-    { key: "phyllo", label: t.phyllo },
+    { key: "all", label: t.categories.all },
+    { key: "patisseries", label: t.categories.patisseries },
+    { key: "boulangerie", label: t.categories.boulangerie },
+    { key: "viennoiserie", label: t.categories.viennoiserie },
+    { key: "sale", label: t.categories.sale },
+    { key: "beldi", label: t.categories.beldi },
   ]
 
   // Filter products by category
   const filteredProducts = products.filter((product) => {
     if (selectedCategory === "all") return true
-    const categoryKey = product.category.en.toLowerCase().replace(" ", "")
-    return categoryKey.includes(selectedCategory) || selectedCategory.includes(categoryKey)
+
+    // Find the key (e.g., 'patisseries') that corresponds to the product's category name (e.g., 'Pâtisseries')
+    const productCategoryKey = Object.entries(t.categories).find(
+      ([key, value]) => value === product.category[language]
+    )?.[0]
+
+    return productCategoryKey === selectedCategory
   })
 
   const displayedProducts = filteredProducts.slice(0, displayCount)
@@ -91,11 +103,11 @@ export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductS
               size="sm"
               onClick={() => {
                 setSelectedCategory(category.key)
-                setDisplayCount(6)
+                setDisplayCount(8) // Reset count on category change
               }}
-              className={`transition-all border-[#e6e0d4] duration-200 ${selectedCategory === category.key
-                ? "bg-[#d0a84b] text-primary-foreground"
-                : "hover:bg-[#d0a84b]/30 hover:text-primary"
+              className={`transition-all duration-200 ${selectedCategory === category.key
+                  ? "bg-[#d0a84b] text-white border-[#d0a84b] hover:bg-[#c2905e]"
+                  : "border-[#e6e0d4] hover:bg-[#d0a84b]/30 hover:text-primary"
                 }`}
             >
               {category.label}
@@ -104,19 +116,19 @@ export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductS
         </div>
 
         {/* Results Count */}
-        <div className="text-center  mb-8">
+        <div className="text-center mb-8">
           <Badge variant="secondary" className="text-sm bg-[#c2905e] text-white">
             {t.showingResults.replace("{count}", displayedProducts.length.toString())}
           </Badge>
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2  sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-12">
-          {displayedProducts.map((product) => (
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6 mb-12">
+          {displayedProducts.map((product, index) => (
             <div
               key={product.id}
-              className="animate-fade-in-up "
-              style={{ animationDelay: `${displayedProducts.indexOf(product) * 100}ms` }}
+              className="animate-fade-in-up"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <ProductCard product={product} language={language} onAddToCart={onAddToCart} onQuickView={onQuickView} />
             </div>
@@ -129,8 +141,8 @@ export function ProductShowcase({ language, onAddToCart, onQuickView }: ProductS
             <Button
               variant="outline"
               size="lg"
-              onClick={() => setDisplayCount(displayCount + 6)}
-              className="hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+              onClick={() => setDisplayCount(displayCount + 8)}
+              className="bg-transparent border-[#d0a84b] text-[#d0a84b] hover:bg-[#d0a84b] hover:text-white transition-all duration-200"
             >
               {t.viewAll}
             </Button>

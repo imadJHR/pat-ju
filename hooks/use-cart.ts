@@ -8,14 +8,15 @@ import type { Product } from "@/types/product"
 interface CartStore {
   items: CartItem[]
   isOpen: boolean
-  addItem: (product: Product, language: "en" | "fr" | "ar") => void
+  addItem: (product: Product, quantityInKg?: number) => void
   removeItem: (itemId: string) => void
-  updateQuantity: (itemId: string, quantity: number) => void
+  updateQuantity: (itemId: string, quantityInKg: number) => void
   clearCart: () => void
   openCart: () => void
   closeCart: () => void
   getItemCount: () => number
   getSubtotal: () => number
+  getTotalWeight: () => number
 }
 
 export const useCart = create<CartStore>()(
@@ -24,25 +25,49 @@ export const useCart = create<CartStore>()(
       items: [],
       isOpen: false,
 
-      addItem: (product: Product, language: "en" | "fr" | "ar") => {
-        const items = get().items
+      addItem: (product: Product, quantityInKg?: number) => {
+        // Validation des données avec valeur par défaut sécurisée
+        if (!product?.id || !product.name || typeof product.price !== 'number') {
+          console.error('Produit invalide:', product)
+          return
+        }
+
+        // Valeur par défaut sécurisée et validation
+        const safeQuantity = typeof quantityInKg === 'number' && quantityInKg > 0 
+          ? parseFloat(quantityInKg.toFixed(2)) 
+          : 0.5
+
+        if (safeQuantity <= 0) {
+          console.error('Quantité doit être supérieure à 0')
+          return
+        }
+
+        const { items } = get()
         const existingItem = items.find((item) => item.productId === product.id)
 
         if (existingItem) {
+          // Si l'article existe déjà, mettre à jour la quantité
+          const newQuantity = parseFloat((existingItem.quantity + safeQuantity).toFixed(2))
           set({
             items: items.map((item) =>
-              item.productId === product.id ? { ...item, quantity: item.quantity + 1 } : item,
+              item.productId === product.id 
+                ? { 
+                    ...item, 
+                    quantity: newQuantity
+                  } 
+                : item
             ),
           })
         } else {
+          // Créer un nouvel article avec la quantité spécifiée
           const newItem: CartItem = {
-            id: `${product.id}-${Date.now()}`,
+            id: `cart-${product.id}-${crypto.randomUUID() || Date.now()}`,
             productId: product.id,
-            name: product.name,
+            name: typeof product.name === 'string' ? product.name : product.name.fr || product.name.en || "Produit",
             price: product.price,
-            quantity: 1,
-            image: product.images[0],
-            category: product.category,
+            quantity: safeQuantity,
+            image: product.images?.[0] || '/default-image.jpg',
+            category: typeof product.category === 'string' ? product.category : product.category.fr || product.category.en || "",
           }
           set({ items: [...items, newItem] })
         }
@@ -52,13 +77,23 @@ export const useCart = create<CartStore>()(
         set({ items: get().items.filter((item) => item.id !== itemId) })
       },
 
-      updateQuantity: (itemId: string, quantity: number) => {
-        if (quantity <= 0) {
+      updateQuantity: (itemId: string, quantityInKg: number) => {
+        // Validation du paramètre
+        const safeQuantity = typeof quantityInKg === 'number' ? quantityInKg : 0.5
+        
+        if (safeQuantity <= 0) {
           get().removeItem(itemId)
           return
         }
+        
+        // Limiter la quantité maximum à 10kg par article
+        const maxQuantity = 10
+        const actualQuantity = parseFloat(Math.min(safeQuantity, maxQuantity).toFixed(2))
+        
         set({
-          items: get().items.map((item) => (item.id === itemId ? { ...item, quantity } : item)),
+          items: get().items.map((item) => 
+            item.id === itemId ? { ...item, quantity: actualQuantity } : item
+          ),
         })
       },
 
@@ -75,15 +110,20 @@ export const useCart = create<CartStore>()(
       },
 
       getItemCount: () => {
-        return get().items.reduce((total, item) => total + item.quantity, 0)
+        return get().items.reduce((total, item) => total + 1, 0)
       },
 
       getSubtotal: () => {
-        return get().items.reduce((total, item) => total + item.price * item.quantity, 0)
+        return parseFloat(get().items.reduce((total, item) => total + item.price * item.quantity, 0).toFixed(2))
+      },
+
+      getTotalWeight: () => {
+        return parseFloat(get().items.reduce((total, item) => total + item.quantity, 0).toFixed(2))
       },
     }),
     {
       name: "cart-storage",
+      version: 1,
     },
   ),
 )
