@@ -8,10 +8,26 @@ import { ShoppingCart, Plus, Minus, Trash2 } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
 import Link from "next/link"
 import Image from "next/image"
-import type { CartItem } from "@/types/cart"
+
+// --- FIX 1: Define specific types for translations and CartItem ---
+type Language = "en" | "fr" | "ar"
+
+type Translatable = {
+  [key in Language]?: string
+}
+
+export interface CartItem {
+  id: string
+  name: string | Translatable
+  category?: string | Translatable
+  image?: string
+  price: number
+  quantity: number
+}
+// --- End of FIX 1 ---
 
 interface CartDrawerProps {
-  language: "en" | "fr" | "ar"
+  language: Language
 }
 
 const translations = {
@@ -34,6 +50,8 @@ const translations = {
     item: "item",
     kg: "kg",
     totalWeight: "Total Weight",
+    // --- IMPROVEMENT: Add free shipping message to translations ---
+    freeShippingThreshold: "Add {amount} {currency} more for free shipping",
   },
   fr: {
     cart: "Panier",
@@ -54,6 +72,7 @@ const translations = {
     item: "article",
     kg: "kg",
     totalWeight: "Poids Total",
+    freeShippingThreshold: "Ajoutez {amount} {currency} de plus pour la livraison gratuite",
   },
   ar: {
     cart: "سلة التسوق",
@@ -74,6 +93,7 @@ const translations = {
     item: "عنصر",
     kg: "كجم",
     totalWeight: "الوزن الإجمالي",
+    freeShippingThreshold: "أضف {amount} {currency} أخرى للحصول على شحن مجاني",
   },
 }
 
@@ -91,7 +111,7 @@ export function CartDrawer({ language }: CartDrawerProps) {
   const isRTL = language === "ar"
 
   // Validation des données
-  const safeItems = Array.isArray(items) ? items : []
+  const safeItems: CartItem[] = Array.isArray(items) ? items : []
   const itemCount = getItemCount?.() || 0
   const subtotal = getSubtotal?.() || 0
   const totalWeight = getTotalWeight?.() || 0
@@ -106,32 +126,21 @@ export function CartDrawer({ language }: CartDrawerProps) {
       maximumFractionDigits: 2,
     }).format(price)
   }
-
-  // Fonction pour obtenir le nom sécurisé d'un produit
-  const getSafeProductName = (item: CartItem): string => {
-    if (!item.name) return "Produit"
-    
-    // Si le nom est un objet de traductions, prendre la bonne langue
-    if (typeof item.name === 'object' && item.name !== null) {
-      return (item.name as any)[language] || item.name.fr || item.name.en || "Produit"
+  
+  // --- FIX 2: Replace `any` with the specific `Translatable` type ---
+  const getSafeTranslatedValue = (value: string | Translatable | undefined, fallback: string): string => {
+    if (!value) return fallback
+    if (typeof value === 'object' && value !== null) {
+      // Cast to Translatable, which can be indexed by `language`
+      const translations = value as Translatable
+      return translations[language] || translations.fr || translations.en || fallback
     }
-    
-    // Si c'est déjà une string, la retourner directement
-    return item.name.toString()
+    return value.toString()
   }
 
-  // Fonction pour obtenir la catégorie sécurisée
-  const getSafeCategory = (item: CartItem): string => {
-    if (!item.category) return ""
-    
-    // Si la catégorie est un objet de traductions
-    if (typeof item.category === 'object' && item.category !== null) {
-      return (item.category as any)[language] || item.category.fr || item.category.en || ""
-    }
-    
-    // Si c'est déjà une string
-    return item.category.toString()
-  }
+  const getSafeProductName = (item: CartItem): string => getSafeTranslatedValue(item.name, "Product")
+  const getSafeCategory = (item: CartItem): string => getSafeTranslatedValue(item.category, "")
+  // --- End of FIX 2 ---
 
   const handleQuantityDecrease = (item: CartItem) => {
     const newQuantity = parseFloat((item.quantity - 0.1).toFixed(2))
@@ -151,6 +160,13 @@ export function CartDrawer({ language }: CartDrawerProps) {
     if (itemCount === 1) return `1 ${t.item}`
     return `${itemCount} ${t.items}`
   }
+
+  const getFreeShippingMessage = () => {
+    const remainingAmount = formatPrice(SHIPPING_CONFIG.freeThreshold - subtotal);
+    return t.freeShippingThreshold
+      .replace('{amount}', remainingAmount)
+      .replace('{currency}', SHIPPING_CONFIG.currency);
+  };
 
   return (
     <Sheet open={isOpen} onOpenChange={closeCart}>
@@ -286,7 +302,7 @@ export function CartDrawer({ language }: CartDrawerProps) {
               {/* Total Weight */}
               <div className="flex justify-between text-lg font-medium text-black">
                 <span>{t.totalWeight}:</span>
-                <span>{totalWeight} {t.kg}</span>
+                <span>{totalWeight.toFixed(2)} {t.kg}</span>
               </div>
 
               <div className="space-y-3">
@@ -305,11 +321,9 @@ export function CartDrawer({ language }: CartDrawerProps) {
                   </span>
                 </div>
                 {subtotal < SHIPPING_CONFIG.freeThreshold && (
+                  // --- IMPROVEMENT: Use translation function for dynamic message ---
                   <p className="text-sm text-black/60 text-center">
-                    {isRTL ? 
-                      `أضف ${formatPrice(SHIPPING_CONFIG.freeThreshold - subtotal)} ${SHIPPING_CONFIG.currency} أخرى للشحن المجاني` :
-                      `Add ${formatPrice(SHIPPING_CONFIG.freeThreshold - subtotal)} ${SHIPPING_CONFIG.currency} more for free shipping`
-                    }
+                    {getFreeShippingMessage()}
                   </p>
                 )}
                 <Separator className="my-3 bg-black/10" />

@@ -13,7 +13,35 @@ import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { CreditCard, Truck, MapPin, Phone, Mail, User } from "lucide-react"
 import { useCart } from "@/hooks/use-cart"
-import type { ShippingAddress, CartItem } from "@/types/cart"
+
+// --- FIX 1: Define specific types to avoid 'any' ---
+type Translatable = {
+  fr?: string
+  en?: string
+  ar?: string
+}
+
+// Assuming the shape of these types from their usage
+export interface CartItem {
+  id: string
+  name: string | Translatable
+  image?: string
+  price: number
+  quantity: number
+}
+
+export interface ShippingAddress {
+  firstName: string
+  lastName:string
+  email: string
+  phone: string
+  address: string
+  city: string
+  postalCode: string
+  country: string
+  notes?: string
+}
+// --- End of FIX 1 ---
 
 interface CheckoutFormProps {
   onOrderComplete: (orderData: OrderData) => void
@@ -31,8 +59,10 @@ interface OrderData {
   createdAt: Date
 }
 
-// Votre numéro de téléphone WhatsApp (format international sans le +)
-const WHATSAPP_PHONE = "+212666890902" // Remplacez par votre numéro Maroc
+// --- IMPROVEMENT 1: Correct WhatsApp number format ---
+// Le format international pour wa.me n'inclut pas le '+'
+const WHATSAPP_PHONE = "212666890902" // Remplacez par votre numéro Maroc
+
 const WHATSAPP_MESSAGE_TEMPLATE = `
 Nouvelle commande reçue!
 
@@ -55,11 +85,13 @@ Notes: {notes}
 Méthode de paiement: Paiement à la livraison
 `.trim()
 
+// --- IMPROVEMENT 2: Add more specific validation for Moroccan phone numbers ---
 const formSchema = z.object({
   firstName: z.string().min(1, "Ce champ est requis"),
   lastName: z.string().min(1, "Ce champ est requis"),
   email: z.string().email("Veuillez entrer une adresse email valide"),
-  phone: z.string().min(10, "Veuillez entrer un numéro de téléphone valide"),
+  phone: z.string()
+    .regex(/^0[5-7]\d{8}$/, "Le numéro doit être un format marocain valide (ex: 0612345678)"),
   address: z.string().min(1, "Ce champ est requis"),
   city: z.string().min(1, "Ce champ est requis"),
   postalCode: z.string().min(1, "Ce champ est requis"),
@@ -84,18 +116,21 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
   const shipping = 0
   const total = subtotal + shipping
 
-  // Fonction pour obtenir le nom sécurisé d'un produit
+  // --- FIX 2: Update function to use the `Translatable` type ---
   const getSafeProductName = (item: CartItem): string => {
     if (!item.name) return "Produit"
     
     // Si le nom est un objet de traductions, prendre le français
     if (typeof item.name === 'object' && item.name !== null) {
-      return (item.name as any).fr || (item.name as any).en || "Produit"
+      // Cast to our specific Translatable type, not 'any'
+      const nameTranslations = item.name as Translatable
+      return nameTranslations.fr || nameTranslations.en || "Produit"
     }
     
     // Si c'est déjà une string, la retourner directement
     return item.name.toString()
   }
+  // --- End of FIX 2 ---
 
   // Fonction pour formater les produits dans le message
   const formatProductsMessage = (items: CartItem[]): string => {
@@ -191,7 +226,7 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-6">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label htmlFor="firstName" className="text-black flex items-center gap-2">
@@ -309,7 +344,7 @@ export function CheckoutForm({ onOrderComplete }: CheckoutFormProps) {
                       className="bg-white border-black/20 min-h-[100px]"
                     />
                   </div>
-                </div>
+                </form>
               </CardContent>
             </Card>
 

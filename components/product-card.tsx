@@ -5,7 +5,23 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Star, ShoppingCart, Eye } from "lucide-react"
-import type { Product } from "@/types/product"
+
+// --- For Type Safety: Define the Product type based on its usage ---
+export interface Product {
+  id: string
+  name: { [key in Language]: string }
+  description: { [key in Language]: string }
+  category: { [key in Language]: string }
+  images: string[]
+  price: number
+  inStock: boolean
+  rating: number
+  reviewCount: number
+  isNew?: boolean
+  isBestseller?: boolean
+}
+
+type Language = "en" | "fr" | "ar"
 
 const translations = {
   en: {
@@ -54,7 +70,7 @@ const translations = {
 
 interface ProductCardProps {
   product: Product
-  language: "en" | "fr" | "ar"
+  language: Language
   onAddToCart: (productId: string, quantityInKg?: number) => void
   onQuickView: (productId: string) => void
   isPriority?: boolean
@@ -75,7 +91,8 @@ export const ProductCard = memo(function ProductCard({
   const category = product.category[language]
   const t = translations[language]
 
-  const handleQuickView = useCallback((e: React.MouseEvent) => {
+  // --- FIX 1: Broaden the event type to accept both Mouse and Keyboard events ---
+  const handleQuickView = useCallback((e: React.MouseEvent | React.KeyboardEvent) => {
     e.stopPropagation()
     onQuickView(product.id)
   }, [onQuickView, product.id])
@@ -133,7 +150,8 @@ export const ProductCard = memo(function ProductCard({
             variant="secondary"
             className="bg-white/90 hover:bg-white text-foreground shadow-lg rounded-full px-4 py-2 focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-black/30"
             onClick={handleQuickView}
-            onKeyDown={(e) => e.key === 'Enter' && handleQuickView(e as any)}
+            // --- FIX 2: Remove the `as any` cast ---
+            onKeyDown={(e) => e.key === 'Enter' && handleQuickView(e)}
           >
             <Eye className="h-4 w-4 mr-1" aria-hidden="true" />
             {t.quickView}
