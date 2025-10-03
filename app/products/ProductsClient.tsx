@@ -150,7 +150,7 @@ export default function ProductsClient() {
     const isRTL = language === "ar";
 
     const filteredAndSortedProducts = useMemo(() => {
-        let filtered = products.filter((product) => {
+        const filtered = products.filter((product) => {
             if (searchQuery) {
                 const searchLower = searchQuery.toLowerCase();
                 // FIX: Added optional chaining (?.) to safely access category, preventing crashes.
