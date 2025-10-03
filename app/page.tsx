@@ -35,10 +35,13 @@ export default function HomePage() {
     return () => window.removeEventListener("languageChanged", handleLanguageChange)
   }, [])
 
-  const handleAddToCart = (productId: string, quantityInKg: number) => {
+  // --- FIX: Make `quantityInKg` optional and provide a default value ---
+  const handleAddToCart = (productId: string, quantityInKg?: number) => {
     const product = products.find(p => p.id === productId)
     if (product) {
-      addItem(product, quantityInKg)
+      // Use the provided quantity, or default to 0.5 if it's undefined
+      const quantityToAdd = quantityInKg ?? 0.5
+      addItem(product, quantityToAdd)
     }
   }
 
@@ -50,7 +53,6 @@ export default function HomePage() {
     }
   }
 
-  // --- FIX: Create a handler that both closes the modal and clears the product ---
   const handleCloseModal = () => {
     setIsQuickViewOpen(false)
     setSelectedProduct(null)
@@ -62,7 +64,7 @@ export default function HomePage() {
 
   return (
     <>
-      {/* NOTE: The type error on the 'language' prop below must be fixed in each child component's props definition. */}
+      {/* Ensure all components use the dynamic language state */}
       <HeroSection language="fr" />
       <ProductShowcase language={language} onAddToCart={handleAddToCart} onQuickView={handleQuickView} />
       <AboutSection language={language} />
@@ -71,7 +73,7 @@ export default function HomePage() {
       <QuickViewModal
         product={selectedProduct}
         isOpen={isQuickViewOpen}
-        onClose={handleCloseModal} // Use the corrected handler
+        onClose={handleCloseModal}
         language={language}
         onAddToCart={handleAddToCart}
       />
