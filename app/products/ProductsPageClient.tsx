@@ -1,13 +1,13 @@
 "use client";
 
 import { MoroccanDivider } from "@/components/moroccan-divider";
-// FIX: Removed the non-existent 'ProductShowcaseProps' from the import
 import { ProductShowcase } from "@/components/product-showcase";
 import { QuickViewModal } from "@/components/quick-view-modal";
 import { products } from "@/data/products";
 import { useCart } from "@/hooks/use-cart";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import type { Product } from "@/types/product"; // Assuming you have this type defined
 
 // Define the language type for clarity
 type Language = "en" | "fr" | "ar";
@@ -33,13 +33,12 @@ export default function ProductsPageClient() {
     window.dispatchEvent(new CustomEvent("languageChange", { detail: { language: newLanguage } }));
   };
 
-  // Define the handler functions with explicit types, since we can't import the props type
+  // --- FIX: Pass the correct 'quantity' variable to addItem ---
   const handleAddToCart = (productId: string, quantity = 1) => {
     const product = products.find((p) => p.id === productId);
     if (product) {
-      for (let i = 0; i < quantity; i++) {
-        addItem(product, language);
-      }
+      // Call addItem once with the correct quantity parameter
+      addItem(product, quantity);
     }
   };
 
