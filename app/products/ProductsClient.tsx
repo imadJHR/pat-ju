@@ -18,13 +18,13 @@ import { ProductCard } from "@/components/product-card"
 import Link from "next/link"
 import React from "react"
 import { useSearchParams } from "next/navigation";
-import type { Product } from "@/types/product" // Assuming Product type is defined elsewhere
+import type { Product } from "@/types/product"
 
 // --- Constants ---
 const PRODUCTS_PER_PAGE = 12;
 const LOCAL_STORAGE_PAGE_KEY = 'productsCurrentPage';
 
-// --- Category Mapping (Synchronized with Navigation) ---
+// --- Category Mapping ---
 const categoryMapping = {
   all: "all",
   patisseries: "patisseries",
@@ -34,67 +34,42 @@ const categoryMapping = {
   sale: "sale",
 } as const;
 
-
-// --- Translations (Synchronized with Navigation) ---
+// --- Translations ---
 const translations = {
     fr: {
         title: "Nos Pâtisseries",
         subtitle: "Collection Authentique",
-        description:
-            "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
+        description: "Découvrez notre sélection raffinée de pâtisseries marocaines traditionnelles, préparées avec des ingrédients de première qualité et selon des recettes ancestrales transmises de génération en génération.",
         breadcrumb: { home: "Accueil", products: "Produits" },
         filters: { title: "Filtres", search: "Rechercher des produits...", category: "Catégorie", priceRange: "Gamme de prix", availability: "Disponibilité", inStock: "En stock", outOfStock: "Rupture de stock", special: "Spécial", new: "Nouveau", bestseller: "Bestseller", rating: "Note minimum", allRatings: "Toutes", sortBy: "Trier par", clearAll: "Effacer tout", showFilters: "Afficher les filtres", hideFilters: "Masquer les filtres" },
-        categories: { 
-            all: "Tous les Produits", 
-            patisseries: "Pâtisseries",
-            boulangerie: "Boulangerie",
-            viennoiserie: "Viennoiserie",
-            beldi: "Beldi",
-            sale: "Salé"
-        },
+        categories: { all: "Tous les Produits", patisseries: "Pâtisseries", boulangerie: "Boulangerie", viennoiserie: "Viennoiserie", beldi: "Beldi", sale: "Salé" },
         sorting: { default: "Par défaut", priceLowHigh: "Prix: Croissant", priceHighLow: "Prix: Décroissant", rating: "Note", name: "Nom", newest: "Plus récent" },
         results: "Affichage de {count} produits",
-        noResults: "Aucun produit trouvé avec ces filtres.",
+        noResults: "Aucun produit trouvé.",
         pagination: { previous: "Précédent", next: "Suivant", page: "Page" },
     },
     ar: {
         title: "حلوياتنا",
         subtitle: "مجموعة أصيلة",
-        description:
-            "اكتشف مجموعتنا المختارة من الحلويات المغربية التقليدية، المحضرة بمكونات عالية الجودة ووفقاً لوصفات أجدادنا المتوارثة عبر الأجيال.",
+        description: "اكتشف مجموعتنا المختارة من الحلويات المغربية التقليدية، المحضرة بمكونات عالية الجودة ووفقاً لوصفات أجدادنا المتوارثة عبر الأجيال.",
         breadcrumb: { home: "الرئيسية", products: "المنتجات" },
         filters: { title: "المرشحات", search: "البحث عن المنتجات...", category: "الفئة", priceRange: "نطاق السعر", availability: "التوفر", inStock: "متوفر", outOfStock: "غير متوفر", special: "خاص", new: "جديد", bestseller: "الأكثر مبيعاً", rating: "أقل تقييم", allRatings: "الكل", sortBy: "ترتيب حسب", clearAll: "مسح الكل", showFilters: "إظهار المرشحات", hideFilters: "إخفاء المرشحات" },
-        categories: { 
-            all: "جميع المنتجات",
-            patisseries: "حلويات",
-            boulangerie: "مخبوزات",
-            viennoiserie: "معجنات",
-            beldi: "بلدي",
-            sale: "مالح"
-        },
+        categories: { all: "جميع المنتجات", patisseries: "حلويات", boulangerie: "مخبوزات", viennoiserie: "معجنات", beldi: "بلدي", sale: "مالح" },
         sorting: { default: "افتراضي", priceLowHigh: "السعر: تصاعدي", priceHighLow: "السعر: تنازلي", rating: "التقييم", name: "الاسم", newest: "الأحدث" },
         results: "عرض {count} منتج",
-        noResults: "لم يتم العثور على منتجات بهذه المرشحات.",
+        noResults: "لم يتم العثور على منتجات.",
         pagination: { previous: "السابق", next: "التالي", page: "صفحة" },
     },
     en: {
         title: "Our Pastries",
         subtitle: "Authentic Collection",
-        description:
-            "Discover our refined selection of traditional Moroccan pastries, prepared with premium ingredients and according to ancestral recipes passed down through generations.",
+        description: "Discover our refined selection of traditional Moroccan pastries, prepared with premium ingredients and according to ancestral recipes passed down through generations.",
         breadcrumb: { home: "Home", products: "Products" },
         filters: { title: "Filters", search: "Search products...", category: "Category", priceRange: "Price Range", availability: "Availability", inStock: "In Stock", outOfStock: "Out of Stock", special: "Special", new: "New", bestseller: "Bestseller", rating: "Minimum Rating", allRatings: "All", sortBy: "Sort By", clearAll: "Clear All", showFilters: "Show Filters", hideFilters: "Hide Filters" },
-        categories: { 
-            all: "All Products",
-            patisseries: "Pastries",
-            boulangerie: "Bakery",
-            viennoiserie: "Viennoiserie",
-            beldi: "Traditional",
-            sale: "Savory"
-        },
+        categories: { all: "All Products", patisseries: "Pastries", boulangerie: "Bakery", viennoiserie: "Viennoiserie", beldi: "Traditional", sale: "Savory" },
         sorting: { default: "Default", priceLowHigh: "Price: Low to High", priceHighLow: "Price: High to Low", rating: "Rating", name: "Name", newest: "Newest" },
         results: "Showing {count} products",
-        noResults: "No products found with these filters.",
+        noResults: "No products found.",
         pagination: { previous: "Previous", next: "Next", page: "Page" },
     },
 };
@@ -103,50 +78,45 @@ export default function ProductsClient() {
     const searchParams = useSearchParams();
 
     // --- State Management ---
-    const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr")
-    const [isQuickViewOpen, setIsQuickViewOpen] = useState(false)
-    const [selectedProductId, setSelectedProductId] = useState<string | null>(null)
-    const [showFilters, setShowFilters] = useState(false)
-
-    // Filter States
-    const [searchQuery, setSearchQuery] = useState("")
-    const [selectedCategory, setSelectedCategory] = useState("all")
-    const [priceRange, setPriceRange] = useState([0, 500])
-    const [showInStock, setShowInStock] = useState(false)
-    const [showOutOfStock, setShowOutOfStock] = useState(false)
-    const [showNew, setShowNew] = useState(false)
-    const [showBestseller, setShowBestseller] = useState(false)
-    const [minRating, setMinRating] = useState(0)
-    const [sortBy, setSortBy] = useState("default")
-
-    // Pagination State
+    const [language, setLanguage] = useState<"en" | "fr" | "ar">("fr");
+    const [isQuickViewOpen, setIsQuickViewOpen] = useState(false);
+    const [selectedProductId, setSelectedProductId] = useState<string | null>(null);
+    const [showFilters, setShowFilters] = useState(false);
+    const [searchQuery, setSearchQuery] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("all");
+    const [priceRange, setPriceRange] = useState([0, 500]);
+    const [showInStock, setShowInStock] = useState(false);
+    const [showOutOfStock, setShowOutOfStock] = useState(false);
+    const [showNew, setShowNew] = useState(false);
+    const [showBestseller, setShowBestseller] = useState(false);
+    const [minRating, setMinRating] = useState(0);
+    const [sortBy, setSortBy] = useState("default");
     const [currentPage, setCurrentPage] = useState(1);
     
-    const { addItem } = useCart()
+    const { addItem } = useCart();
     const isInitialMount = useRef(true);
 
     // --- Effects ---
     useEffect(() => {
         const categoryFromUrl = searchParams.get('category');
         const validCategories = Object.keys(categoryMapping);
-
         if (categoryFromUrl && validCategories.includes(categoryFromUrl)) {
             setSelectedCategory(categoryFromUrl);
         }
     }, [searchParams]);
 
     useEffect(() => {
-        const savedLanguage = localStorage.getItem("language") as "en" | "fr" | "ar"
-        if (savedLanguage) setLanguage(savedLanguage)
+        const savedLanguage = localStorage.getItem("language") as "en" | "fr" | "ar";
+        if (savedLanguage) setLanguage(savedLanguage);
         
         const handleLanguageChange = (event: CustomEvent) => {
             if (event.detail?.language) {
                 setLanguage(event.detail.language);
             }
         };
-        window.addEventListener("languageChange", handleLanguageChange as EventListener)
-        return () => window.removeEventListener("languageChange", handleLanguageChange as EventListener)
-    }, [])
+        window.addEventListener("languageChange", handleLanguageChange as EventListener);
+        return () => window.removeEventListener("languageChange", handleLanguageChange as EventListener);
+    }, []);
     
     useEffect(() => {
         const savedPage = localStorage.getItem(LOCAL_STORAGE_PAGE_KEY);
@@ -166,7 +136,7 @@ export default function ProductsClient() {
         localStorage.setItem(LOCAL_STORAGE_PAGE_KEY, JSON.stringify(currentPage));
     }, [currentPage]);
     
-    // --- FIX: List dependencies directly in the array ---
+    // FIX: useEffect dependencies are now listed directly to prevent re-running on every render.
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -176,83 +146,79 @@ export default function ProductsClient() {
     }, [searchQuery, selectedCategory, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy]);
 
     // --- Memoized Calculations ---
-    const t = translations[language]
-    const isRTL = language === "ar"
+    const t = translations[language];
+    const isRTL = language === "ar";
 
     const filteredAndSortedProducts = useMemo(() => {
-        const filtered = products.filter((product) => {
+        let filtered = products.filter((product) => {
             if (searchQuery) {
-                const searchLower = searchQuery.toLowerCase()
-                if (
-                    !product.name[language].toLowerCase().includes(searchLower) &&
-                    !product.description[language].toLowerCase().includes(searchLower) &&
-                    !product.category[language].toLowerCase().includes(searchLower)
-                ) return false
+                const searchLower = searchQuery.toLowerCase();
+                // FIX: Added optional chaining (?.) to safely access category, preventing crashes.
+                const nameMatch = product.name[language]?.toLowerCase().includes(searchLower);
+                const descriptionMatch = product.description[language]?.toLowerCase().includes(searchLower);
+                const categoryMatch = product.category?.[language]?.toLowerCase().includes(searchLower);
+                if (!nameMatch && !descriptionMatch && !categoryMatch) return false;
             }
             if (selectedCategory !== "all") {
-                // SUGGESTION: For more robust filtering, consider adding a non-translated
-                // `categoryKey` to your product data object, like `product.categoryKey === selectedCategory`.
+                // FIX: Added a check to ensure product has a category before filtering.
+                if (!product.category) return false;
                 const categoryKey = Object.entries(t.categories).find(
-                    ([key, value]) => value === product.category[language]
+                    ([, value]) => value === product.category[language]
                 )?.[0];
-                
                 if (categoryKey !== selectedCategory) return false;
             }
-            if (product.price < priceRange[0] || product.price > priceRange[1]) return false
-            if (showInStock && !product.inStock) return false
-            if (showOutOfStock && product.inStock) return false
-            if (showNew && !product.isNew) return false
-            if (showBestseller && !product.isBestseller) return false
-            if (product.rating < minRating) return false
-            return true
-        })
+            if (product.price < priceRange[0] || product.price > priceRange[1]) return false;
+            if (showInStock && !product.inStock) return false;
+            if (showOutOfStock && product.inStock) return false;
+            if (showNew && !product.isNew) return false;
+            if (showBestseller && !product.isBestseller) return false;
+            if (product.rating < minRating) return false;
+            return true;
+        });
 
-        const sorted = [...filtered]
+        const sorted = [...filtered];
         switch (sortBy) {
-            case "priceLowHigh": sorted.sort((a, b) => a.price - b.price); break
-            case "priceHighLow": sorted.sort((a, b) => b.price - a.price); break
-            case "rating": sorted.sort((a, b) => b.rating - a.rating); break
-            case "name": sorted.sort((a, b) => a.name[language].localeCompare(b.name[language])); break
-            case "newest": sorted.sort((a, b) => Number(b.isNew ?? 0) - Number(a.isNew ?? 0)); break
-            default: break
+            case "priceLowHigh": sorted.sort((a, b) => a.price - b.price); break;
+            case "priceHighLow": sorted.sort((a, b) => b.price - a.price); break;
+            case "rating": sorted.sort((a, b) => b.rating - a.rating); break;
+            case "name": sorted.sort((a, b) => a.name[language].localeCompare(b.name[language])); break;
+            case "newest": sorted.sort((a, b) => Number(b.isNew ?? 0) - Number(a.isNew ?? 0)); break;
+            default: break;
         }
-        return sorted
-    }, [language, selectedCategory, searchQuery, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy, t.categories])
+        return sorted;
+    }, [language, selectedCategory, searchQuery, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy, t.categories]);
 
-    // Paginated Products
     const totalPages = Math.ceil(filteredAndSortedProducts.length / PRODUCTS_PER_PAGE);
     const currentProducts = filteredAndSortedProducts.slice(
         (currentPage - 1) * PRODUCTS_PER_PAGE,
         currentPage * PRODUCTS_PER_PAGE
     );
 
-    const selectedProduct = selectedProductId ? products.find((p) => p.id === selectedProductId) : null
+    const selectedProduct = selectedProductId ? products.find((p) => p.id === selectedProductId) : null;
 
     // --- Handlers ---
     const handleAddToCart = useCallback((productId: string, quantityInKg?: number) => {
-        const product = products.find((p) => p.id === productId)
-        if (product) {
-            addItem(product, quantityInKg)
-        }
-    }, [addItem])
+        const product = products.find((p) => p.id === productId);
+        if (product) addItem(product, quantityInKg);
+    }, [addItem]);
 
     const handleQuickView = useCallback((productId: string) => {
-        setSelectedProductId(productId)
-        setIsQuickViewOpen(true)
-    }, [])
+        setSelectedProductId(productId);
+        setIsQuickViewOpen(true);
+    }, []);
 
     const clearAllFilters = useCallback(() => {
-        setSearchQuery("")
-        setSelectedCategory("all")
-        setPriceRange([0, 500])
-        setShowInStock(false)
-        setShowOutOfStock(false)
-        setShowNew(false)
-        setShowBestseller(false)
-        setMinRating(0)
-        setSortBy("default")
+        setSearchQuery("");
+        setSelectedCategory("all");
+        setPriceRange([0, 500]);
+        setShowInStock(false);
+        setShowOutOfStock(false);
+        setShowNew(false);
+        setShowBestseller(false);
+        setMinRating(0);
+        setSortBy("default");
         setCurrentPage(1);
-    }, [])
+    }, []);
 
     const handlePageChange = (page: number) => {
       if (page >= 1 && page <= totalPages) {
@@ -288,8 +254,7 @@ export default function ProductsClient() {
                                 <Button
                                     variant="outline"
                                     onClick={() => setShowFilters(!showFilters)}
-                                    className="w-full flex hover:bg-[#8e9b7a] hover:text-white items-center justify-center gap-2"
-                                    style={{ borderColor: "#8e9b7a", color: "#8e9b7a" }}
+                                    className="w-full flex items-center justify-center gap-2"
                                 >
                                     <Filter className="h-4 w-4" />
                                     {showFilters ? t.filters.hideFilters : t.filters.showFilters}
@@ -338,11 +303,11 @@ export default function ProductsClient() {
                                             <Label className="text-sm font-medium mb-3 block text-[#d4b05d]">{t.filters.availability}</Label>
                                             <div className="space-y-2">
                                                 <div className="flex items-center space-x-2">
-                                                    <Checkbox id="inStock" checked={showInStock} onCheckedChange={(checked) => setShowInStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                                    <Checkbox id="inStock" checked={showInStock} onCheckedChange={(checked) => setShowInStock(!!checked)} />
                                                     <Label htmlFor="inStock" className="text-sm text-[#d4b05d]">{t.filters.inStock}</Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <Checkbox id="outOfStock" checked={showOutOfStock} onCheckedChange={(checked) => setShowOutOfStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                                    <Checkbox id="outOfStock" checked={showOutOfStock} onCheckedChange={(checked) => setShowOutOfStock(!!checked)} />
                                                     <Label htmlFor="outOfStock" className="text-sm text-[#d4b05d]">{t.filters.outOfStock}</Label>
                                                 </div>
                                             </div>
@@ -352,11 +317,11 @@ export default function ProductsClient() {
                                             <Label className="text-sm font-medium mb-3 block text-[#d4b05d]">{t.filters.special}</Label>
                                             <div className="space-y-2">
                                                 <div className="flex items-center space-x-2">
-                                                    <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                                    <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} />
                                                     <Label htmlFor="new" className="text-sm text-[#d4b05d]">{t.filters.new}</Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
-                                                    <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
+                                                    <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} />
                                                     <Label htmlFor="bestseller" className="text-sm text-[#d4b05d]">{t.filters.bestseller}</Label>
                                                 </div>
                                             </div>
@@ -403,13 +368,7 @@ export default function ProductsClient() {
                                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                                         {currentProducts.map((product, index) => (
                                             <div key={product.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
-                                                <ProductCard
-                                                    product={product}
-                                                    language={language}
-                                                    onAddToCart={handleAddToCart}
-                                                    onQuickView={handleQuickView}
-                                                    isPriority={index < 4}
-                                                />
+                                                <ProductCard product={product} language={language} onAddToCart={handleAddToCart} onQuickView={handleQuickView} isPriority={index < 4} />
                                             </div>
                                         ))}
                                     </div>
@@ -420,15 +379,7 @@ export default function ProductsClient() {
                                               <ChevronLeft className={`h-4 w-4 ${isRTL ? 'transform rotate-180' : ''}`} />
                                           </Button>
                                           {Array.from({ length: totalPages }, (_, i) => i + 1).map(pageNumber => (
-                                              <Button 
-                                                  key={pageNumber} 
-                                                  variant={currentPage === pageNumber ? 'default' : 'outline'} 
-                                                  size="icon" 
-                                                  onClick={() => handlePageChange(pageNumber)}
-                                                  className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a] border-[#d4b05d]' : ''}
-                                                  aria-label={`${t.pagination.page} ${pageNumber}`}
-                                                  aria-current={currentPage === pageNumber ? 'page' : undefined}
-                                              >
+                                              <Button key={pageNumber} variant={currentPage === pageNumber ? 'default' : 'outline'} size="icon" onClick={() => handlePageChange(pageNumber)} className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a] border-[#d4b05d]' : ''} aria-label={`${t.pagination.page} ${pageNumber}`} aria-current={currentPage === pageNumber ? 'page' : undefined}>
                                                   {pageNumber}
                                               </Button>
                                           ))}
@@ -437,7 +388,6 @@ export default function ProductsClient() {
                                           </Button>
                                       </div>
                                     )}
-
                                 </>
                             ) : (
                                 <div className="text-center py-12">
@@ -450,16 +400,7 @@ export default function ProductsClient() {
             </section>
 
             {selectedProduct && (
-                <QuickViewModal
-                    product={selectedProduct}
-                    language={language}
-                    isOpen={isQuickViewOpen}
-                    onClose={() => {
-                        setIsQuickViewOpen(false)
-                        setSelectedProductId(null)
-                    }}
-                    onAddToCart={handleAddToCart}
-                />
+                <QuickViewModal product={selectedProduct} language={language} isOpen={isQuickViewOpen} onClose={() => { setIsQuickViewOpen(false); setSelectedProductId(null); }} onAddToCart={handleAddToCart} />
             )}
 
             <script
@@ -470,7 +411,7 @@ export default function ProductsClient() {
                         "@type": "ItemList",
                         name: t.title,
                         description: t.description,
-                        url: `https://yoursite.com/products?lang=${language}`, // Dynamic URL
+                        url: `https://yoursite.com/products?lang=${language}`,
                         numberOfItems: filteredAndSortedProducts.length,
                         itemListElement: currentProducts.map((product, index) => ({
                             "@type": "ListItem",
@@ -478,7 +419,8 @@ export default function ProductsClient() {
                             item: {
                                 "@type": "Product",
                                 name: product.name[language],
-                                category: product.category[language],
+                                // FIX: Safely access category with a fallback.
+                                category: product.category?.[language] || "Uncategorized",
                                 image: product.images[0],
                                 url: `https://yoursite.com/products/${product.id}?lang=${language}`,
                                 offers: {
@@ -500,14 +442,8 @@ export default function ProductsClient() {
 
             <style jsx>{`
               @keyframes fade-in-up {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0);
-                }
+                from { opacity: 0; transform: translateY(20px); }
+                to { opacity: 1; transform: translateY(0); }
               }
               .animate-fade-in-up {
                 animation: fade-in-up 0.5s ease-out forwards;
@@ -515,5 +451,5 @@ export default function ProductsClient() {
               }
             `}</style>
         </div>
-    )
+    );
 }

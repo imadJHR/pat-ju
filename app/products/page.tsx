@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import ProductsClient from "./ProductsClient"
+import { Suspense } from 'react';
 
 export const metadata: Metadata = {
   title: "Pâtisseries Les Jumeaux Casablanca | Produits Marocains Traditionnels",
@@ -43,5 +44,9 @@ export const metadata: Metadata = {
 }
 
 export default function ProductsPage() {
-  return <ProductsClient />
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ProductsClient />
+    </Suspense>
+  )
 }
