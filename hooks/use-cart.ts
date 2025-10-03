@@ -2,7 +2,7 @@
 
 import { create } from "zustand"
 import { persist } from "zustand/middleware"
-import type { CartItem } from "@/types/cart"
+import type { CartItem, Translatable } from "@/types/cart" // Assuming Translatable is { en: string; fr: string; ar: string; }
 import type { Product } from "@/types/product"
 
 interface CartStore {
@@ -26,19 +26,17 @@ export const useCart = create<CartStore>()(
       isOpen: false,
 
       addItem: (product: Product, quantityInKg?: number) => {
-        // Validation des données avec valeur par défaut sécurisée
         if (!product?.id || !product.name || typeof product.price !== 'number') {
-          console.error('Produit invalide:', product)
+          console.error('Invalid product data:', product)
           return
         }
 
-        // Valeur par défaut sécurisée et validation
         const safeQuantity = typeof quantityInKg === 'number' && quantityInKg > 0 
           ? parseFloat(quantityInKg.toFixed(2)) 
           : 0.5
 
         if (safeQuantity <= 0) {
-          console.error('Quantité doit être supérieure à 0')
+          console.error('Quantity must be greater than 0')
           return
         }
 
@@ -46,28 +44,28 @@ export const useCart = create<CartStore>()(
         const existingItem = items.find((item) => item.productId === product.id)
 
         if (existingItem) {
-          // Si l'article existe déjà, mettre à jour la quantité
           const newQuantity = parseFloat((existingItem.quantity + safeQuantity).toFixed(2))
           set({
             items: items.map((item) =>
               item.productId === product.id 
-                ? { 
-                    ...item, 
-                    quantity: newQuantity
-                  } 
+                ? { ...item, quantity: newQuantity } 
                 : item
             ),
           })
         } else {
-          // Créer un nouvel article avec la quantité spécifiée
+          // --- FIX: Ensure `name` and `category` are stored as translatable objects ---
           const newItem: CartItem = {
             id: `cart-${product.id}-${crypto.randomUUID() || Date.now()}`,
             productId: product.id,
-            name: typeof product.name === 'string' ? product.name : product.name.fr || product.name.en || "Produit",
+            name: typeof product.name === 'string'
+              ? { en: product.name, fr: product.name, ar: product.name }
+              : product.name,
             price: product.price,
             quantity: safeQuantity,
             image: product.images?.[0] || '/default-image.jpg',
-            category: typeof product.category === 'string' ? product.category : product.category.fr || product.category.en || "",
+            category: typeof product.category === 'string'
+              ? { en: product.category, fr: product.category, ar: product.category }
+              : product.category || { en: '', fr: '', ar: '' }, // Handle optional category
           }
           set({ items: [...items, newItem] })
         }
@@ -78,7 +76,6 @@ export const useCart = create<CartStore>()(
       },
 
       updateQuantity: (itemId: string, quantityInKg: number) => {
-        // Validation du paramètre
         const safeQuantity = typeof quantityInKg === 'number' ? quantityInKg : 0.5
         
         if (safeQuantity <= 0) {
@@ -86,7 +83,6 @@ export const useCart = create<CartStore>()(
           return
         }
         
-        // Limiter la quantité maximum à 10kg par article
         const maxQuantity = 10
         const actualQuantity = parseFloat(Math.min(safeQuantity, maxQuantity).toFixed(2))
         
@@ -110,7 +106,7 @@ export const useCart = create<CartStore>()(
       },
 
       getItemCount: () => {
-        return get().items.reduce((total, item) => total + 1, 0)
+        return get().items.length; // More direct way to count items
       },
 
       getSubtotal: () => {
