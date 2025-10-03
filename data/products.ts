@@ -171,7 +171,7 @@ export const products: Product[] = [
     id: "4",
     name: {
       en: "",
-      fr: "ka3b 4ZAL",
+      fr: "Corne de gazelle",
       ar: "",
     },
     description: {
@@ -215,7 +215,7 @@ export const products: Product[] = [
     images: [pat5.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -246,7 +246,7 @@ export const products: Product[] = [
     images: [pat6.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -277,7 +277,7 @@ export const products: Product[] = [
     images: [pat7.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -308,7 +308,7 @@ export const products: Product[] = [
     images: [pat8.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -339,7 +339,7 @@ export const products: Product[] = [
     images: [pat9.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Beldi",
       ar: "",
     },
     ingredients: {
@@ -1486,7 +1486,7 @@ export const products: Product[] = [
     images: [pat47.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1504,7 +1504,7 @@ export const products: Product[] = [
     id: "48",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: "test2 Traditionnelle",
       ar: "",
     },
     description: {
@@ -1517,7 +1517,7 @@ export const products: Product[] = [
     images: [pat48.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1548,7 +1548,7 @@ export const products: Product[] = [
     images: [pat49.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1659,7 +1659,7 @@ export const products: Product[] = [
     id: "53",
     name: {
       en: "",
-      fr: "Chebakia Traditionnelle",
+      fr: " Traditionnelle",
       ar: "",
     },
     description: {
@@ -1703,7 +1703,7 @@ export const products: Product[] = [
     images: [pat54.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1734,7 +1734,7 @@ export const products: Product[] = [
     images: [pat55.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1765,7 +1765,7 @@ export const products: Product[] = [
     images: [pat56.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1796,7 +1796,7 @@ export const products: Product[] = [
     images: [pat57.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1827,7 +1827,7 @@ export const products: Product[] = [
     images: [pat58.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -1858,7 +1858,7 @@ export const products: Product[] = [
     images: [pat59.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -1889,7 +1889,7 @@ export const products: Product[] = [
     images: [pat60.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1920,7 +1920,7 @@ export const products: Product[] = [
     images: [pat61.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1951,7 +1951,7 @@ export const products: Product[] = [
     images: [pat62.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -1982,7 +1982,7 @@ export const products: Product[] = [
     images: [pat63.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Viennoiserie",
       ar: "",
     },
     ingredients: {
@@ -2013,7 +2013,7 @@ export const products: Product[] = [
     images: [pat64.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -2044,7 +2044,7 @@ export const products: Product[] = [
     images: [pat65.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -2075,7 +2075,7 @@ export const products: Product[] = [
     images: [pat66.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -2106,7 +2106,7 @@ export const products: Product[] = [
     images: [pat67.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -2137,7 +2137,7 @@ export const products: Product[] = [
     images: [pat68.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -2168,7 +2168,7 @@ export const products: Product[] = [
     images: [pat69.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -2199,7 +2199,7 @@ export const products: Product[] = [
     images: [pat70.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -2230,7 +2230,7 @@ export const products: Product[] = [
     images: [pat71.src],
     category: {
       en: "",
-      fr: "La Patisserie",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -2261,7 +2261,7 @@ export const products: Product[] = [
     images: [pat72.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {
@@ -2292,7 +2292,7 @@ export const products: Product[] = [
     images: [pat73.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Salé",
       ar: "",
     },
     ingredients: {

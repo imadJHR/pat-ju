@@ -118,11 +118,13 @@ export default function ProductsClient() {
         return () => window.removeEventListener("languageChange", handleLanguageChange as EventListener);
     }, []);
     
+    // This effect runs once on component mount to load the saved page number.
     useEffect(() => {
         const savedPage = localStorage.getItem(LOCAL_STORAGE_PAGE_KEY);
         if (savedPage) {
             try {
                 const parsedPage = JSON.parse(savedPage);
+                // Ensure the parsed value is a valid number before setting state
                 if (typeof parsedPage === 'number') {
                     setCurrentPage(parsedPage);
                 }
@@ -130,13 +132,14 @@ export default function ProductsClient() {
                 console.error("Failed to parse saved page from localStorage", e);
             }
         }
-    }, []);
+    }, []); // The empty dependency array [] ensures this runs only once.
     
+    // This effect runs whenever 'currentPage' changes to save it to localStorage.
     useEffect(() => {
         localStorage.setItem(LOCAL_STORAGE_PAGE_KEY, JSON.stringify(currentPage));
     }, [currentPage]);
     
-    // FIX: useEffect dependencies are now listed directly to prevent re-running on every render.
+    // This effect resets the page to 1 whenever any filter is changed.
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
@@ -153,14 +156,12 @@ export default function ProductsClient() {
         const filtered = products.filter((product) => {
             if (searchQuery) {
                 const searchLower = searchQuery.toLowerCase();
-                // FIX: Added optional chaining (?.) to safely access category, preventing crashes.
                 const nameMatch = product.name[language]?.toLowerCase().includes(searchLower);
                 const descriptionMatch = product.description[language]?.toLowerCase().includes(searchLower);
                 const categoryMatch = product.category?.[language]?.toLowerCase().includes(searchLower);
                 if (!nameMatch && !descriptionMatch && !categoryMatch) return false;
             }
             if (selectedCategory !== "all") {
-                // FIX: Added a check to ensure product has a category before filtering.
                 if (!product.category) return false;
                 const categoryKey = Object.entries(t.categories).find(
                     ([, value]) => value === product.category[language]
@@ -419,7 +420,6 @@ export default function ProductsClient() {
                             item: {
                                 "@type": "Product",
                                 name: product.name[language],
-                                // FIX: Safely access category with a fallback.
                                 category: product.category?.[language] || "Uncategorized",
                                 image: product.images[0],
                                 url: `https://yoursite.com/products/${product.id}?lang=${language}`,
