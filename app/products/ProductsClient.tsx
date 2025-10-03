@@ -18,6 +18,7 @@ import { ProductCard } from "@/components/product-card"
 import Link from "next/link"
 import React from "react"
 import { useSearchParams } from "next/navigation";
+import type { Product } from "@/types/product" // Assuming Product type is defined elsewhere
 
 // --- Constants ---
 const PRODUCTS_PER_PAGE = 12;
@@ -138,7 +139,11 @@ export default function ProductsClient() {
         const savedLanguage = localStorage.getItem("language") as "en" | "fr" | "ar"
         if (savedLanguage) setLanguage(savedLanguage)
         
-        const handleLanguageChange = (event: CustomEvent) => setLanguage(event.detail.language)
+        const handleLanguageChange = (event: CustomEvent) => {
+            if (event.detail?.language) {
+                setLanguage(event.detail.language);
+            }
+        };
         window.addEventListener("languageChange", handleLanguageChange as EventListener)
         return () => window.removeEventListener("languageChange", handleLanguageChange as EventListener)
     }, [])
@@ -146,7 +151,14 @@ export default function ProductsClient() {
     useEffect(() => {
         const savedPage = localStorage.getItem(LOCAL_STORAGE_PAGE_KEY);
         if (savedPage) {
-            setCurrentPage(JSON.parse(savedPage));
+            try {
+                const parsedPage = JSON.parse(savedPage);
+                if (typeof parsedPage === 'number') {
+                    setCurrentPage(parsedPage);
+                }
+            } catch (e) {
+                console.error("Failed to parse saved page from localStorage", e);
+            }
         }
     }, []);
     
@@ -154,14 +166,14 @@ export default function ProductsClient() {
         localStorage.setItem(LOCAL_STORAGE_PAGE_KEY, JSON.stringify(currentPage));
     }, [currentPage]);
     
-    const filterDependencies = [searchQuery, selectedCategory, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy];
+    // --- FIX: List dependencies directly in the array ---
     useEffect(() => {
         if (isInitialMount.current) {
             isInitialMount.current = false;
         } else {
             setCurrentPage(1);
         }
-    }, filterDependencies);
+    }, [searchQuery, selectedCategory, priceRange, showInStock, showOutOfStock, showNew, showBestseller, minRating, sortBy]);
 
     // --- Memoized Calculations ---
     const t = translations[language]
@@ -178,6 +190,8 @@ export default function ProductsClient() {
                 ) return false
             }
             if (selectedCategory !== "all") {
+                // SUGGESTION: For more robust filtering, consider adding a non-translated
+                // `categoryKey` to your product data object, like `product.categoryKey === selectedCategory`.
                 const categoryKey = Object.entries(t.categories).find(
                     ([key, value]) => value === product.category[language]
                 )?.[0];
@@ -199,7 +213,7 @@ export default function ProductsClient() {
             case "priceHighLow": sorted.sort((a, b) => b.price - a.price); break
             case "rating": sorted.sort((a, b) => b.rating - a.rating); break
             case "name": sorted.sort((a, b) => a.name[language].localeCompare(b.name[language])); break
-            case "newest": sorted.sort((a, b) => Number(b.isNew) - Number(a.isNew)); break
+            case "newest": sorted.sort((a, b) => Number(b.isNew ?? 0) - Number(a.isNew ?? 0)); break
             default: break
         }
         return sorted
@@ -243,12 +257,12 @@ export default function ProductsClient() {
     const handlePageChange = (page: number) => {
       if (page >= 1 && page <= totalPages) {
         setCurrentPage(page);
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
       }
     };
 
     return (
-        <div className={`min-h-screen ${isRTL ? "rtl" : "ltr"}`}>
+        <div className={`min-h-screen bg-gray-50 ${isRTL ? "rtl font-cairo" : "ltr font-poppins"}`}>
             <div className="container mx-auto px-4 pt-20 md:pt-24 pb-8">
                 <nav className={`flex items-center space-x-2 text-sm text-gray-600 mb-8 ${isRTL ? "space-x-reverse" : ""}`}>
                     <Link href="/" className="hover:text-[#d4b05d] transition-colors">{t.breadcrumb.home}</Link>
@@ -259,14 +273,14 @@ export default function ProductsClient() {
 
             <section className="container mx-auto px-4 pb-12 md:pb-16">
                 <div className="text-center max-w-4xl mx-auto">
-                    <h1 className="font-great-vibes text-5xl sm:text-6xl md:text-7xl" style={{ color: "#d4b05d" }}>{t.title}</h1>
-                    <p className="font-playfair text-xl sm:text-2xl md:text-3xl" style={{ color: "#d4b05d" }}>{t.subtitle}</p>
+                    <h1 className="font-great-vibes text-5xl sm:text-6xl md:text-7xl text-[#d4b05d]">{t.title}</h1>
+                    <p className="font-playfair text-xl sm:text-2xl md:text-3xl text-[#d4b05d]">{t.subtitle}</p>
                     <MoroccanDivider />
-                    <p className="font-poppins text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed max-w-3xl mx-auto mt-4">{t.description}</p>
                 </div>
             </section>
             
-            <section className="py-12 md:py-16">
+            <section className="py-12 md:py-16 bg-white">
                 <div className="container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row gap-8 xl:gap-12">
                         <aside className="lg:w-1/4">
@@ -274,7 +288,7 @@ export default function ProductsClient() {
                                 <Button
                                     variant="outline"
                                     onClick={() => setShowFilters(!showFilters)}
-                                    className="w-full flex hover:bg-[#8e9b7a] items-center justify-center gap-2"
+                                    className="w-full flex hover:bg-[#8e9b7a] hover:text-white items-center justify-center gap-2"
                                     style={{ borderColor: "#8e9b7a", color: "#8e9b7a" }}
                                 >
                                     <Filter className="h-4 w-4" />
@@ -284,11 +298,11 @@ export default function ProductsClient() {
                             </div>
 
                             <div className={`lg:block lg:sticky lg:top-24 ${showFilters ? "block" : "hidden"}`}>
-                                <Card className="bg-[#f4ead5]">
+                                <Card className="bg-[#f4ead5] border-none shadow-sm">
                                     <CardHeader className="pb-4">
                                         <div className="flex items-center justify-between">
-                                            <CardTitle className="text-lg font-playfair" style={{ color: "#d4b05d" }}>{t.filters.title}</CardTitle>
-                                            <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs" style={{ color: "#d4b05d" }}>
+                                            <CardTitle className="text-lg font-playfair text-[#d4b05d]">{t.filters.title}</CardTitle>
+                                            <Button variant="ghost" size="sm" onClick={clearAllFilters} className="text-xs text-[#d4b05d] hover:bg-[#d4b05d]/10">
                                                 <X className="h-3 w-3 mr-1" />
                                                 {t.filters.clearAll}
                                             </Button>
@@ -296,63 +310,63 @@ export default function ProductsClient() {
                                     </CardHeader>
                                     <CardContent className="space-y-6">
                                         <div>
-                                            <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.search}</Label>
+                                            <Label className="text-sm font-medium mb-2 block text-[#d4b05d]">{t.filters.search}</Label>
                                             <div className="relative">
-                                                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                                <Input placeholder={t.filters.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-10" style={{ borderColor: "#d4b05d" }} />
+                                                <Search className={`absolute ${isRTL ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400`} />
+                                                <Input placeholder={t.filters.search} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={`${isRTL ? 'pr-10' : 'pl-10'} border-[#d4b05d] focus:ring-[#d4b05d]`} />
                                             </div>
                                         </div>
                                         
                                         <div>
-                                            <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.category}</Label>
+                                            <Label className="text-sm font-medium mb-2 block text-[#d4b05d]">{t.filters.category}</Label>
                                             <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                                                <SelectTrigger style={{ borderColor: "#d4b05d", color: "#d4b05d" }}><SelectValue /></SelectTrigger>
+                                                <SelectTrigger className="border-[#d4b05d] text-[#d4b05d] focus:ring-[#d4b05d]"><SelectValue /></SelectTrigger>
                                                 <SelectContent>
                                                   {Object.entries(t.categories).map(([key, value]) => (
-                                                    <SelectItem key={key} value={key}>{value}</SelectItem>
+                                                      <SelectItem key={key} value={key}>{value}</SelectItem>
                                                   ))}
                                                 </SelectContent>
                                             </Select>
                                         </div>
 
                                         <div>
-                                            <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.priceRange}: {priceRange[0]} MAD - {priceRange[1]} MAD</Label>
+                                            <Label className="text-sm font-medium mb-2 block text-[#d4b05d]">{t.filters.priceRange}: {priceRange[0]} MAD - {priceRange[1]} MAD</Label>
                                             <Slider value={priceRange} onValueChange={setPriceRange} max={500} step={5} style={{ "--slider-thumb-color": "#d4b05d", "--slider-track-color": "#d4b05d" } as React.CSSProperties} />
                                         </div>
                                         
                                         <div>
-                                            <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.availability}</Label>
+                                            <Label className="text-sm font-medium mb-3 block text-[#d4b05d]">{t.filters.availability}</Label>
                                             <div className="space-y-2">
                                                 <div className="flex items-center space-x-2">
                                                     <Checkbox id="inStock" checked={showInStock} onCheckedChange={(checked) => setShowInStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                                    <Label htmlFor="inStock" className="text-sm" style={{ color: "#d4b05d" }}>{t.filters.inStock}</Label>
+                                                    <Label htmlFor="inStock" className="text-sm text-[#d4b05d]">{t.filters.inStock}</Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <Checkbox id="outOfStock" checked={showOutOfStock} onCheckedChange={(checked) => setShowOutOfStock(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                                    <Label htmlFor="outOfStock" className="text-sm" style={{ color: "#d4b05d" }}>{t.filters.outOfStock}</Label>
+                                                    <Label htmlFor="outOfStock" className="text-sm text-[#d4b05d]">{t.filters.outOfStock}</Label>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div>
-                                            <Label className="text-sm font-medium mb-3 block" style={{ color: "#d4b05d" }}>{t.filters.special}</Label>
+                                            <Label className="text-sm font-medium mb-3 block text-[#d4b05d]">{t.filters.special}</Label>
                                             <div className="space-y-2">
                                                 <div className="flex items-center space-x-2">
                                                     <Checkbox id="new" checked={showNew} onCheckedChange={(checked) => setShowNew(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                                    <Label htmlFor="new" className="text-sm" style={{ color: "#d4b05d" }}>{t.filters.new}</Label>
+                                                    <Label htmlFor="new" className="text-sm text-[#d4b05d]">{t.filters.new}</Label>
                                                 </div>
                                                 <div className="flex items-center space-x-2">
                                                     <Checkbox id="bestseller" checked={showBestseller} onCheckedChange={(checked) => setShowBestseller(!!checked)} style={{ borderColor: "#d4b05d", color: "#d4b05d" }} />
-                                                    <Label htmlFor="bestseller" className="text-sm" style={{ color: "#d4b05d" }}>{t.filters.bestseller}</Label>
+                                                    <Label htmlFor="bestseller" className="text-sm text-[#d4b05d]">{t.filters.bestseller}</Label>
                                                 </div>
                                             </div>
                                         </div>
                                         
                                         <div>
-                                            <Label className="text-sm font-medium mb-2 block" style={{ color: "#d4b05d" }}>{t.filters.rating}: {minRating > 0 ? `${minRating}+` : t.filters.allRatings}</Label>
+                                            <Label className="text-sm font-medium mb-2 block text-[#d4b05d]">{t.filters.rating}: {minRating > 0 ? `${minRating}+` : t.filters.allRatings}</Label>
                                             <div className="flex items-center space-x-1">
                                                 {[1, 2, 3, 4, 5].map((rating) => (
-                                                    <Button key={rating} variant="ghost" size="icon" onClick={() => setMinRating(minRating === rating ? 0 : rating)} className={`p-1 h-auto w-auto ${minRating >= rating ? "text-yellow-500" : "text-gray-300"}`} style={{ color: minRating >= rating ? "#d4b05d" : "#d1d5db" }}>
+                                                    <Button key={rating} variant="ghost" size="icon" onClick={() => setMinRating(minRating === rating ? 0 : rating)} className={`p-1 h-auto w-auto hover:bg-transparent ${minRating >= rating ? "text-yellow-400" : "text-gray-300"}`}>
                                                         <Star className="h-5 w-5 fill-current" />
                                                     </Button>
                                                 ))}
@@ -365,13 +379,13 @@ export default function ProductsClient() {
 
                         <main className="lg:w-3/4">
                             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                                <Badge variant="secondary" className="text-sm" style={{ backgroundColor: "#d4b05d", color: "white" }}>
+                                <Badge variant="secondary" className="text-sm bg-[#d4b05d] text-white">
                                     {t.results.replace("{count}", filteredAndSortedProducts.length.toString())}
                                 </Badge>
                                 <div className="flex items-center gap-2 w-full sm:w-auto">
-                                    <Label className="text-sm font-medium shrink-0" style={{ color: "#d4b05d" }}>{t.filters.sortBy}:</Label>
+                                    <Label className="text-sm font-medium shrink-0 text-[#d4b05d]">{t.filters.sortBy}:</Label>
                                     <Select value={sortBy} onValueChange={setSortBy}>
-                                        <SelectTrigger className="w-full sm:w-48" style={{ borderColor: "#d4b05d", color: "#d4b05d" }}><SelectValue /></SelectTrigger>
+                                        <SelectTrigger className="w-full sm:w-48 border-[#d4b05d] text-[#d4b05d] focus:ring-[#d4b05d]"><SelectValue /></SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="default">{t.sorting.default}</SelectItem>
                                             <SelectItem value="priceLowHigh">{t.sorting.priceLowHigh}</SelectItem>
@@ -386,7 +400,7 @@ export default function ProductsClient() {
 
                             {currentProducts.length > 0 ? (
                                 <>
-                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-6">
                                         {currentProducts.map((product, index) => (
                                             <div key={product.id} className="animate-fade-in-up" style={{ animationDelay: `${index * 100}ms` }}>
                                                 <ProductCard
@@ -411,7 +425,7 @@ export default function ProductsClient() {
                                                   variant={currentPage === pageNumber ? 'default' : 'outline'} 
                                                   size="icon" 
                                                   onClick={() => handlePageChange(pageNumber)}
-                                                  className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a]' : ''}
+                                                  className={currentPage === pageNumber ? 'bg-[#d4b05d] hover:bg-[#c8a14a] border-[#d4b05d]' : ''}
                                                   aria-label={`${t.pagination.page} ${pageNumber}`}
                                                   aria-current={currentPage === pageNumber ? 'page' : undefined}
                                               >
@@ -427,7 +441,7 @@ export default function ProductsClient() {
                                 </>
                             ) : (
                                 <div className="text-center py-12">
-                                    <p className="text-muted-foreground text-lg" style={{ color: "#d4b05d" }}>{t.noResults}</p>
+                                    <p className="text-muted-foreground text-lg text-[#d4b05d]">{t.noResults}</p>
                                 </div>
                             )}
                         </main>
@@ -454,23 +468,30 @@ export default function ProductsClient() {
                     __html: JSON.stringify({
                         "@context": "https://schema.org",
                         "@type": "ItemList",
-                        "name": t.title,
-                        "description": t.description,
-                        "url": "https://yoursite.com/products",
-                        "numberOfItems": filteredAndSortedProducts.length,
-                        "itemListElement": currentProducts.map((product, index) => ({
+                        name: t.title,
+                        description: t.description,
+                        url: `https://yoursite.com/products?lang=${language}`, // Dynamic URL
+                        numberOfItems: filteredAndSortedProducts.length,
+                        itemListElement: currentProducts.map((product, index) => ({
                             "@type": "ListItem",
-                            "position": (currentPage - 1) * PRODUCTS_PER_PAGE + index + 1,
-                            "item": {
+                            position: (currentPage - 1) * PRODUCTS_PER_PAGE + index + 1,
+                            item: {
                                 "@type": "Product",
-                                "name": product.name[language],
-                                "category": product.category[language],
-                                "offers": {
+                                name: product.name[language],
+                                category: product.category[language],
+                                image: product.images[0],
+                                url: `https://yoursite.com/products/${product.id}?lang=${language}`,
+                                offers: {
                                     "@type": "Offer",
-                                    "price": product.price,
-                                    "priceCurrency": "MAD",
-                                    "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                                    price: product.price,
+                                    priceCurrency: "MAD",
+                                    availability: product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
                                 },
+                                aggregateRating: {
+                                  "@type": "AggregateRating",
+                                  ratingValue: product.rating,
+                                  reviewCount: product.reviewCount
+                                }
                             },
                         })),
                     }),
