@@ -680,7 +680,7 @@ export const products: Product[] = [
     images: [pat20.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -711,7 +711,7 @@ export const products: Product[] = [
     images: [pat21.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -742,7 +742,7 @@ export const products: Product[] = [
     images: [pat22.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -804,7 +804,7 @@ export const products: Product[] = [
     images: [pat25.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -835,7 +835,7 @@ export const products: Product[] = [
     images: [pat26.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -866,7 +866,7 @@ export const products: Product[] = [
     images: [pat27.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -897,7 +897,7 @@ export const products: Product[] = [
     images: [pat28.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -928,7 +928,7 @@ export const products: Product[] = [
     images: [pat29.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1114,7 +1114,7 @@ export const products: Product[] = [
     images: [pat35.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1145,7 +1145,7 @@ export const products: Product[] = [
     images: [pat36.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1176,7 +1176,7 @@ export const products: Product[] = [
     images: [pat37.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1207,7 +1207,7 @@ export const products: Product[] = [
     images: [pat38.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1238,7 +1238,7 @@ export const products: Product[] = [
     images: [pat39.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1269,7 +1269,7 @@ export const products: Product[] = [
     images: [pat40.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1300,7 +1300,7 @@ export const products: Product[] = [
     images: [pat41.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1331,7 +1331,7 @@ export const products: Product[] = [
     images: [pat42.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1362,7 +1362,7 @@ export const products: Product[] = [
     images: [pat43.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1393,7 +1393,7 @@ export const products: Product[] = [
     images: [pat44.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1424,7 +1424,7 @@ export const products: Product[] = [
     images: [pat45.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1455,7 +1455,7 @@ export const products: Product[] = [
     images: [pat46.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1579,7 +1579,7 @@ export const products: Product[] = [
     images: [pat50.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1610,7 +1610,7 @@ export const products: Product[] = [
     images: [pat51.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1641,7 +1641,7 @@ export const products: Product[] = [
     images: [pat52.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1672,7 +1672,7 @@ export const products: Product[] = [
     images: [pat53.src],
     category: {
       en: "",
-      fr: "Douceurs Traditionnelles",
+      fr: "Pâtisseries",
       ar: "",
     },
     ingredients: {
@@ -1703,7 +1703,7 @@ export const products: Product[] = [
     images: [pat54.src],
     category: {
       en: "",
-      fr: "Viennoiserie",
+      fr: "Boulangerie",
       ar: "",
     },
     ingredients: {
