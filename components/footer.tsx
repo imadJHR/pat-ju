@@ -27,7 +27,7 @@ export function Footer() {
           {/* Section Marque */}
           <div className="lg:col-span-1">
             <h3 className="font-serif text-2xl sm:text-3xl text-[#d0a84b] mb-4">Pâtisserie Les Jumeaux</h3>
-          
+
             <p className="text-white/80 mb-6 leading-relaxed">Pâtisseries Marocaines Authentiques Depuis 2008</p>
             <div className="moroccan-stars opacity-20 h-16"></div>
           </div>
@@ -88,24 +88,8 @@ export function Footer() {
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
-            <p className="text-white/80 text-sm mb-3">Abonnez-vous pour recevoir des mises à jour sur les nouvelles pâtisseries et offres spéciales.</p>
-            <form className="flex flex-col sm:flex-row gap-2">
-              <label htmlFor="email-newsletter" className="sr-only">
-                Votre adresse e-mail
-              </label>
-              <input
-                id="email-newsletter"
-                type="email"
-                placeholder="Votre adresse e-mail"
-                className="flex-1 px-3 py-2 bg-white/10 border border-white/20 rounded-md text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#d0a84b]"
-              />
-              <button
-                type="submit"
-                className="px-4 py-2 bg-[#d0a84b] text-[#342923] rounded-md font-semibold hover:bg-[#d0a84b]/90 transition-colors duration-200"
-              >
-                S&apos;abonner
-              </button>
-            </form>
+
+
           </div>
         </div>
 
@@ -114,14 +98,6 @@ export function Footer() {
         {/* Pied de page inférieur */}
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/60">
           <p className="text-center md:text-left">{copyrightText}</p>
-          <div className="flex gap-4 sm:gap-6">
-            <a href="/privacy-policy" className="hover:text-[#d0a84b] transition-colors duration-200">
-              Politique de Confidentialité
-            </a>
-            <a href="/terms-of-service" className="hover:text-[#d0a84b] transition-colors duration-200">
-              Conditions d&apos;Utilisation
-            </a>
-          </div>
         </div>
       </div>
     </footer>
